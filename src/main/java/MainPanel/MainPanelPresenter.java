@@ -1,0 +1,196 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package MainPanel;
+
+import Constants.ConstantsList;
+import ViewModel.LiteSensor;
+import ViewModel.Sensor;
+import Model.SensorsPanelObserver;
+import Model.ServiceManager;
+import Model.UnitsPanelObserver;
+import RegisteredSensor.RegisteredSensorGUI;
+import RegisteredSensor.RegisteredSensorGUIInterface;
+import RegisteredSensor.RegisteredSensorPresenter;
+import RegisteredSensor.RegisteredSensorPresenterInterface;
+import Unit.UnitGUI;
+import Unit.UnitGUIInterface;
+import Unit.UnitPresenter;
+import Unit.UnitPresenterInterface;
+import UnregisteredSensor.UnregisteredSensorGUI;
+import UnregisteredSensor.UnregisteredSensorGUIInterface;
+import UnregisteredSensor.UnregisteredSensorPresenter;
+import UnregisteredSensor.UnregisteredSensorPresenterInterface;
+import ViewModel.UnitObject;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
+/**
+ * Implementation of content panel component controller
+ * @author brune
+ */
+public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPanelObserver,UnitsPanelObserver {
+     MainPanelGUIInterface gui;   
+     ServiceManager model;
+     /**
+      * Creates new controls for content panel component
+      * @param gui component to be controlled
+      * @param model service manager
+      */
+     public MainPanelPresenter(MainPanelGUIInterface gui,ServiceManager model){
+         this.gui = gui;
+         gui.setPresenter(this);
+         this.model = model;
+     }
+
+    @Override
+    public void initView() {
+      //  gui.initView();
+        updateUnits();
+    }
+    
+    public void updateGUI(){
+        gui.clearSensors();
+        gui.clearUnits();
+        
+    }
+
+    @Override
+    public void onChangeNotification(UnitObject unit_ID) {
+             ConstantsList.selectedUnit = unit_ID;
+             gui.setSelectedUnit(unit_ID);
+          try {
+         
+             gui.clearSensors();
+           
+             ArrayList<Sensor> sensors = model.getAvailableRegisteredSensors(unit_ID.getID());
+              System.out.println("Sensors: " + sensors.size()); 
+             for(Sensor s : sensors){
+                RegisteredSensorGUIInterface sensorView = new RegisteredSensorGUI();
+                RegisteredSensorPresenterInterface sensorPresenter = new RegisteredSensorPresenter(sensorView,model,s,unit_ID);
+                sensorView.setNickname(s.getNickname());
+                sensorView.setID(s.getID());
+                if(s.isStatus()){
+                 sensorView.setStatus("greenCircle.png");
+                }
+                else{
+                 sensorView.setStatus("redCircle.png");
+                }
+             
+                sensorView.setMoisture(s.getMoisture());
+                sensorView.setThreshold(s.getThreshold());
+                sensorView.setIrrigationTime(s.getTime());
+                sensorPresenter.initView();
+                gui.addRegisteredSensor(sensorView);
+            }
+             
+             if(!model.checkIfUnitIsOnline(unit_ID.getID())){
+                 JOptionPane.showMessageDialog(null, "Unit is offline, only registered sensors will be shown.");
+                  return;
+             }
+             ArrayList<String> unregisterSensors = model.getUnregisteredSensors(unit_ID.getID());
+             for(String s : unregisterSensors){
+                UnregisteredSensorGUIInterface sensorView = new UnregisteredSensorGUI();
+                UnregisteredSensorPresenterInterface sensorPresenter = new UnregisteredSensorPresenter(sensorView,model,s,unit_ID);
+                System.out.println("Sensor name : " + s);
+                sensorView.setID(s);
+                sensorPresenter.initView();
+                gui.addUnregisteredSensor(sensorView);
+   
+            }
+       
+
+         } catch (InterruptedException ex) {
+             Logger.getLogger(MainPanelPresenter.class.getName()).log(Level.SEVERE, null, ex);
+         }
+
+    }
+    
+    @Override
+    public void updateUnits() {
+        try {
+            gui.clearSensors();
+            ArrayList<UnitObject> units = model.getRegisteredUnits(ConstantsList.loggedUser);
+            gui.clearUnits();
+            System.out.println("Units size is: " + units.size());
+            for(UnitObject s : units){
+                UnitGUIInterface unitView = new UnitGUI();
+                UnitPresenterInterface unitPresenter = new UnitPresenter(unitView,model,s);
+                unitView.setUnitName(s.getNickname());
+                unitView.setID(s.getID());
+                boolean  status = model.checkIfUnitIsOnline(s.getID());
+                if(status){
+                     unitView.setStatus("greenCircle.png");
+                }
+                else{
+                     unitView.setStatus("redCircle.png");
+                }
+                unitPresenter.initView();
+                gui.addUnit(unitView);
+   
+            }
+
+            
+        } catch (InterruptedException ex) {
+            //Logger.getLogger(UnitsHolderPresenter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void onUnitsChange() {
+        System.out.println("on units change called");
+        updateUnits();
+        
+    }
+
+    @Override
+    public void onUpdateNotification(ArrayList<Sensor> registerRensors,ArrayList<LiteSensor> unregisterSensors) {
+          try {
+             gui.clearSensors();
+
+             for(Sensor s : registerRensors){
+                RegisteredSensorGUIInterface sensorView = new RegisteredSensorGUI();
+                RegisteredSensorPresenterInterface sensorPresenter = new RegisteredSensorPresenter(sensorView,model,s,ConstantsList.selectedUnit);
+                System.out.println("Sensor name : " + s);
+                sensorView.setNickname(model.getSensorNickname(s.getNickname()));
+                sensorView.setID(s.getID());
+                if(s.isStatus()){
+                 sensorView.setStatus("greenCircle.png");
+                }
+                else{
+                 sensorView.setStatus("redCircle.png");
+                 
+                }
+                
+                
+                sensorView.setMoisture(model.getMoisture(s.getID()));
+                sensorView.setThreshold(model.getThresold(s.getID()));
+                sensorPresenter.initView();
+                sensorView.enableControls(s.isStatus());
+                gui.addRegisteredSensor(sensorView);
+   
+            }
+             
+
+             for(LiteSensor s : unregisterSensors){
+                UnregisteredSensorGUIInterface sensorView = new UnregisteredSensorGUI();
+                UnregisteredSensorPresenterInterface sensorPresenter = new UnregisteredSensorPresenter(sensorView,model,s.getID(),ConstantsList.selectedUnit);
+                System.out.println("Sensor name : " + s);
+                sensorView.setID(s.getID());
+                sensorPresenter.initView();
+                gui.addUnregisteredSensor(sensorView);
+   
+            }
+             
+             gui.refresh();
+   
+
+         } catch (InterruptedException ex) {
+             Logger.getLogger(MainPanelPresenter.class.getName()).log(Level.SEVERE, null, ex);
+         }
+    }
+}
