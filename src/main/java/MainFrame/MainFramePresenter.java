@@ -37,6 +37,7 @@ public class MainFramePresenter implements MainFramePresenterInterface{
     @Override
     public void onAddUnitClicked() {
         System.out.println("clicked");
+        /*
         try {
             String text = JOptionPane.showInputDialog("Type unit ID");
             if(text == null){
@@ -57,6 +58,7 @@ public class MainFramePresenter implements MainFramePresenterInterface{
         } catch (InterruptedException ex) {
             Logger.getLogger(MainFramePresenter.class.getName()).log(Level.SEVERE, null, ex);
         }
+*/
     }
 
     @Override

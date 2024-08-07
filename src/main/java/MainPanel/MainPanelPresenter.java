@@ -74,24 +74,26 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
                 RegisteredSensorPresenterInterface sensorPresenter = new RegisteredSensorPresenter(sensorView,model,s,unit_ID);
                 sensorView.setNickname(s.getNickname());
                 sensorView.setID(s.getID());
+                /*
                 if(s.isStatus()){
                  sensorView.setStatus("greenCircle.png");
                 }
                 else{
                  sensorView.setStatus("redCircle.png");
                 }
-             
+                */
                 sensorView.setMoisture(s.getMoisture());
                 sensorView.setThreshold(s.getThreshold());
                 sensorView.setIrrigationTime(s.getTime());
                 sensorPresenter.initView();
                 gui.addRegisteredSensor(sensorView);
             }
-             
+             /*
              if(!model.checkIfUnitIsOnline(unit_ID.getID())){
                  JOptionPane.showMessageDialog(null, "Unit is offline, only registered sensors will be shown.");
                   return;
              }
+            */
              ArrayList<String> unregisterSensors = model.getUnregisteredSensors(unit_ID.getID());
              for(String s : unregisterSensors){
                 UnregisteredSensorGUIInterface sensorView = new UnregisteredSensorGUI();
@@ -112,6 +114,7 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
     
     @Override
     public void updateUnits() {
+        /*
         try {
             gui.clearSensors();
             ArrayList<UnitObject> units = model.getRegisteredUnits(ConstantsList.loggedUser);
@@ -138,6 +141,7 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
         } catch (InterruptedException ex) {
             //Logger.getLogger(UnitsHolderPresenter.class.getName()).log(Level.SEVERE, null, ex);
         }
+*/
     }
 
     @Override
@@ -158,6 +162,7 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
                 System.out.println("Sensor name : " + s);
                 sensorView.setNickname(model.getSensorNickname(s.getNickname()));
                 sensorView.setID(s.getID());
+                /*
                 if(s.isStatus()){
                  sensorView.setStatus("greenCircle.png");
                 }
@@ -165,12 +170,13 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
                  sensorView.setStatus("redCircle.png");
                  
                 }
-                
+                */
                 
                 sensorView.setMoisture(model.getMoisture(s.getID()));
                 sensorView.setThreshold(model.getThresold(s.getID()));
                 sensorPresenter.initView();
-                sensorView.enableControls(s.isStatus());
+                sensorView.enableControls(true);
+
                 gui.addRegisteredSensor(sensorView);
    
             }

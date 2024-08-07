@@ -39,15 +39,13 @@ public class Sensor {
      * @param nickname nickname of sensor
      * @param threshold threshold value of sensor
      * @param moisture current moisture of sensor
-     * @param status status of sensor
      * @param time time of irrigation in seconds
      */
-    public Sensor(String ID, String nickname, String threshold, String moisture, boolean status,String time) {
+    public Sensor(String ID, String nickname, String threshold, String moisture,String time) {
         this.ID = ID;
         this.nickname = nickname;
         this.threshold = threshold;
         this.moisture = moisture;
-        this.status = status;
         this.time = time;
     }
     /**
@@ -84,13 +82,6 @@ public class Sensor {
      */
     public String getTime() {
         return time;
-    }
-    /**
-     * Gets status of the sensor
-     * @return sensor status
-     */
-    public boolean isStatus() {
-        return status;
     }
     
     @Override

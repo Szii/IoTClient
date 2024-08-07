@@ -35,13 +35,6 @@ public class ServiceManager {
         unitsManager = new UnitsManager();
         
     }
-   /**
-    * Method sends the acknowledge to the server
-    * @param user user, which sending the acknowledge
-    */ 
-    public void acknowledge(String user){
-        request.acknowledge(user);
-    }
     
     /**
      * Sets new chart builder implementation as usable chart builder service
@@ -103,41 +96,7 @@ public class ServiceManager {
    public void addUser(String user,String passwd) throws InterruptedException{
         request.addUser(user, passwd);
     }
-   /**
-    * Method sends a request for unregistering unit
-    * @param unit_ID unit ID to be unregistered
-    */
-   public void removeUnit(String unit_ID){
-       request.unregisterUnit(unit_ID);
-   }
    
-   /**
-    * Method sends a request for getting all registered units belonging to current user
-    * @param username name of user
-    * @return List of all units registered under specified user
-    * @throws InterruptedException Exception is thrown when connection to the server is lost
-    */
-   public ArrayList<UnitObject> getRegisteredUnits(String username) throws InterruptedException{
-        ArrayList<UnitObject> units = new ArrayList();
-        request.getRegisteredUnits(username);
-        for (String unit : getMultipleResponses(MessageType.GET_REGISTERED_UNITS)){
-            UnitObject unitObject = new UnitObject(unit);
-            unitObject.setNickname(getUnitNickname(unit));
-            units.add(unitObject);
-        }
-        return units;
-        
-   }
-   /**
-    * Method sends request for getting the nickname of unit
-    * @param unit_ID ID of unit
-    * @return nickname of unit. If unit have no nickname, return ID instead
-    * @throws InterruptedException Exception is thrown when connection to the server is lost
-    */
-   public String getUnitNickname(String unit_ID) throws InterruptedException{
-       request.getUnitNickname(unit_ID);
-       return response.getAnswer(MessageType.GET_UNIT_NICKNAME);
-   }
    /**
     * MEthod sends a request for setting nickname of unit
     * @param unit_ID ID of unit
@@ -146,26 +105,7 @@ public class ServiceManager {
    public void setUnitNickname(String unit_ID,String nickname){
        request.setUnitNickname(unit_ID, nickname);
    }
-   /**
-    * Method sends a request for registering unit under user
-    * @param unit_ID ID of unit
-    * @param user login of user
-    */
-   public void registerUnit(String unit_ID,String user){
-       request.registerUnit(unit_ID, user);
-       
-   }
-   /**
-    * Method sends request for checking if unit exists
-    * @param unit_ID Id of unit
-    * @return true value, if unit exists
-    * @throws InterruptedException Exception is thrown when connection to the server is lost
-    */
-   public String checkIfUnitExists(String unit_ID) throws InterruptedException{
-       request.checkIfUnitExists(unit_ID);
-       String value = response.getAnswer(MessageType.CHECK_IF_UNIT_EXISTS);
-       return value;
-   }
+
    /**
     * Method sends request for getting sensors registered under specific unit
     * @param unit_ID ID of unit
@@ -176,7 +116,7 @@ public class ServiceManager {
        request.getAvailableRegisteredSensors(unit_ID);
        ArrayList<Sensor> sensors= new ArrayList();
        for (String sensor : getMultipleResponses(MessageType.GET_AVAILABLE_REGISTERED_SENSORS)){
-           Sensor sensorUnit = new Sensor(sensor,getSensorNickname(sensor),getThresold(sensor),getMoisture(sensor),this.getIsSensorActive(sensor, unit_ID),this.getTime(sensor));
+           Sensor sensorUnit = new Sensor(sensor,getSensorNickname(sensor),getThresold(sensor),getMoisture(sensor),this.getTime(sensor));
            sensors.add(sensorUnit);
        }
        return sensors;
@@ -280,37 +220,7 @@ public class ServiceManager {
        Measurement measurement = new Measurement(sensorID,getSensorNickname(sensorID),measuredData);
        return measurement;
    }
-   /**
-    * Method sends a request for checking if unit is registered under any user
-    * @param unit_ID ID of unit
-    * @return true value if unit is registered under any user
-    * @throws InterruptedException Exception is thrown when connection to the server is lost
-    */
-   public String checkIfUnitIsRegistered(String unit_ID) throws InterruptedException{
-       System.out.println("is unit registered ?");
-       request.checkIfUnitIsRegistered(unit_ID);
-       String value = response.getAnswer(MessageType.CHECK_IF_UNIT_IS_REGISTERED);
-       System.out.println("Is unit registered ? :" + value);
-       return value;
-   }
-   /**
-    * Method sends request for checking if unit is online
-    * @param unit_ID ID of unit
-    * @return true value, if unit is online
-    * @throws InterruptedException Exception is thrown when connection to the server is lost
-    */
-   public boolean checkIfUnitIsOnline(String unit_ID) throws InterruptedException{
-       request.isUnitOnline(unit_ID);
-       System.out.println("checking if unit is online");
-       String value = response.getAnswer(MessageType.IS_UNIT_ONLINE);
-       System.out.println("checked, value is: " + value);
-       if(value.equals("true")){
-           return true; 
-       }
-       else{
-           return false;
-       }
-   }
+
    /**
     * Method sends request for getting unregistered sensors around specific unit
     * @param unitID ID of unit
@@ -335,43 +245,8 @@ public class ServiceManager {
         Measurement measurement = new Measurement(sensorID,getSensorNickname(sensorID),measuredValues);
         return measurement;
     }
-   /**
-    * Method sends a request for checking if sensor is online
-    * @param sensorID Id of sensor
-    * @param unitID ID of unit
-    * @return true value, if sensor is online
-    * @throws InterruptedException Exception is thrown when connection to the server is lost
-    */
-   public boolean getIsSensorActive(String sensorID,String unitID) throws InterruptedException{
-        System.out.println("trying to check if sensor is active");
-        request.isUnitOnline(unitID);
-        String value = response.getAnswer(MessageType.IS_UNIT_ONLINE);
-        if(value.equals("false")){
-            return false;
-        }
-        ArrayList<String> sensor = new ArrayList();
-        sensor.add(sensorID);
-        request.sendMessageToClient(ConstantsList.loggedUser, MessageType.IS_SENSOR_ACTIVE,sensor, unitID);
 
-        String messageFromUnit = response.getAnswer(MessageType.IS_SENSOR_ACTIVE);
-        System.out.println("sensor is active: " + messageFromUnit);
-        if(messageFromUnit.equals("true")){
-            return true;
-        }
-        else{
-            return false;
-        }
 
-       
-   }
-   /**
-    * Method sends request to have this output connection be registered as update server thread on client side
-    * @param clientID ID of client
-    */
-   public void initUpdateThread(String clientID){
-       request.initUpdateThread(clientID);
-   }
-   
    private ArrayList<String> getMultipleResponses(MessageType messageType) throws InterruptedException{
 
         return (ArrayList<String>) response.getComplexAnswer(messageType);

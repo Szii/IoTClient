@@ -54,13 +54,6 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
     @Override
     public void onSendValueClicked() {
         String value = gui.getThresholdText();
-        try {
-            if(!model.checkIfUnitIsOnline(unit.getID())){
-                JOptionPane.showMessageDialog(null, "Unit is offline, Sensor will update after unit become online again.");
-            }
-        } catch (InterruptedException ex) {
-            Logger.getLogger(RegisteredSensorPresenter.class.getName()).log(Level.SEVERE, null, ex);
-        }
         int numberValue;
         
         try {
@@ -114,13 +107,6 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
     @Override
     public void onSendTimeClicked() {
          String value = gui.getTimeText();
-        try {
-            if(!model.checkIfUnitIsOnline(unit.getID())){
-                JOptionPane.showMessageDialog(null, "Unit is offline, Sensor will update after unit become online again.");
-            }
-        } catch (InterruptedException ex) {
-            Logger.getLogger(RegisteredSensorPresenter.class.getName()).log(Level.SEVERE, null, ex);
-        }
         int numberValue;
         
         try {

@@ -55,6 +55,7 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
  
     @Override
     public void initView() {
+        /*
          try {
              ArrayList<UnitObject> units = new ArrayList();
              units.add(new UnitObject(null));
@@ -63,6 +64,7 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
         } catch (InterruptedException ex) {
             Logger.getLogger(GraphPresenter.class.getName()).log(Level.SEVERE, null, ex);
         }
+*/
         gui.initView();
        
     }
@@ -172,7 +174,7 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
     public void onUnitSelected(UnitObject unit) {
         try {
             ArrayList<Sensor> sensors = new ArrayList();
-            sensors.add(new Sensor("","","","",false,""));
+            sensors.add(new Sensor("","","","",""));
             sensors.addAll(model.getAvailableRegisteredSensors(gui.getSelectedUnit().getID()));
             gui.setSensorsComboBoxModel(sensors);
         } catch (InterruptedException ex) {

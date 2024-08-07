@@ -13,11 +13,7 @@ import java.util.ArrayList;
  * @author brune
  */
 public interface Request {
-    /**
-     * Sends request for acknowledge
-     * @param user name of the user
-     */
-    public void acknowledge(String user);
+
     /**
      * Send request for confirming the corectness of login 
      * @param login login name
@@ -38,41 +34,14 @@ public interface Request {
      * @throws InterruptedException Exception is thrown when connection to the server is lost
      */
     public void addUser(String user,String passwd) throws InterruptedException;
-    /**
-     *  Request for getting all units by user ID
-     * @param ID ID of user
-     * @throws InterruptedException Exception is thrown when connection to the server is lost
-     */
-    public void getUnits(String ID) throws InterruptedException;
-    /**
-     * Request for registering new unit under a user
-     * @param unit_ID iD of unit
-     * @param user ID of user
-     */
-    public void registerUnit(String unit_ID,String user);
-    /**
-     * Get registered units which are under a user
-     * @param username name of user
-     */
-    public void getRegisteredUnits(String username);
-    /**
-     * Request for unregistering specific unit
-     * @param unit_ID ID of unit
-     */
-    public void unregisterUnit(String unit_ID);
+
     /**
      * Request for check if sensor is active
      * @param sensorID ID of sensor
      */
     public void isSensorActive(String sensorID);
-    /**
-     * Sends a message to the another client
-     * @param from Source of the message
-     * @param type type of the message, so receiver can know how to process it
-     * @param message message data content
-     * @param to receiver of message
-     */
-    public void sendMessageToClient(String from,MessageType type, ArrayList<String> message,String to);
+  
+
     /**
      * Request for registering sensor under specific unit
      * @param unit_ID Id of unit
@@ -89,11 +58,7 @@ public interface Request {
      * Request for checking if unit is online
      * @param unit_ID ID of unit
      */
-    public void isUnitOnline(String unit_ID);   
-    /**
-     * Request for getting all registered sensors under specific unit
-     * @param unit_ID Id of unit
-     */
+   
     public void getAvailableRegisteredSensors(String unit_ID);   
     /**
      * Request for getting last measured moisture value of specific sensor
@@ -122,21 +87,7 @@ public interface Request {
      * @param sensor_ID Id of sensor
      */
     public void getSensorNickname(String sensor_ID);
-    /**
-     * Request for getting unit nickname
-     * @param unit_ID ID of unit 
-     */
-    public void getUnitNickname(String unit_ID);
-    /**
-     * Request for check if unit exists
-     * @param unit_ID ID of unit 
-     */
-    public void checkIfUnitExists(String unit_ID);
-    /**
-     * Request for check if unit is registered under any user
-     * @param unit_ID ID of unit 
-     */
-    public void checkIfUnitIsRegistered(String unit_ID);
+  
     /**
      * Request for setting threshold for the specific sensor
      * @param sensorID ID of sensor
@@ -166,11 +117,6 @@ public interface Request {
     /**
      * Request for setting current output thread as update thread on server side
      * @param clientID 
-     */
-    public void initUpdateThread(String clientID);
-    /**
-     * Request for all measured values for sensor
-     * @param sensorID ID of sensor
      */
     public void getMeasurementValues(String sensorID);
     /**

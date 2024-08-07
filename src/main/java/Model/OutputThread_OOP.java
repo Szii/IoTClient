@@ -64,18 +64,6 @@ public class OutputThread_OOP extends Thread implements Request{
   } 
 
 
-    @Override
-     public void acknowledge (String ID){
-        content = new ArrayList();
-        content.add(ID);
-        sendPayload(MessageType.USER,content);
-    }
-     @Override
-     public void getUnits(String ID){
-        content = new ArrayList();
-        content.add(ID);
-        sendPayload(MessageType.GET_REGISTERED_UNITS,content);
-     }
      
  @Override
      public void getUser(String user){
@@ -93,93 +81,33 @@ public class OutputThread_OOP extends Thread implements Request{
         sendPayload(MessageType.CONFIRM_LOGIN,content);
      }
 
- @Override
-     public void addUser(String user,String passwd){
-        content = new ArrayList();
-        content.add(user);
-        content.add(passwd);
-        sendPayload(MessageType.ADD_USER,content);
-     }
-     @Override
-     public void checkIfUnitExists(String unit_ID){
-        content = new ArrayList();
-        content.add(unit_ID);
-
-        sendPayload(MessageType.CHECK_IF_UNIT_EXISTS,content);
-     }
-     
-     @Override
-     public void checkIfUnitIsRegistered(String unit_ID){
-        content = new ArrayList();
-        content.add(unit_ID);
-
-        sendPayload(MessageType.CHECK_IF_UNIT_IS_REGISTERED,content);
-     }
-     
-     public void getUnit(String name){
-        content = new ArrayList();
-        content.add(name);
-
-        sendPayload(MessageType.GET_UNIT,content);
-     }
-     
-     @Override
-      public void registerUnit(String unit_ID,String user){
-        content = new ArrayList();
-        content.add(unit_ID);
-        content.add(user);
-
-        sendPayload(MessageType.REGISTERR_UNIT,content);
-     }
-      @Override
-      public void getRegisteredUnits(String username){
-        content = new ArrayList();
-        content.add(username);
-        sendPayload(MessageType.GET_REGISTERED_UNITS,content);
-      }
-      
-      
-      @Override
-      public void unregisterUnit(String unit_ID){
-        content = new ArrayList();
-        content.add(unit_ID);
-
-        sendPayload(MessageType.UNREGISTER_UNIT,content);
-      }
-  
- 
-      
       @Override
       public void registerSensor(String unit_ID,String sensor_ID){
-        content = new ArrayList();
-        content.add(sensor_ID);
-        content.add(unit_ID);
+           throw new UnsupportedOperationException("Registering sewnsors is not supported");
+       // content = new ArrayList();
+      //  content.add(sensor_ID);
+      //  content.add(unit_ID);
       
         //sendPayload(MessageType.REGISTER_SENSOR,content);
         
-         sendMessageToClient(ConstantsList.loggedUser,MessageType.REGISTER_SENSOR,content,unit_ID);
+       //  sendMessageToClient(ConstantsList.loggedUser,MessageType.REGISTER_SENSOR,content,unit_ID);
        
       }
       @Override
       public void unregisterSensor(String sensor_ID,String unit_ID){
-         content = new ArrayList();
-         content.add(sensor_ID);
-        content.add(unit_ID);
+          
+                 throw new UnsupportedOperationException("Unregistering sewnsors is not supported");
+       //  content = new ArrayList();
+       //  content.add(sensor_ID);
+        //content.add(unit_ID);
   
 
       //  sendPayload(MessageType.UNREGISTER_SENSOR,content);
           
-        sendMessageToClient(ConstantsList.loggedUser,MessageType.UNREGISTER_SENSOR,content,unit_ID);
+     //   sendMessageToClient(ConstantsList.loggedUser,MessageType.UNREGISTER_SENSOR,content,unit_ID);
         
       }
-      @Override
-       public void isUnitOnline(String unit_ID){
-          content = new ArrayList();
-        content.add(unit_ID);
-  
 
-        sendPayload(MessageType.IS_UNIT_ONLINE,content);
-     }
        @Override
        public void getAvailableRegisteredSensors(String unit_ID){
         content = new ArrayList();
@@ -215,13 +143,7 @@ public class OutputThread_OOP extends Thread implements Request{
         sendPayload(MessageType.SET_UNIT_NICKNAME,content);
       }
       
-      @Override
-      public void getUnitNickname(String unit_ID){
-        content = new ArrayList();
-        content.add(unit_ID);
- 
-        sendPayload(MessageType.GET_UNIT_NICKNAME,content);
-      }
+
       
       @Override
       public void setSensorNickname(String sensor_ID,String nickname){
@@ -250,17 +172,10 @@ public class OutputThread_OOP extends Thread implements Request{
     @Override
     public void getAvailableSensors(String unitID) {
       
-       content = new ArrayList();
-       sendMessageToClient(ConstantsList.loggedUser,MessageType.GET_SENSORS_IN_RANGE,content,unitID);
+       throw new UnsupportedOperationException("Geting available sensors is not supported");
+      // content = new ArrayList();
+      // sendMessageToClient(ConstantsList.loggedUser,MessageType.GET_SENSORS_IN_RANGE,content,unitID);
     }
-
-    @Override
-    public void initUpdateThread(String clientID) {
-        content = new ArrayList();
-       content.add(clientID);
-       sendPayload(MessageType.UPDATE_THREAD,content);
-    }
-
         @Override
        public void getMeasurementValues(String sensorID){
         content = new ArrayList();
@@ -283,21 +198,7 @@ public class OutputThread_OOP extends Thread implements Request{
          sendMessageToServer(new Payload(messages,typeOfMessage,Code.SUCCESS));
     }
     
-      
-      /**
-       * Sends message to the client via server.2 answers are expected : unit, from which message was received and body of received message. Body is used for proccesing in the unit. Received message is in the same format as sent message. It is parsed in InputThread class. Both
-        answers are available through InputThread.getAnswer() method.
-       * @param from String, which is name of sender (thread)
-     * @param type Type of message
-       * @param message String, which is message itself
-       * @param to String, which is name of receiving client (thread)
-       */
 
-     
-     @Override
-      public void sendMessageToClient(String from,MessageType type,ArrayList<String> message,String to){        
-          throw new UnsupportedOperationException("Messages to client are not supported anymore");
-    }
       
      private void sendMessageToServer(Payload message){
      try {
@@ -308,7 +209,7 @@ public class OutputThread_OOP extends Thread implements Request{
 
     @Override
     public void isSensorActive(String sensorID) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         throw new UnsupportedOperationException("Checking if sensor is online is not supported"); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -326,6 +227,11 @@ public class OutputThread_OOP extends Thread implements Request{
        content.add(value);
 
        sendPayload(MessageType.SET_IRRIGATION_TIME,content);
+    }
+
+    @Override
+    public void addUser(String user, String passwd) throws InterruptedException {
+        throw new UnsupportedOperationException("Adding user is not supported "); //To change body of generated methods, choose Tools | Templates.
     }
    
     

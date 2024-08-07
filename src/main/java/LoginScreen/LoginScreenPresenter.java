@@ -91,7 +91,7 @@ public class LoginScreenPresenter implements LoginScreenPresenterInterface {
                 panelPresenter.initView();
                 view.addPanel((Panel) panel);
                 
-                model.acknowledge(ConstantsList.loggedUser);
+            //    model.acknowledge(ConstantsList.loggedUser);
                 
             } 
             else{

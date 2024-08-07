@@ -40,8 +40,9 @@ public class UnitPresenter implements UnitPresenterInterface {
 
     @Override
     public void onRemoveUnitClicked() {
-        model.removeUnit(unit_ID.getID());
-        model.getUnitsManager().fireNotification("unitsChange", unit_ID);
+        throw new UnsupportedOperationException("Remove unit clicked, not supported");
+       // model.removeUnit(unit_ID.getID());
+       // model.getUnitsManager().fireNotification("unitsChange", unit_ID);
     }
 
     @Override
