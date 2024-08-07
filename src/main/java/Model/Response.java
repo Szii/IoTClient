@@ -6,6 +6,7 @@
 package Model;
 
 import com.irrigation.Messages.MessageType;
+import com.irrigation.Messages.Payload;
 import java.util.List;
 
 /**
@@ -27,6 +28,8 @@ public interface Response {
      * @throws InterruptedException When service is interrupted, this exception is thrown
      */
     public String getAnswer(MessageType messageType) throws InterruptedException;
+    
+    public Payload getPayload(MessageType messageType)throws InterruptedException;
     /**
      * Check if there are any messages left to be processed
      * @return true if there is at least one message left 

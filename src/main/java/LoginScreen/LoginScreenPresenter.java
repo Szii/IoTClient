@@ -23,6 +23,7 @@ import javax.swing.SwingWorker;
 import MainPanel.*;
 import Model.SensorsPanelObserver;
 import Model.UnitsPanelObserver;
+import com.irrigation.Messages.Code;
 
 /**
  * Implementation of login screen GUI controller.
@@ -67,13 +68,13 @@ public class LoginScreenPresenter implements LoginScreenPresenterInterface {
   
     @Override
     public void onLoginConfirm() {
-        String answer = "";
+        Code answer = Code.FAILURE;
          try {
              answer = model.checkLogin(gui.getLoginName(), gui.getLoginPassword());
          } catch (InterruptedException ex) {
              Logger.getLogger(LoginScreenPresenter.class.getName()).log(Level.SEVERE, null, ex);
          }
-            if(answer.equals("true")){
+            if(answer.equals(Code.SUCCESS)){
        
                 ConstantsList.loggedUser = gui.getLoginName();
                 removeLoginScreen();

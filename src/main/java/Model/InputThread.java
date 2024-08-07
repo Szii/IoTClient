@@ -48,6 +48,7 @@ import com.irrigation.Messages.*;
             objectInput = new ObjectInputStream(clientSocket.getInputStream());
             while(true){
                 Payload payload = (Payload) objectInput.readObject(); 
+                System.out.println("Got payload: " + payload.getContent() + " " + payload.getType() + " " + payload.getCode());
                 taskQueue.add(payload);
                 
             }
@@ -61,7 +62,7 @@ import com.irrigation.Messages.*;
     @Override
     public String getAnswer(MessageType messageType) throws InterruptedException{
         synchronized(this){
-            return getMessageAnswer(messageType).getContent().get(0);
+            return getPayload(messageType).getContent().get(0);
         }
     }
     
@@ -82,7 +83,7 @@ import com.irrigation.Messages.*;
     }
     @Override
     public synchronized List<String> getComplexAnswer(MessageType type) throws InterruptedException{
-        List<String> message = (List<String>) getMessageAnswer(type).getContent();
+        List<String> message = (List<String>) getPayload(type).getContent();
         return message;
     }
       
@@ -100,7 +101,8 @@ import com.irrigation.Messages.*;
           taskQueue.clear();
       }
   
-      private Payload getMessageAnswer(MessageType messageType) throws InterruptedException{
+      @Override
+      public Payload getPayload(MessageType messageType) throws InterruptedException{
         Payload input;
         synchronized(this){
             while((input = (Payload)taskQueue.peek()) == null){
@@ -115,7 +117,8 @@ import com.irrigation.Messages.*;
             return input;
         }
     }
-       
+
+
        
     
     
