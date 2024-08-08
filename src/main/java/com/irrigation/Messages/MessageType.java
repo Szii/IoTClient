@@ -29,9 +29,15 @@ public enum MessageType implements Serializable  {
      * Getting a user message
      */
     GET_USER,
+     /**
+     * Adds a new user to to database
+     */
+    ADD_USER,
+
     /**
      * Registering new sensor
      */
+    
     REGISTER_SENSOR,
     /**
      * Gettings the moisture of the sensor

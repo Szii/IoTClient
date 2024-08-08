@@ -85,6 +85,7 @@ public class ServiceManager {
      * @throws InterruptedException Exception is thrown when connection to the server is lost
      */
     public Code doesUserExist(String user) throws InterruptedException{
+        System.out.println("does user exist?");
         request.getUser(user);
         return response.getPayload(MessageType.GET_USER).getCode();
     }
@@ -92,10 +93,13 @@ public class ServiceManager {
     * Method sends request for adding a new user
     * @param user user to be added
     * @param passwd password to be added
+    * @return returns SUCCESS  , if registration complete
     * @throws InterruptedException Exception is thrown when connection to the server is lost
     */
-   public void addUser(String user,String passwd) throws InterruptedException{
+   public Code addUser(String user,String passwd) throws InterruptedException{
+       System.out.println(" add user");
         request.addUser(user, passwd);
+        return response.getPayload(MessageType.ADD_USER).getCode();
     }
    
    /**

@@ -231,7 +231,12 @@ public class OutputThread_OOP extends Thread implements Request{
 
     @Override
     public void addUser(String user, String passwd) throws InterruptedException {
-        throw new UnsupportedOperationException("Adding user is not supported "); //To change body of generated methods, choose Tools | Templates.
+       content = new ArrayList();
+       content.add(user);
+       content.add(passwd);
+       System.out.println("sending add user request");
+
+       sendPayload(MessageType.ADD_USER,content); 
     }
    
     

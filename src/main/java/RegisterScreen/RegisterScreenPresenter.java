@@ -84,27 +84,31 @@ public class RegisterScreenPresenter implements RegisterScreenPresenterInterface
     public void onCreateAccount() {
         
          try {
-             if (model.doesUserExist(gui.getRegisterName()).equals(Code.FAILURE)){
-                 showPopupMessage("This name is already taken");
-             }
+           
              
-             else if(gui.getRegisterPassword().length() < 4){
+             if(gui.getRegisterPassword().length() < 4){
                  showPopupMessage("Password too short");
+             }
+             else if(!gui.getRegisterPassword().equals(gui.getRegisterConfirmPassword())){
+                 showPopupMessage("Passwords do not match");
              }
              else if(gui.getRegisterName().length() < 4){
                  showPopupMessage("Name is too short");
              }
+             else if (model.doesUserExist(gui.getRegisterName()).equals(Code.SUCCESS)){
+                 showPopupMessage("This name is already taken");
+             }
              else if(gui.getRegisterPassword().equals(gui.getRegisterConfirmPassword())){
                  try {
-                     model.addUser(gui.getRegisterName(),gui.getRegisterPassword());
-                     showPopupMessage("Registration complete");
+                     if(model.addUser(gui.getRegisterName(),gui.getRegisterPassword()).equals(Code.SUCCESS)){
+                         showPopupMessage("Registration complete");
+                     }
+                     else{
+                         showPopupMessage("Something went wrong");
+                     }
                  } catch (InterruptedException ex) {
                      Logger.getLogger(RegisterScreenPresenter.class.getName()).log(Level.SEVERE, null, ex);
                  }
-             }
-             else{
-                 
-                 showPopupMessage("Passwords do not match");
              }
          } catch (InterruptedException ex) {
              Logger.getLogger(RegisterScreenPresenter.class.getName()).log(Level.SEVERE, null, ex);
