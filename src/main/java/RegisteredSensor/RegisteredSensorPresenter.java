@@ -15,6 +15,7 @@ import Model.ServiceManager;
 import ViewModel.Measurement;
 import ViewModel.Sensor;
 import ViewModel.UnitObject;
+import com.irrigation.Messages.MessageData.Device;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,7 +29,7 @@ import javax.swing.JOptionPane;
 public class RegisteredSensorPresenter implements RegisteredSensorPresenterInterface {
     RegisteredSensorGUIInterface gui;
     ServiceManager model;
-    Sensor sensor;
+    Device sensor;
     UnitObject unit;
     /**
      * Creates new controls for registered sensor component
@@ -37,12 +38,11 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
      * @param sensor sensor ID
      * @param unit unit ID under sensor in registered
      */
-    public RegisteredSensorPresenter(RegisteredSensorGUIInterface gui, ServiceManager model,Sensor sensor,UnitObject unit){
+    public RegisteredSensorPresenter(RegisteredSensorGUIInterface gui, ServiceManager model,Device sensor){
         this.gui = gui;
         gui.setPresenter(this);
         this.model = model;
         this.sensor = sensor;
-        this.unit = unit;
         
     }
 

@@ -8,6 +8,7 @@ package Graph;
 import Base.BaseGUIInterface;
 import ViewModel.Sensor;
 import ViewModel.UnitObject;
+import com.irrigation.Messages.MessageData.Device;
 import java.util.ArrayList;
 import org.jfree.chart.ChartPanel;
 
@@ -33,7 +34,7 @@ public interface GraphGUIInterface extends BaseGUIInterface{
      * Sets available sensors for selection
      * @param sensors available sensors
      */
-    public void setSensorsComboBoxModel(ArrayList<Sensor> sensors);
+    public void setSensorsComboBoxModel(ArrayList<Device> sensors);
     /**
      * Gets a unit selected 
      * @return Selected unit
@@ -66,7 +67,7 @@ public interface GraphGUIInterface extends BaseGUIInterface{
      * Sets the sensor which initiated the showing of this component
      * @param initiator Sensor to be set as initiator
      */
-    public void setGraphInitiator(Sensor initiator);
+    public void setGraphInitiator(Device initiator);
     
     /**
      *  Gets a sensor which initiated showing of this component

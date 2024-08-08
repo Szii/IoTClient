@@ -7,7 +7,7 @@ package RegisterScreen;
 
 import LoginScreen.*;
 import Model.ServiceManager;
-import com.irrigation.Messages.Code;
+import com.irrigation.Messages.MessageFormat.Code;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingWorker;
@@ -62,17 +62,6 @@ public class RegisterScreenPresenter implements RegisterScreenPresenterInterface
         worker.execute(); 
      
     }
-    
-    
-    private Code getAnswerToLogin(String loginName,String password){
-        try {
-               return model.checkLogin(loginName, password);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(RegisterScreenGUI.class.getName()).log(Level.SEVERE, null, ex);
-                return Code.FAILURE;
-            }
-    }
-
    
 
     @Override

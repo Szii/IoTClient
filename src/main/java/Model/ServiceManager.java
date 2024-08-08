@@ -8,11 +8,12 @@ package Model;
 import ViewModel.Sensor;
 import ChartDataBuilder.ChartBuilder;
 import Constants.ConstantsList;
-import com.irrigation.Messages.MessageType;
+import com.irrigation.Messages.MessageFormat.MessageType;
 import ViewModel.Measurement;
 import ViewModel.UnitObject;
-import com.irrigation.Messages.Code;
-import com.irrigation.Messages.Payload;
+import com.irrigation.Messages.MessageData.Device;
+import com.irrigation.Messages.MessageFormat.Code;
+import com.irrigation.Messages.MessageFormat.Payload;
 import java.util.ArrayList;
 
 /**
@@ -114,17 +115,14 @@ public class ServiceManager {
 
    /**
     * Method sends request for getting sensors registered under specific unit
-    * @param unit_ID ID of unit
+    * @param username name of user
     * @return List of sensors
     * @throws InterruptedException Exception is thrown when connection to the server is lost
     */
-   public ArrayList<Sensor> getAvailableRegisteredSensors(String unit_ID) throws InterruptedException{
-       request.getAvailableRegisteredSensors(unit_ID);
-       ArrayList<Sensor> sensors= new ArrayList();
-       for (String sensor : getMultipleResponses(MessageType.GET_AVAILABLE_REGISTERED_SENSORS)){
-           Sensor sensorUnit = new Sensor(sensor,getSensorNickname(sensor),getThresold(sensor),getMoisture(sensor),this.getTime(sensor));
-           sensors.add(sensorUnit);
-       }
+   public ArrayList<Device> getRegisteredSensors(String username) throws InterruptedException{
+       request.getRegisteredSensors(username);
+       ArrayList<Device> sensors= (ArrayList<Device>) response.getPayload(MessageType.GET_AVAILABLE_REGISTERED_SENSORS).getCarriedObject();
+       System.out.println("Returning sensors");
        return sensors;
    }
    /**
@@ -155,6 +153,7 @@ public class ServiceManager {
     * @throws InterruptedException Exception is thrown when connection to the server is lost
     */
    public String getSensorNickname(String sensorID) throws InterruptedException{
+       System.out.println("Calling sensor nickname");
        request.getSensorNickname(sensorID);
        System.out.println("getting nickname for  " + sensorID);
        String nickname  = response.getAnswer(MessageType.GET_SENSOR_NICKNAME);

@@ -6,8 +6,9 @@
 package Model;
 
 
+import com.irrigation.Messages.MessageFormat.MessageType;
 import Constants.ConstantsList;
-import com.irrigation.Messages.Payload;
+import com.irrigation.Messages.MessageFormat.Payload;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import static java.lang.Thread.sleep;
@@ -17,7 +18,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import com.irrigation.Messages.*;
 
 /**
  * Implementation of response behavior. The thread is initialized by calling start method. The last message which arrived can be retrieved by 
@@ -103,7 +103,7 @@ import com.irrigation.Messages.*;
       }
   
       @Override
-      public Payload getPayload(MessageType messageType) throws InterruptedException{
+      public Payload<Payload> getPayload(MessageType messageType) throws InterruptedException{
         Payload input;
         synchronized(this){
             while((input = (Payload)taskQueue.peek()) == null){
@@ -115,6 +115,7 @@ import com.irrigation.Messages.*;
                 }
             }
             taskQueue.poll();
+            System.out.println("got payload: " + input.getType());
             return input;
         }
     }

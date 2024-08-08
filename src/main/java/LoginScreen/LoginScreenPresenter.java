@@ -23,8 +23,8 @@ import javax.swing.SwingWorker;
 import MainPanel.*;
 import Model.SensorsPanelObserver;
 import Model.UnitsPanelObserver;
-import com.irrigation.Messages.Code;
-import com.irrigation.Messages.Payload;
+import com.irrigation.Messages.MessageFormat.Code;
+import com.irrigation.Messages.MessageFormat.Payload;
 
 /**
  * Implementation of login screen GUI controller.
@@ -65,7 +65,7 @@ public class LoginScreenPresenter implements LoginScreenPresenterInterface {
         worker.execute(); 
      
     }
-    
+     
   
     @Override
     public void onLoginConfirm() {

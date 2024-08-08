@@ -8,6 +8,7 @@ package Model;
 import ViewModel.LiteSensor;
 import ViewModel.Sensor;
 import ViewModel.UnitObject;
+import com.irrigation.Messages.MessageData.Device;
 import java.util.ArrayList;
 
 /**
@@ -25,5 +26,5 @@ public interface SensorsPanelObserver extends Observer {
       * @param registeredSensors Registered sensors to be updated
       * @param unregisteredSensors Not registered sensors to be updated
       */
-     public void onUpdateNotification(ArrayList<Sensor> registeredSensors,ArrayList<LiteSensor> unregisteredSensors);
+     public void onUpdateNotification(ArrayList<Device> registeredSensors,ArrayList<LiteSensor> unregisteredSensors);
 }

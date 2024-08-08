@@ -5,8 +5,8 @@
  */
 package Model;
 
-import com.irrigation.Messages.MessageType;
-import com.irrigation.Messages.Payload;
+import com.irrigation.Messages.MessageFormat.MessageType;
+import com.irrigation.Messages.MessageFormat.Payload;
 import java.util.List;
 
 /**

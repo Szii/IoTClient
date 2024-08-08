@@ -5,7 +5,7 @@
  */
 package Model;
 
-import com.irrigation.Messages.MessageType;
+import com.irrigation.Messages.MessageFormat.MessageType;
 import java.util.ArrayList;
 
 /**
@@ -59,7 +59,7 @@ public interface Request {
      * @param unit_ID ID of unit
      */
    
-    public void getAvailableRegisteredSensors(String unit_ID);   
+    public void getRegisteredSensors(String username);   
     /**
      * Request for getting last measured moisture value of specific sensor
      * @param sensorName ID of sensor

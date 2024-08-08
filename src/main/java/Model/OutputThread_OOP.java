@@ -9,6 +9,9 @@ package Model;
  *
  * @author brune
  */
+import com.irrigation.Messages.MessageFormat.MessageType;
+import com.irrigation.Messages.MessageFormat.Code;
+import com.irrigation.Messages.MessageFormat.Payload;
 import Constants.ConstantsList;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -23,7 +26,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import com.irrigation.Messages.*;
 import java.io.ObjectOutputStream;
 
 
@@ -109,9 +111,9 @@ public class OutputThread_OOP extends Thread implements Request{
       }
 
        @Override
-       public void getAvailableRegisteredSensors(String unit_ID){
+       public void getRegisteredSensors(String username){
         content = new ArrayList();
-        content.add(unit_ID);
+        content.add(username);
         sendPayload(MessageType.GET_AVAILABLE_REGISTERED_SENSORS,content);
        }
        

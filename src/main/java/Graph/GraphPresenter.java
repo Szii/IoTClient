@@ -21,6 +21,7 @@ import ViewModel.Sensor;
 import Model.ServiceManager;
 import ViewModel.Measurement;
 import ViewModel.UnitObject;
+import com.irrigation.Messages.MessageData.Device;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -173,9 +174,9 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
     @Override
     public void onUnitSelected(UnitObject unit) {
         try {
-            ArrayList<Sensor> sensors = new ArrayList();
-            sensors.add(new Sensor("","","","",""));
-            sensors.addAll(model.getAvailableRegisteredSensors(gui.getSelectedUnit().getID()));
+            ArrayList<Device> sensors = new ArrayList();
+            sensors.add(new Device.DeviceBuilder().build());
+            sensors.addAll(model.getRegisteredSensors(ConstantsList.loggedUser));
             gui.setSensorsComboBoxModel(sensors);
         } catch (InterruptedException ex) {
             Logger.getLogger(GraphPresenter.class.getName()).log(Level.SEVERE, null, ex);

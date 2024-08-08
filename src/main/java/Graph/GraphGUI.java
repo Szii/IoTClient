@@ -10,6 +10,7 @@ import Components.Label;
 import Components.Panel;
 import ViewModel.Sensor;
 import ViewModel.UnitObject;
+import com.irrigation.Messages.MessageData.Device;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -240,7 +241,7 @@ public class GraphGUI implements GraphGUIInterface{
     }
 
     @Override
-    public void setSensorsComboBoxModel(ArrayList<Sensor> sensors) {
+    public void setSensorsComboBoxModel(ArrayList<Device> sensors) {
         sensorsComboBox.setModel(new DefaultComboBoxModel(sensors.toArray()));
     }
 
@@ -276,7 +277,7 @@ public class GraphGUI implements GraphGUIInterface{
     }
 
     @Override
-    public void setGraphInitiator(Sensor initiator) {
+    public void setGraphInitiator(Device initiator) {
         frame.setTitle("Graph for sensor: " + initiator);
         initiatorLabel.setText(initiator.toString());
     }
@@ -285,5 +286,7 @@ public class GraphGUI implements GraphGUIInterface{
     public String getGraphInitiator() {
        return initiatorLabel.getText();
     }
+
+
     
 }
