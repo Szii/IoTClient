@@ -24,6 +24,7 @@ import MainPanel.*;
 import Model.SensorsPanelObserver;
 import Model.UnitsPanelObserver;
 import com.irrigation.Messages.Code;
+import com.irrigation.Messages.Payload;
 
 /**
  * Implementation of login screen GUI controller.
@@ -68,15 +69,18 @@ public class LoginScreenPresenter implements LoginScreenPresenterInterface {
   
     @Override
     public void onLoginConfirm() {
-        Code answer = Code.FAILURE;
+        Payload answer = null;
          try {
              answer = model.checkLogin(gui.getLoginName(), gui.getLoginPassword());
          } catch (InterruptedException ex) {
              Logger.getLogger(LoginScreenPresenter.class.getName()).log(Level.SEVERE, null, ex);
          }
-            if(answer.equals(Code.SUCCESS)){
+            if(answer.getCode().equals(Code.SUCCESS)){
        
                 ConstantsList.loggedUser = gui.getLoginName();
+                ConstantsList.token = answer.getToken();
+                System.out.println(ConstantsList.token);
+                
                 removeLoginScreen();
                 MainFrameGUIInterface view = new MainFrameGUI(820,640);
                 MainFramePresenterInterface presenter = new MainFramePresenter(view,model);

@@ -195,7 +195,13 @@ public class OutputThread_OOP extends Thread implements Request{
     
     
     private void sendPayload(MessageType typeOfMessage,ArrayList<String> messages){
-         sendMessageToServer(new Payload(messages,typeOfMessage,Code.SUCCESS));
+        Payload payload = new Payload.PayloadBuilder(Code.SUCCESS)
+                .setContent(messages)
+                .setType(typeOfMessage)
+                .setToken(ConstantsList.token)
+                .build();
+
+        sendMessageToServer(payload);
     }
     
 

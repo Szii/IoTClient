@@ -12,6 +12,7 @@ import com.irrigation.Messages.MessageType;
 import ViewModel.Measurement;
 import ViewModel.UnitObject;
 import com.irrigation.Messages.Code;
+import com.irrigation.Messages.Payload;
 import java.util.ArrayList;
 
 /**
@@ -73,9 +74,9 @@ public class ServiceManager {
      * @return returns true if login credentials were correct
      * @throws InterruptedException Exception is thrown when connection to the server is lost
      */
-    public Code checkLogin(String login,String password) throws InterruptedException{
+    public Payload checkLogin(String login,String password) throws InterruptedException{
         request.confirmLogin(login, password);
-        return response.getPayload(MessageType.CONFIRM_LOGIN).getCode();
+        return response.getPayload(MessageType.CONFIRM_LOGIN);
     }
     
     /**

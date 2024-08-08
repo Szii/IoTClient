@@ -28,6 +28,10 @@ public class ConstantsList {
      */
     public static String loggedUser;
     /**
+     * Token given by server
+     */
+    public static String token = "";
+    /**
      * Stores the actually selected unit
      */
     public static UnitObject selectedUnit = new UnitObject("");
