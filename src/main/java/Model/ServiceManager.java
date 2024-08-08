@@ -81,12 +81,12 @@ public class ServiceManager {
     /**
      * Method sends a request for getting user with same name as current user
      * @param user user name
-     * @return returns user name , if it is same as current user
+     * @return returns SUCCESS  , if it is same as current user
      * @throws InterruptedException Exception is thrown when connection to the server is lost
      */
-    public String getUser(String user) throws InterruptedException{
+    public Code doesUserExist(String user) throws InterruptedException{
         request.getUser(user);
-        return response.getAnswer(MessageType.GET_USER);
+        return response.getPayload(MessageType.GET_USER).getCode();
     }
    /**
     * Method sends request for adding a new user

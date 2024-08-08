@@ -7,6 +7,7 @@ package RegisterScreen;
 
 import LoginScreen.*;
 import Model.ServiceManager;
+import com.irrigation.Messages.Code;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingWorker;
@@ -63,12 +64,12 @@ public class RegisterScreenPresenter implements RegisterScreenPresenterInterface
     }
     
     
-    private String getAnswerToLogin(String loginName,String password){
+    private Code getAnswerToLogin(String loginName,String password){
         try {
                return model.checkLogin(loginName, password);
             } catch (InterruptedException ex) {
                 Logger.getLogger(RegisterScreenGUI.class.getName()).log(Level.SEVERE, null, ex);
-                return "InterruptError";
+                return Code.FAILURE;
             }
     }
 
@@ -81,34 +82,33 @@ public class RegisterScreenPresenter implements RegisterScreenPresenterInterface
 
     @Override
     public void onCreateAccount() {
-                    String answer = "";
-                  try {
-                   answer = model.getUser(gui.getRegisterName());
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(RegisterScreenGUI.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                  if (answer.equals(gui.getRegisterName())){
-                        showPopupMessage("Name is taken");
-                  }  
-                              
-                  else if(gui.getRegisterPassword().length() < 4){
-                       showPopupMessage("Password too short");
-                  }
-                  else if(gui.getRegisterName().length() < 4){
-                      showPopupMessage("Name is too short");
-                  }
-                  else if(gui.getRegisterPassword().equals(gui.getRegisterConfirmPassword())){
-                        try {
-                            model.addUser(gui.getRegisterName(),gui.getRegisterPassword());
-                            showPopupMessage("Registration complete");
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(RegisterScreenPresenter.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                  }  
-                  else{
-                      
-                      showPopupMessage("Passwords do not match");
-                  }
+        
+         try {
+             if (model.doesUserExist(gui.getRegisterName()).equals(Code.FAILURE)){
+                 showPopupMessage("This name is already taken");
+             }
+             
+             else if(gui.getRegisterPassword().length() < 4){
+                 showPopupMessage("Password too short");
+             }
+             else if(gui.getRegisterName().length() < 4){
+                 showPopupMessage("Name is too short");
+             }
+             else if(gui.getRegisterPassword().equals(gui.getRegisterConfirmPassword())){
+                 try {
+                     model.addUser(gui.getRegisterName(),gui.getRegisterPassword());
+                     showPopupMessage("Registration complete");
+                 } catch (InterruptedException ex) {
+                     Logger.getLogger(RegisterScreenPresenter.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+             }
+             else{
+                 
+                 showPopupMessage("Passwords do not match");
+             }
+         } catch (InterruptedException ex) {
+             Logger.getLogger(RegisterScreenPresenter.class.getName()).log(Level.SEVERE, null, ex);
+         }
     }
 
     @Override
