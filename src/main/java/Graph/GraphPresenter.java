@@ -176,7 +176,7 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
         try {
             ArrayList<Device> sensors = new ArrayList();
             sensors.add(new Device.DeviceBuilder().build());
-            sensors.addAll(model.getRegisteredSensors(ConstantsList.loggedUser));
+            sensors.addAll(model.getRegisteredDevices(ConstantsList.loggedUser));
             gui.setSensorsComboBoxModel(sensors);
         } catch (InterruptedException ex) {
             Logger.getLogger(GraphPresenter.class.getName()).log(Level.SEVERE, null, ex);

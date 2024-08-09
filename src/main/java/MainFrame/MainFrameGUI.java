@@ -113,9 +113,9 @@ public class MainFrameGUI extends JFrame implements MainFrameGUIInterface {
     }
     
     private Button getAddUnitButton(){
-        Button button = new Button("Add Unit");
+        Button button = new Button("Add Device");
         button.addActionListener((ActionEvent e)->{
-            presenter.onAddUnitClicked();
+            presenter.onAddDeviceClicked();
         });
         return button;
     }

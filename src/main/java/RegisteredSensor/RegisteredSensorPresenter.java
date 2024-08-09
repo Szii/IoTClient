@@ -7,6 +7,7 @@ package RegisteredSensor;
 
 import ChartDataBuilder.ChartType;
 import ChartDataBuilder.Size;
+import Constants.ConstantsList;
 import Graph.GraphControls;
 import Graph.GraphGUI;
 import Graph.GraphGUIInterface;
@@ -83,7 +84,7 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
     
     @Override
     public void onRemoveClicked(){
-        model.unregisterSensor(sensor.getID(), unit.getID());
+        model.unregisterDevice(sensor.getID(),ConstantsList.loggedUser);
         model.getSensorsManager().fireNotification("sensorsChange", unit);
      }
     @Override

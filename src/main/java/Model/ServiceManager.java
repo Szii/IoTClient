@@ -112,8 +112,8 @@ public class ServiceManager {
     * @return List of sensors
     * @throws InterruptedException Exception is thrown when connection to the server is lost
     */
-   public ArrayList<Device> getRegisteredSensors(String username) throws InterruptedException{
-       request.getRegisteredSensors(username);
+   public ArrayList<Device> getRegisteredDevices(String username) throws InterruptedException{
+       request.getRegisteredDevices(username);
        ArrayList<Device> sensors= (ArrayList<Device>) response.getPayload(MessageType.GET_AVAILABLE_REGISTERED_DEVICES).getCarriedObject();
        System.out.println("Returning sensors");
        return sensors;
@@ -146,19 +146,22 @@ public class ServiceManager {
    
    /**
     * Method sends a request for registering a sensor under unit
-    * @param sensorID ID of sensor
-    * @param unitID ID of unit
+    * @param deviceID ID of sensor
+    * @param username name of user
+    * @throws InterruptedException
+    * @return SUCCESS if registration complete
     */
-   public void registerSensor(String sensorID,String unitID){
-       request.registerSensor(unitID, sensorID);
+   public Code registerDevice(String deviceID,String username) throws InterruptedException{
+       request.registerDevice(deviceID, username);
+       return response.getPayload(MessageType.REGISTER_DEVICE).getCode();
    }
      /**
     * Method sends a request for unregistering a sensor from  unit
     * @param sensorID ID of sensor
     * @param unitID ID of unit
     */
-   public void unregisterSensor(String sensorID,String unitID){
-       request.unregisterSensor(sensorID,unitID);
+   public void unregisterDevice(String sensorID,String unitID){
+       request.unregisterDevice(sensorID,unitID);
      
    }
    
@@ -189,7 +192,7 @@ public class ServiceManager {
         Measurement measurement = new Measurement(sensorID,measuredValues);
         return measurement;
     }
-
+    
 
    private ArrayList<String> getMultipleResponses(MessageType messageType) throws InterruptedException{
 

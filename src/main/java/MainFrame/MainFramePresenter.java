@@ -7,6 +7,7 @@ package MainFrame;
 
 import Constants.ConstantsList;
 import Model.ServiceManager;
+import com.irrigation.Messages.MessageFormat.Code;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -35,30 +36,24 @@ public class MainFramePresenter implements MainFramePresenterInterface{
     }
 
     @Override
-    public void onAddUnitClicked() {
+    public void onAddDeviceClicked() {
         System.out.println("clicked");
-        /*
+        
         try {
-            String text = JOptionPane.showInputDialog("Type unit ID");
+            String text = JOptionPane.showInputDialog("Type device ID");
             if(text == null){
                 return;
             }
-            if(model.checkIfUnitExists(text).equals("false") ){
-                JOptionPane.showMessageDialog(null, "Unit does not exist");
-                return;
+            if(model.registerDevice(text, ConstantsList.loggedUser).equals(Code.SUCCESS)){
+                model.getUnitsManager().fireNotification("unitsChange", null);
+                JOptionPane.showMessageDialog(null, "Device registered");
             }
-            if(model.checkIfUnitIsRegistered(text).equals("true")){
-                JOptionPane.showMessageDialog(null, "Unit is already registered");
-                return;
+            else{
+                JOptionPane.showMessageDialog(null, "Device does not exist or is already register");
             }
-            model.registerUnit(text, ConstantsList.loggedUser);
-            model.getUnitsManager().fireNotification("unitsChange", null);
-            JOptionPane.showMessageDialog(null, "Unit added and registered");
-            
         } catch (InterruptedException ex) {
             Logger.getLogger(MainFramePresenter.class.getName()).log(Level.SEVERE, null, ex);
         }
-*/
     }
 
     @Override

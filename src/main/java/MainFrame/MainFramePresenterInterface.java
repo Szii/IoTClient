@@ -15,7 +15,7 @@ public interface MainFramePresenterInterface extends BasePresenterInterface {
     /**
     * What should happen when add unit action is invoked
     */
-    public void onAddUnitClicked();
+    public void onAddDeviceClicked();
     /**
      * What should happen when refresh action is invoked
      */

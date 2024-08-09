@@ -41,8 +41,7 @@ public class UnregisteredSensorPresenter implements UnregisteredSensorPresenterI
 
     @Override
     public void onRegisterSensorClicked() {
-        model.registerSensor(sensorID, unitID.getID());
-        model.getSensorsManager().fireNotification("sensorsChange", unitID);
+      throw new UnsupportedOperationException("registring sensor via unregistered device is not supported");
     }
     
 }

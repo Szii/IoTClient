@@ -84,34 +84,32 @@ public class OutputThread_OOP extends Thread implements Request{
      }
 
       @Override
-      public void registerSensor(String unit_ID,String sensor_ID){
-           throw new UnsupportedOperationException("Registering sewnsors is not supported");
-       // content = new ArrayList();
-      //  content.add(sensor_ID);
-      //  content.add(unit_ID);
+      public void registerDevice(String sensor_ID,String username){
+           content = new ArrayList();
+           content.add(sensor_ID);
+           content.add(username);
       
-        //sendPayload(MessageType.REGISTER_SENSOR,content);
+          sendPayload(MessageType.REGISTER_DEVICE,content);
         
        //  sendMessageToClient(ConstantsList.loggedUser,MessageType.REGISTER_SENSOR,content,unit_ID);
        
       }
       @Override
-      public void unregisterSensor(String sensor_ID,String unit_ID){
+      public void unregisterDevice(String sensor_ID,String username){
           
-                 throw new UnsupportedOperationException("Unregistering sewnsors is not supported");
-       //  content = new ArrayList();
-       //  content.add(sensor_ID);
-        //content.add(unit_ID);
+        content = new ArrayList();
+        content.add(sensor_ID);
+        content.add(username);
   
 
-      //  sendPayload(MessageType.UNREGISTER_SENSOR,content);
+        sendPayload(MessageType.UNREGISTER_DEVICE,content);
           
      //   sendMessageToClient(ConstantsList.loggedUser,MessageType.UNREGISTER_SENSOR,content,unit_ID);
         
       }
 
        @Override
-       public void getRegisteredSensors(String username){
+       public void getRegisteredDevices(String username){
         content = new ArrayList();
         content.add(username);
         sendPayload(MessageType.GET_AVAILABLE_REGISTERED_DEVICES,content);

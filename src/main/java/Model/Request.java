@@ -40,19 +40,19 @@ public interface Request {
      * @param unit_ID Id of unit
      * @param sensor_ID Id of sensor
      */
-    public void registerSensor(String unit_ID,String sensor_ID);
+    public void registerDevice(String unit_ID,String sensor_ID);
     /**
      * Request for unregistering the sensor which is under specific unit
      * @param sensor_ID ID of sensor
      * @param unit_ID ID of unit
      */
-    public void unregisterSensor(String sensor_ID,String unit_ID);
+    public void unregisterDevice(String sensor_ID,String unit_ID);
     /**
      * Request for checking if unit is online
-     * @param unit_ID ID of unit
+     * @param username
      */
    
-    public void getRegisteredSensors(String username);   
+    public void getRegisteredDevices(String username);   
 
     /**
      * Request for setting sensor nickname

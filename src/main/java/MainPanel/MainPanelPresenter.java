@@ -67,7 +67,7 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
          
              gui.clearSensors();
            
-             ArrayList<Device> sensors = model.getRegisteredSensors(ConstantsList.loggedUser);
+             ArrayList<Device> sensors = model.getRegisteredDevices(ConstantsList.loggedUser);
               System.out.println("Sensors: " + sensors.size()); 
              for(Device s : sensors){
                 RegisteredSensorGUIInterface sensorView = new RegisteredSensorGUI();
@@ -110,7 +110,7 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
         
         
          try {
-             ArrayList<Device> sensors = model.getRegisteredSensors(ConstantsList.loggedUser);
+             ArrayList<Device> sensors = model.getRegisteredDevices(ConstantsList.loggedUser);
              
              for(Device s : sensors){
                  RegisteredSensorGUIInterface sensorView = new RegisteredSensorGUI();
