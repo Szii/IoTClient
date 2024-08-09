@@ -114,54 +114,18 @@ public class OutputThread_OOP extends Thread implements Request{
        public void getRegisteredSensors(String username){
         content = new ArrayList();
         content.add(username);
-        sendPayload(MessageType.GET_AVAILABLE_REGISTERED_SENSORS,content);
+        sendPayload(MessageType.GET_AVAILABLE_REGISTERED_DEVICES,content);
        }
-       
-       @Override 
-       public void getMoisture(String sensorName){
-        content = new ArrayList();
-        content.add(sensorName);
-  
 
-        sendPayload(MessageType.GET_MOISTURE,content);
-       }
-      
-      @Override 
-      public void getThresold(String sensorName){
-          content = new ArrayList();
-        content.add(sensorName);
-  
-
-        sendPayload(MessageType.GET_THRESOLD,content);
-   
-      }
       @Override
-      public void setUnitNickname(String unit_ID,String nickname){
-          content = new ArrayList();
-          content.add(unit_ID);
-        content.add(nickname);
-  
-
-        sendPayload(MessageType.SET_UNIT_NICKNAME,content);
-      }
-      
-
-      
-      @Override
-      public void setSensorNickname(String sensor_ID,String nickname){
+      public void setDeviceNickname(String sensor_ID,String nickname){
         content = new ArrayList();
         content.add(sensor_ID);
         content.add(nickname);
  
-        sendPayload(MessageType.SET_SENSOR_NICKNAME,content);
+        sendPayload(MessageType.SET_DEVICE_NICKNAME,content);
       }
-      @Override
-      public void getSensorNickname(String sensor_ID){
-        content = new ArrayList();
-        content.add(sensor_ID);
- 
-        sendPayload(MessageType.GET_SENSOR_NICKNAME,content);
-      }
+
       @Override
       public void setThresold(String sensorID,String value){
        content = new ArrayList();
@@ -172,7 +136,7 @@ public class OutputThread_OOP extends Thread implements Request{
       }
 
     @Override
-    public void getAvailableSensors(String unitID) {
+    public void getAvailableDevices(String unitID) {
       
        throw new UnsupportedOperationException("Geting available sensors is not supported");
       // content = new ArrayList();
@@ -215,18 +179,6 @@ public class OutputThread_OOP extends Thread implements Request{
      } catch (IOException ex) {}
     }
 
-    @Override
-    public void isSensorActive(String sensorID) {
-         throw new UnsupportedOperationException("Checking if sensor is online is not supported"); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void getTime(String sensor_ID) {
-       content = new ArrayList();
-       content.add(sensor_ID);
-
-       sendPayload(MessageType.GET_IRRIGATION_TIME,content);
-    }
 
     @Override
     public void setTime(String sensor_ID, String value) {
@@ -246,15 +198,6 @@ public class OutputThread_OOP extends Thread implements Request{
 
        sendPayload(MessageType.ADD_USER,content); 
     }
-   
-    
- 
-      
-      
-      
-      
-      
-  
- 
+
     
 }

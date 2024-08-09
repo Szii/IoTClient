@@ -51,7 +51,7 @@ public class UnitPresenter implements UnitPresenterInterface {
         if(text == null){
             return;
         }
-        model.setUnitNickname(unit_ID.getID(), text);
+     //   model.setUnitNickname(unit_ID.getID(), text);
         model.getUnitsManager().fireNotification("unitsChange", unit_ID);
     }
 

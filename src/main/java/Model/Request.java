@@ -36,13 +36,6 @@ public interface Request {
     public void addUser(String user,String passwd) throws InterruptedException;
 
     /**
-     * Request for check if sensor is active
-     * @param sensorID ID of sensor
-     */
-    public void isSensorActive(String sensorID);
-  
-
-    /**
      * Request for registering sensor under specific unit
      * @param unit_ID Id of unit
      * @param sensor_ID Id of sensor
@@ -60,33 +53,13 @@ public interface Request {
      */
    
     public void getRegisteredSensors(String username);   
-    /**
-     * Request for getting last measured moisture value of specific sensor
-     * @param sensorName ID of sensor
-     */
-    public void getMoisture(String sensorName);
-    /**
-     * Request for getting threshold set to the specific sensor
-     * @param sensorName ID of sensor
-     */
-    public void getThresold(String sensorName); 
-    /**
-     * Request for setting unit nickname
-     * @param unit_ID Id of unit
-     * @param nickname nickname of unit
-     */
-    public void setUnitNickname(String unit_ID,String nickname);
+
     /**
      * Request for setting sensor nickname
      * @param sensor_ID ID of sensor
      * @param nickname nickname of sensor
      */
-    public void setSensorNickname(String sensor_ID,String nickname);
-    /**
-     * Request for getting a sensor nickname
-     * @param sensor_ID Id of sensor
-     */
-    public void getSensorNickname(String sensor_ID);
+    public void setDeviceNickname(String sensor_ID,String nickname);
   
     /**
      * Request for setting threshold for the specific sensor
@@ -94,12 +67,6 @@ public interface Request {
      * @param value value between 0 - 100
      */
     public void setThresold(String sensorID,String value);
-    
-      /**
-      * Method sends a request for irrigation time of sensor
-      * @param sensor_ID ID of sensor
-      */
-     public void getTime(String sensor_ID);
    
      /**
       * Method sends a request for setting irrigation time of a sensor
@@ -113,7 +80,7 @@ public interface Request {
      * Request for all available sensors, which are able to be registered by unit
      * @param unitID ID of unit
      */
-    public void getAvailableSensors(String unitID);
+    public void getAvailableDevices(String unitID);
     /**
      * Request for setting current output thread as update thread on server side
      * @param clientID 

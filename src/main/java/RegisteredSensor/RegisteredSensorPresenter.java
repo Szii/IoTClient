@@ -77,7 +77,7 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
         if(text == null){
             return;
         }
-        model.setSensorNickname(sensor.getID(), text);
+        model.setDeviceNickname(sensor.getID(), text);
         model.getSensorsManager().fireNotification("sensorsChange", unit);
     }
     

@@ -104,14 +104,7 @@ public class ServiceManager {
         return response.getPayload(MessageType.ADD_USER).getCode();
     }
    
-   /**
-    * MEthod sends a request for setting nickname of unit
-    * @param unit_ID ID of unit
-    * @param nickname nickname
-    */
-   public void setUnitNickname(String unit_ID,String nickname){
-       request.setUnitNickname(unit_ID, nickname);
-   }
+
 
    /**
     * Method sends request for getting sensors registered under specific unit
@@ -121,52 +114,18 @@ public class ServiceManager {
     */
    public ArrayList<Device> getRegisteredSensors(String username) throws InterruptedException{
        request.getRegisteredSensors(username);
-       ArrayList<Device> sensors= (ArrayList<Device>) response.getPayload(MessageType.GET_AVAILABLE_REGISTERED_SENSORS).getCarriedObject();
+       ArrayList<Device> sensors= (ArrayList<Device>) response.getPayload(MessageType.GET_AVAILABLE_REGISTERED_DEVICES).getCarriedObject();
        System.out.println("Returning sensors");
        return sensors;
    }
-   /**
-    * Method sends a request for getting a threshold of specific sensor
-    * @param sensorID ID of sensor
-    * @return
-    * @throws InterruptedException Exception is thrown when connection to the server is lost
-    */
-   public String getThresold(String sensorID) throws InterruptedException{
-       request.getThresold(sensorID);
-       return response.getAnswer(MessageType.GET_THRESOLD);
-   }
-   /**
-    * Method sends a request for getting current moisture of specific sensor
-    * @param sensorID ID of sensor
-    * @return Moisture value of sensor
-    * @throws InterruptedException Exception is thrown when connection to the server is lost
-    */
-   public String getMoisture(String sensorID) throws InterruptedException{
-       request.getMoisture(sensorID);
-       System.out.println("waiting for answer");
-       return response.getAnswer(MessageType.GET_MOISTURE);
-   }
-   /**
-    * Method sends a request for getting nickname of specific sensor
-    * @param sensorID ID of sensor
-    * @return Sensor nickname, if sensor does not have nickname, it returns sensor ID
-    * @throws InterruptedException Exception is thrown when connection to the server is lost
-    */
-   public String getSensorNickname(String sensorID) throws InterruptedException{
-       System.out.println("Calling sensor nickname");
-       request.getSensorNickname(sensorID);
-       System.out.println("getting nickname for  " + sensorID);
-       String nickname  = response.getAnswer(MessageType.GET_SENSOR_NICKNAME);
-       System.out.println("nickname is: " + nickname);
-       return nickname;
-   }
+
    /**
     * Method sends a request for setting a sensor nickname
     * @param sensorID Id of sensor
     * @param nickname nickname
     */
-   public void setSensorNickname(String sensorID,String nickname){
-       request.setSensorNickname(sensorID,nickname);
+   public void setDeviceNickname(String sensorID,String nickname){
+       request.setDeviceNickname(sensorID,nickname);
    }
     /**
     * Method sends a request for setting a threshold of sensor
@@ -185,16 +144,6 @@ public class ServiceManager {
        request.setTime(sensorID, value);
    }
    
-   /**
-    * Method sends a request for getting a irrigation time of sensor in seconds
-    * @param sensorID ID of sensor
-    * @return irrigation time for sensor in seconds
-     * @throws  InterruptedException Exception is thrown when connection to the server is lost
-    */
-   public String getTime(String sensorID) throws InterruptedException{
-        request.getTime(sensorID);
-        return response.getAnswer(MessageType.GET_IRRIGATION_TIME);
-   }
    /**
     * Method sends a request for registering a sensor under unit
     * @param sensorID ID of sensor
@@ -222,20 +171,10 @@ public class ServiceManager {
     public Measurement getMeasurementValues(String sensorID) throws InterruptedException{
        request.getMeasurementValues(sensorID);
        ArrayList<String> measuredData = getMultipleResponses(MessageType.GET_MEASUREMENT_DATA);
-       Measurement measurement = new Measurement(sensorID,getSensorNickname(sensorID),measuredData);
+       Measurement measurement = new Measurement(sensorID,measuredData);
        return measurement;
    }
 
-   /**
-    * Method sends request for getting unregistered sensors around specific unit
-    * @param unitID ID of unit
-    * @return List of unregistered sensors
-    * @throws InterruptedException Exception is thrown when connection to the server is lost
-    */
-   public ArrayList<String> getUnregisteredSensors(String unitID) throws InterruptedException{
-        request.getAvailableSensors(unitID);
-        return getMultipleResponses(MessageType.GET_SENSORS_IN_RANGE);
-   }
    /**
     * Method sends a request for getting measured values in range by sensor
     * @param sensorID Id of sensor
@@ -247,7 +186,7 @@ public class ServiceManager {
     public Measurement getMeasurementValuesInRange(String sensorID, String from, String to) throws InterruptedException {
         request.getMeasurementValuesInRange(sensorID, from, to);
         ArrayList<String> measuredValues = getMultipleResponses(MessageType.GET_MEASUREMENT_DATA_IN_RANGE);
-        Measurement measurement = new Measurement(sensorID,getSensorNickname(sensorID),measuredValues);
+        Measurement measurement = new Measurement(sensorID,measuredValues);
         return measurement;
     }
 

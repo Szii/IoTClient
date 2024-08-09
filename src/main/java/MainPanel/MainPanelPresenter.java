@@ -176,14 +176,13 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
 
     @Override
     public void onUpdateNotification(ArrayList<Device> registerRensors,ArrayList<LiteSensor> unregisterSensors) {
-          try {
              gui.clearSensors();
 
              for(Device s : registerRensors){
                 RegisteredSensorGUIInterface sensorView = new RegisteredSensorGUI();
                 RegisteredSensorPresenterInterface sensorPresenter = new RegisteredSensorPresenter(sensorView,model,s);
                 System.out.println("Sensor name : " + s);
-                sensorView.setNickname(model.getSensorNickname(s.getNickname()));
+                 sensorView.setNickname(s.getNickname());
                 sensorView.setID(s.getID());
                 /*
                 if(s.isStatus()){
@@ -191,12 +190,11 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
                 }
                 else{
                  sensorView.setStatus("redCircle.png");
-                 
                 }
                 */
-                
-                sensorView.setMoisture(model.getMoisture(s.getID()));
-                sensorView.setThreshold(model.getThresold(s.getID()));
+                sensorView.setMoisture(s.getLastMeasuredValue());
+                sensorView.setThreshold(s.getThreshold());
+                sensorView.setIrrigationTime(s.getIrrigationTime());
                 sensorPresenter.initView();
                 sensorView.enableControls(true);
 
@@ -204,9 +202,5 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
             }
              gui.refresh();
    
-
-         } catch (InterruptedException ex) {
-             Logger.getLogger(MainPanelPresenter.class.getName()).log(Level.SEVERE, null, ex);
-         }
     }
 }
