@@ -197,5 +197,55 @@ public class OutputThread_OOP extends Thread implements Request{
        sendPayload(MessageType.ADD_USER,content); 
     }
 
+    @Override
+    public void getGroups(String username) {
+       content = new ArrayList();
+       content.add(username);
+       System.out.println("sending get all groups request");
+
+       sendPayload(MessageType.GET_GROUPS,content); 
+    }
+
+    @Override
+    public void getDevicesInGroup(String username, String group) {
+       content = new ArrayList();
+       content.add(username);
+       content.add(group);
+       System.out.println("sending get all dewvices in group request");
+
+       sendPayload(MessageType.GET_DEVICES_IN_GROUP,content); 
+    }
+
+    @Override
+    public void changeGroupName(String username, String oldGroup, String newGroup) {
+       content = new ArrayList();
+       content.add(username);
+       content.add(oldGroup);
+       content.add(newGroup);
+       System.out.println("sending change group name request");
+
+       sendPayload(MessageType.CHANGE_GROUP_NAME,content); 
+    }
+
+    @Override
+    public void changeDeviceGroup(String username, String device) {
+       content = new ArrayList();
+       content.add(username);
+       content.add(device);
+       System.out.println("sending change device group request");
+
+       sendPayload(MessageType.CHANGE_DEVICE_GROUP,content); 
+    }
+
+    @Override
+    public void deleteGroup(String username, String group) {
+       content = new ArrayList();
+       content.add(username);
+       content.add(group);
+       System.out.println("sending remove group request");
+
+       sendPayload(MessageType.DELETE_GROUP,content); 
+    }
+
     
 }

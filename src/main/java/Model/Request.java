@@ -93,4 +93,15 @@ public interface Request {
      * @param to upper bound
      */
     public void getMeasurementValuesInRange(String sensorID,String from,String to);
+    
+    public void getGroups(String username);
+    
+    public void getDevicesInGroup(String username,String group);
+    
+    public void changeGroupName(String username,String oldGroup,String newGroup);
+    
+    public void changeDeviceGroup(String username, String device);
+    
+    public void deleteGroup(String username,String group);
+       
 }

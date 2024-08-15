@@ -193,6 +193,30 @@ public class ServiceManager {
         return measurement;
     }
     
+    
+    public ArrayList<String> getGroups(String username) throws InterruptedException{
+        request.getGroups(username);
+        return (ArrayList<String>) response.getPayload(MessageType.GET_GROUPS).getContent();
+        
+    }
+    
+    public ArrayList<Device> getDevicesInGroup(String username,String group) throws InterruptedException{
+        request.getDevicesInGroup(username, group);
+         return (ArrayList<Device>) response.getPayload(MessageType.GET_AVAILABLE_REGISTERED_DEVICES).getCarriedObject();      
+    }
+    
+    public void changeGroupName(String username,String oldGroup,String newGroup){
+        request.changeGroupName(username, oldGroup, newGroup);
+    }
+    
+    public void changeDeviceGroup(String username, String device){
+        request.changeDeviceGroup(username, device);
+    }
+    
+    public void deleteGroup(String username,String group){
+        request.deleteGroup(username, group);
+    }
+    
 
    private ArrayList<String> getMultipleResponses(MessageType messageType) throws InterruptedException{
 
