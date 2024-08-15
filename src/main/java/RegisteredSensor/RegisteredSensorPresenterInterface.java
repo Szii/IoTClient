@@ -33,4 +33,6 @@ public interface RegisteredSensorPresenterInterface extends BasePresenterInterfa
      * What should happen when send time action occurs
      */
     public void onSendTimeClicked();
+    
+    public void onGroupClicked();
 }

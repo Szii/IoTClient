@@ -6,6 +6,8 @@
 package RegisteredSensor;
 
 import Base.BaseGUIInterface;
+import ViewModel.Group;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  * Contains functionalities of registered sensor GUI component which can be invoked outside of class
@@ -59,4 +61,18 @@ public interface RegisteredSensorGUIInterface extends BaseGUIInterface{
      * @param controlsEnabled true == controls enabled
      */
     public void enableControls(boolean controlsEnabled);
+    
+    public void setGroups(DefaultComboBoxModel groups);
+
+    public Group getGroup();
+
+
+    public void clearGroups();
+    
+    public void setSelectedGroup(Group group);
+    
+    public void addGroup(Group group);
+    
+    public void enableGroupListener(boolean enabled);
+        
 }

@@ -123,4 +123,14 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
             JOptionPane.showMessageDialog(null, "Enter valid seconds value");
         }
     }
+
+    @Override
+    public void onGroupClicked() {
+        try {
+            model.changeDeviceGroup(sensor.getID(),gui.getGroup().getGroup());
+            model.getSensorsManager().fireNotification("sensorsChange", unit);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(RegisteredSensorPresenter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

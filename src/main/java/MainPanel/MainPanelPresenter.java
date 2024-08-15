@@ -23,11 +23,13 @@ import UnregisteredSensor.UnregisteredSensorGUI;
 import UnregisteredSensor.UnregisteredSensorGUIInterface;
 import UnregisteredSensor.UnregisteredSensorPresenter;
 import UnregisteredSensor.UnregisteredSensorPresenterInterface;
+import ViewModel.Group;
 import ViewModel.UnitObject;
 import com.irrigation.Messages.MessageData.Device;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -63,48 +65,10 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
     @Override
     public void onChangeNotification(UnitObject unit_ID) {
              ConstantsList.selectedUnit = unit_ID;
-          try {
-         
-             gui.clearSensors();
-           
-             ArrayList<Device> sensors = model.getRegisteredDevices(ConstantsList.loggedUser);
-              System.out.println("Sensors: " + sensors.size()); 
-             for(Device s : sensors){
-                RegisteredSensorGUIInterface sensorView = new RegisteredSensorGUI();
-                RegisteredSensorPresenterInterface sensorPresenter = new RegisteredSensorPresenter(sensorView,model,s);
-                sensorView.setNickname(s.getNickname());
-                sensorView.setID(s.getID());
-                /*
-                if(s.isStatus()){
-                 sensorView.setStatus("greenCircle.png");
-                }
-                else{
-                 sensorView.setStatus("redCircle.png");
-                }
-                */
-                sensorView.setMoisture(s.getLastMeasuredValue());
-                sensorView.setThreshold(s.getThreshold());
-                sensorView.setIrrigationTime(s.getIrrigationTime());
-                sensorPresenter.initView();
-                gui.addRegisteredSensor(sensorView);
-            }
-             /*
-             if(!model.checkIfUnitIsOnline(unit_ID.getID())){
-                 JOptionPane.showMessageDialog(null, "Unit is offline, only registered sensors will be shown.");
-                  return;
-             }
-            */
-          
-       
-
-         } catch (InterruptedException ex) {
-             Logger.getLogger(MainPanelPresenter.class.getName()).log(Level.SEVERE, null, ex);
-         }
-
+             updateDevices();
     }
     
-    @Override
-    public void updateUnits() {
+    private void updateDevices(){
         gui.clearSensors();
         
         
@@ -114,6 +78,7 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
              
              for(Device s : sensors){
                  RegisteredSensorGUIInterface sensorView = new RegisteredSensorGUI();
+                 sensorView.enableGroupListener(false);
                  RegisteredSensorPresenterInterface sensorPresenter = new RegisteredSensorPresenter(sensorView,model,s);
                  sensorView.setNickname(s.getNickname());
                  sensorView.setID(s.getID());
@@ -129,42 +94,34 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
                  sensorView.setThreshold(s.getThreshold());
                  sensorView.setIrrigationTime(s.getIrrigationTime());
                  sensorPresenter.initView();
+                 sensorView.setGroups(getGroupModel());
+                 sensorView.setSelectedGroup(new Group(s.getGroup()));
                  gui.addRegisteredSensor(sensorView);
-             }
+                 sensorView.enableGroupListener(true);
+                 }
              
-             
-             
-             
-             /*
-             try {
-             gui.clearSensors();
-             ArrayList<UnitObject> units = model.getRegisteredUnits(ConstantsList.loggedUser);
-             gui.clearUnits();
-             System.out.println("Units size is: " + units.size());
-             for(UnitObject s : units){
-             UnitGUIInterface unitView = new UnitGUI();
-             UnitPresenterInterface unitPresenter = new UnitPresenter(unitView,model,s);
-             unitView.setUnitName(s.getNickname());
-             unitView.setID(s.getID());
-             boolean  status = model.checkIfUnitIsOnline(s.getID());
-             if(status){
-             unitView.setStatus("greenCircle.png");
-             }
-             else{
-             unitView.setStatus("redCircle.png");
-             }
-             unitPresenter.initView();
-             gui.addUnit(unitView);
-             
-             }
-             
-             
-             } catch (InterruptedException ex) {
-             //Logger.getLogger(UnitsHolderPresenter.class.getName()).log(Level.SEVERE, null, ex);
-             }
-         */       } catch (InterruptedException ex) {
+      } catch (InterruptedException ex) {
              Logger.getLogger(MainPanelPresenter.class.getName()).log(Level.SEVERE, null, ex);
          }
+    }
+               
+    private ArrayList<Group> getGroups() throws InterruptedException{
+            ArrayList<Group> groups = new ArrayList();
+            for(String group : model.getGroups(ConstantsList.loggedUser)){
+                    groups.add(new Group(group));
+            }
+           return groups;
+    }
+    
+    private DefaultComboBoxModel getGroupModel() throws InterruptedException{
+         DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
+         comboBoxModel.addAll(getGroups());
+         return comboBoxModel;
+    }
+    
+    @Override
+    public void updateUnits() {
+       updateDevices();
     }
 
     @Override
@@ -176,31 +133,7 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
 
     @Override
     public void onUpdateNotification(ArrayList<Device> registerRensors,ArrayList<LiteSensor> unregisterSensors) {
-             gui.clearSensors();
-
-             for(Device s : registerRensors){
-                RegisteredSensorGUIInterface sensorView = new RegisteredSensorGUI();
-                RegisteredSensorPresenterInterface sensorPresenter = new RegisteredSensorPresenter(sensorView,model,s);
-                System.out.println("Sensor name : " + s);
-                 sensorView.setNickname(s.getNickname());
-                sensorView.setID(s.getID());
-                /*
-                if(s.isStatus()){
-                 sensorView.setStatus("greenCircle.png");
-                }
-                else{
-                 sensorView.setStatus("redCircle.png");
-                }
-                */
-                sensorView.setMoisture(s.getLastMeasuredValue());
-                sensorView.setThreshold(s.getThreshold());
-                sensorView.setIrrigationTime(s.getIrrigationTime());
-                sensorPresenter.initView();
-                sensorView.enableControls(true);
-
-                gui.addRegisteredSensor(sensorView);
-            }
-             gui.refresh();
+             updateDevices();
    
     }
 }

@@ -209,8 +209,9 @@ public class ServiceManager {
         request.changeGroupName(username, oldGroup, newGroup);
     }
     
-    public void changeDeviceGroup(String username, String device){
-        request.changeDeviceGroup(username, device);
+    public void changeDeviceGroup(String devioe, String group) throws InterruptedException{
+        request.changeDeviceGroup(devioe, group);
+        response.getPayload(MessageType.CHANGE_DEVICE_GROUP);
     }
     
     public void deleteGroup(String username,String group){

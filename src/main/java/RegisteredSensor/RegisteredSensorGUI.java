@@ -9,13 +9,19 @@ import Base.BasePresenterInterface;
 import Components.Button;
 import Components.Label;
 import Components.Panel;
+import ViewModel.Group;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -39,6 +45,9 @@ public class RegisteredSensorGUI extends Panel implements RegisteredSensorGUIInt
     String nickname;
     Button showGraphButton = new Button("ShowGraph");
     
+    private DefaultComboBoxModel groups = new DefaultComboBoxModel();
+    private JComboBox<Group> groupList = new JComboBox();
+    
     
     Label moistureValueLabel = new Label("-1 %",SwingConstants.CENTER);
     Label timeValueLabel = new Label("3 seconds",SwingConstants.CENTER);
@@ -47,6 +56,8 @@ public class RegisteredSensorGUI extends Panel implements RegisteredSensorGUIInt
     Button sendThresoldButton = new Button("Send Threshold");
     Button sendTimeButton = new Button("Send Irrigation Time");
     Label moistureThresoldLabel = new Label("-1 %",SwingConstants.CENTER);
+    
+    boolean groupChangeListenercanFire;
     
     SetNicknameHandler setNicknameListener = new SetNicknameHandler();
     
@@ -63,7 +74,6 @@ public class RegisteredSensorGUI extends Panel implements RegisteredSensorGUIInt
          this.setLayout(new BorderLayout());
          this.add(getMainPanel());
     }
-    
     
     private Panel getMainPanel(){
         Panel panel = new Panel();
@@ -168,6 +178,30 @@ public class RegisteredSensorGUI extends Panel implements RegisteredSensorGUIInt
         panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
         panel.add(getRemovePanel());
         panel.add(getSensorInfoPanelHolder());
+        panel.add(getGroupPanel());
+        return panel;
+    }
+    
+    private Panel getGroupPanel(){
+        Panel panel = new Panel();
+        panel.setLayout(new BoxLayout(panel,BoxLayout.X_AXIS));
+        Label groupLabel = new Label("Group");
+        groupList = new JComboBox() {
+
+        /**
+         * Do not fire if set by program.
+         */
+        protected void fireActionEvent() {
+            // if the mouse made the selection -> the comboBox has focus
+            if(this.hasFocus())
+                super.fireActionEvent();
+        }
+    };
+        groups = new DefaultComboBoxModel();
+        groupList.setModel(groups);
+        groupList.addItemListener(new ItemChangeListener());
+        panel.add(groupLabel);
+        panel.add(groupList);
         return panel;
     }
     
@@ -225,9 +259,35 @@ public class RegisteredSensorGUI extends Panel implements RegisteredSensorGUIInt
        return panel;
     }
     
+     @Override
+    public void setGroups(DefaultComboBoxModel groups) {
+        groupList.setModel(groups);
+        
+    }
+    
+    @Override
+    public Group getGroup(){
+        return (Group) groupList.getSelectedItem();
+    }
+    
+    
+    @Override
+    public void clearGroups(){
+        groups.removeAllElements();
+    }
+    
     @Override
     public void enableControls(boolean controlsEnabled){
            sendThresoldButton.setEnabled(controlsEnabled);
+    }
+    
+    @Override
+    public void enableGroupListener(boolean enabled){
+        groupChangeListenercanFire = enabled;
+    }
+    @Override
+    public void addGroup(Group group){
+        groupList.addItem(group);
     }
 
 
@@ -272,6 +332,11 @@ public class RegisteredSensorGUI extends Panel implements RegisteredSensorGUIInt
     public String getTimeText() {
         return timeText.getText();
     }
+
+    @Override
+    public void setSelectedGroup(Group group) {
+        groupList.getModel().setSelectedItem(group);
+    }
      /**
       *  Handler for catching the action event when send value event occurs
       */
@@ -307,4 +372,19 @@ public class RegisteredSensorGUI extends Panel implements RegisteredSensorGUIInt
         }
    
     }  
+      
+
+      
+    class ItemChangeListener implements ItemListener{
+    @Override
+    public void itemStateChanged(ItemEvent event) {
+       if (event.getStateChange() == ItemEvent.SELECTED) {
+          Object item = event.getItem();
+          if(groupChangeListenercanFire){
+               presenter.onGroupClicked();
+          }
+         
+       }
+    }       
+}
 }

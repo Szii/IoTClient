@@ -228,11 +228,12 @@ public class OutputThread_OOP extends Thread implements Request{
     }
 
     @Override
-    public void changeDeviceGroup(String username, String device) {
+    public void changeDeviceGroup(String device, String group) {
        content = new ArrayList();
-       content.add(username);
+       content.add(ConstantsList.loggedUser);
        content.add(device);
-       System.out.println("sending change device group request");
+       content.add(group);
+       System.out.println("sending change device group request" + device + " " + group);
 
        sendPayload(MessageType.CHANGE_DEVICE_GROUP,content); 
     }
