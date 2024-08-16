@@ -8,16 +8,22 @@ package MainPanel;
 import Base.BasePresenterInterface;
 import Components.Label;
 import Components.Panel;
+import RegisteredSensor.RegisteredSensorGUI;
 import RegisteredSensor.RegisteredSensorGUIInterface;
 import Unit.UnitGUIInterface;
 import UnregisteredSensor.UnregisteredSensorGUIInterface;
+import ViewModel.Group;
 import ViewModel.UnitObject;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
@@ -32,6 +38,12 @@ public class MainPanelGUI extends Panel implements MainPanelGUIInterface {
     Label selectedUnit = new Label("Selected unit: ",SwingConstants.CENTER);
     Label selectedUnitID = new Label("",SwingConstants.CENTER);
     
+    private boolean groupChangeListenercanFire;
+    
+        
+    private DefaultComboBoxModel groups = new DefaultComboBoxModel();
+    private JComboBox<Group> groupList = new JComboBox();
+    
     /**
      * Creates new ccntent panel component
      */
@@ -42,7 +54,7 @@ public class MainPanelGUI extends Panel implements MainPanelGUIInterface {
     private Panel getLeftPanel(){
         Panel panel = new Panel();
         panel.setLayout(new BorderLayout());
-        panel.add(getUnitInfoPanel(),BorderLayout.NORTH);
+        panel.add(getGroupPanel(),BorderLayout.NORTH);
         panel.add(getSensorsHolder(),BorderLayout.CENTER);
         
         return panel;
@@ -55,6 +67,30 @@ public class MainPanelGUI extends Panel implements MainPanelGUIInterface {
         panel.add(getUnitsHolder(),BorderLayout.CENTER);
         
         return panel;
+    }
+     
+         private Panel getGroupPanel(){
+        Panel panel = new Panel();
+        panel.setLayout(new BoxLayout(panel,BoxLayout.X_AXIS));
+        Label groupLabel = new Label("Group");
+        groupList = new JComboBox() {
+
+        /**
+         * Do not fire if set by program.
+         */
+        protected void fireActionEvent() {
+            // if the mouse made the selection -> the comboBox has focus
+            if(this.hasFocus())
+                super.fireActionEvent();
+        }
+    };
+        groups = new DefaultComboBoxModel();
+        groupList.setModel(groups);
+        groupList.addItemListener(new ItemChangeListener());
+        panel.add(groupLabel);
+        panel.add(groupList);
+        return panel;
+    
     }
      
      private Panel getUnitsLabelPanel(){
@@ -187,5 +223,51 @@ public class MainPanelGUI extends Panel implements MainPanelGUIInterface {
         selectedUnitID.setText(unit.toString());
     }
 
+     @Override
+    public void setGroups(DefaultComboBoxModel groups) {
+        groupList.setModel(groups);
+        
+    }
     
+    @Override
+    public Group getGroup(){
+        return (Group) groupList.getSelectedItem();
+    }
+    
+    
+    @Override
+    public void clearGroups(){
+        groups.removeAllElements();
+    }
+
+     @Override
+    public void setSelectedGroup(Group group) {
+        groupList.getModel().setSelectedItem(group);
+    }
+
+    @Override
+    public void enableGroupListener(boolean enabled){
+        groupChangeListenercanFire = enabled;
+    }
+    @Override
+    public void addGroup(Group group){
+        groupList.addItem(group);
+    }
+    
+        
+    class ItemChangeListener implements ItemListener{
+    @Override
+    public void itemStateChanged(ItemEvent event) {
+       if (event.getStateChange() == ItemEvent.SELECTED) {
+          Object item = event.getItem();
+          if(groupChangeListenercanFire){
+               presenter.onGroupClicked();
+          }
+         
+       }
+    }       
 }
+
+
+}
+

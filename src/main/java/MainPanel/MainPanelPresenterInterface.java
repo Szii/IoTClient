@@ -6,6 +6,8 @@
 package MainPanel;
 
 import Base.BasePresenterInterface;
+import ViewModel.Group;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  * Used in implementation of main panel GUI controls
@@ -20,5 +22,9 @@ public interface MainPanelPresenterInterface extends BasePresenterInterface {
      * Method update the units which are shown
      */
     public void updateUnits();
+    
+    public void onGroupClicked();
+    
+
 
 }

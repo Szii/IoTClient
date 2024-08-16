@@ -13,6 +13,7 @@ import Graph.GraphGUI;
 import Graph.GraphGUIInterface;
 import Graph.GraphPresenter;
 import Model.ServiceManager;
+import ViewModel.Group;
 import ViewModel.Measurement;
 import ViewModel.Sensor;
 import ViewModel.UnitObject;
@@ -32,6 +33,7 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
     ServiceManager model;
     Device sensor;
     UnitObject unit;
+    Group selectedGroup = new Group("");
     /**
      * Creates new controls for registered sensor component
      * @param gui GUI component to be controlled
@@ -127,6 +129,7 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
     @Override
     public void onGroupClicked() {
         try {
+            selectedGroup = gui.getGroup();
             model.changeDeviceGroup(sensor.getID(),gui.getGroup().getGroup());
             model.getSensorsManager().fireNotification("sensorsChange", unit);
         } catch (InterruptedException ex) {

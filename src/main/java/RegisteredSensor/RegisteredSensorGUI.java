@@ -278,10 +278,10 @@ public class RegisteredSensorGUI extends Panel implements RegisteredSensorGUIInt
     
     @Override
     public void enableControls(boolean controlsEnabled){
+
            sendThresoldButton.setEnabled(controlsEnabled);
     }
     
-    @Override
     public void enableGroupListener(boolean enabled){
         groupChangeListenercanFire = enabled;
     }

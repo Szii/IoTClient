@@ -9,8 +9,10 @@ import Base.BaseGUIInterface;
 import RegisteredSensor.RegisteredSensorGUIInterface;
 import Unit.UnitGUIInterface;
 import UnregisteredSensor.UnregisteredSensorGUIInterface;
+import ViewModel.Group;
 import ViewModel.UnitObject;
 import java.awt.Component;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  * Contains functionalities of main panel GUI which can be invoked outside of class
@@ -54,5 +56,18 @@ public interface MainPanelGUIInterface extends BaseGUIInterface{
     * @param unit Unit to be set
     */
    public void setSelectedUnit(UnitObject unit);
+   
+       public void setGroups(DefaultComboBoxModel groups);
+
+    public Group getGroup();
+
+
+    public void clearGroups();
+    
+    public void setSelectedGroup(Group group);
+    
+    public void addGroup(Group group);
+    
+    public void enableGroupListener(boolean enabled);
   
 }

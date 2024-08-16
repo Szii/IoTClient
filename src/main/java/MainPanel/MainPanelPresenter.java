@@ -39,6 +39,7 @@ import javax.swing.JOptionPane;
 public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPanelObserver,UnitsPanelObserver {
      MainPanelGUIInterface gui;   
      ServiceManager model;
+     Group selectedGroup = new Group("");
      /**
       * Creates new controls for content panel component
       * @param gui component to be controlled
@@ -52,8 +53,7 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
 
     @Override
     public void initView() {
-      //  gui.initView();
-        updateUnits();
+        prepareGroups();
     }
     
     public void updateGUI(){
@@ -64,45 +64,36 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
 
     @Override
     public void onChangeNotification(UnitObject unit_ID) {
-             ConstantsList.selectedUnit = unit_ID;
-             updateDevices();
-    }
-    
-    private void updateDevices(){
-        gui.clearSensors();
-        
-        
-        
          try {
-             ArrayList<Device> sensors = model.getRegisteredDevices(ConstantsList.loggedUser);
-             
+             ConstantsList.selectedUnit = unit_ID;
+             getDevicesBasedOnGroupSelected(selectedGroup);
+         } catch (InterruptedException ex) {
+             Logger.getLogger(MainPanelPresenter.class.getName()).log(Level.SEVERE, null, ex);
+         }
+    }
+    private void prepareGroups(){
+        gui.enableGroupListener(false);
+        gui.setGroups(getGroupModel(true));
+        gui.enableGroupListener(true);
+        gui.setSelectedGroup(new Group("Default"));
+    }
+    private void updateDevices(ArrayList<Device> sensors){
+        gui.clearSensors(); 
              for(Device s : sensors){
                  RegisteredSensorGUIInterface sensorView = new RegisteredSensorGUI();
                  sensorView.enableGroupListener(false);
                  RegisteredSensorPresenterInterface sensorPresenter = new RegisteredSensorPresenter(sensorView,model,s);
                  sensorView.setNickname(s.getNickname());
                  sensorView.setID(s.getID());
-                 /*
-                 if(s.isStatus()){
-                 sensorView.setStatus("greenCircle.png");
-                 }
-                 else{
-                 sensorView.setStatus("redCircle.png");
-                 }
-                 */
                  sensorView.setMoisture(s.getLastMeasuredValue());
                  sensorView.setThreshold(s.getThreshold());
                  sensorView.setIrrigationTime(s.getIrrigationTime());
                  sensorPresenter.initView();
-                 sensorView.setGroups(getGroupModel());
+                 sensorView.setGroups(getGroupModel(false));
                  sensorView.setSelectedGroup(new Group(s.getGroup()));
                  gui.addRegisteredSensor(sensorView);
                  sensorView.enableGroupListener(true);
                  }
-             
-      } catch (InterruptedException ex) {
-             Logger.getLogger(MainPanelPresenter.class.getName()).log(Level.SEVERE, null, ex);
-         }
     }
                
     private ArrayList<Group> getGroups() throws InterruptedException{
@@ -113,15 +104,27 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
            return groups;
     }
     
-    private DefaultComboBoxModel getGroupModel() throws InterruptedException{
-         DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
-         comboBoxModel.addAll(getGroups());
-         return comboBoxModel;
+    private DefaultComboBoxModel getGroupModel(boolean isMenu){
+         try {
+             DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
+             if(isMenu){
+                comboBoxModel.addElement(new Group("Default")); 
+             }
+             comboBoxModel.addAll(getGroups());
+             return comboBoxModel;
+         } catch (InterruptedException ex) {
+             Logger.getLogger(MainPanelPresenter.class.getName()).log(Level.SEVERE, null, ex);
+         }
+         return new DefaultComboBoxModel();
     }
     
     @Override
     public void updateUnits() {
-       updateDevices();
+         try {
+             getDevicesBasedOnGroupSelected(selectedGroup);
+         } catch (InterruptedException ex) {
+             Logger.getLogger(MainPanelPresenter.class.getName()).log(Level.SEVERE, null, ex);
+         }
     }
 
     @Override
@@ -133,7 +136,35 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
 
     @Override
     public void onUpdateNotification(ArrayList<Device> registerRensors,ArrayList<LiteSensor> unregisterSensors) {
-             updateDevices();
+         try {
+           getDevicesBasedOnGroupSelected(selectedGroup);
+         } catch (InterruptedException ex) {
+             Logger.getLogger(MainPanelPresenter.class.getName()).log(Level.SEVERE, null, ex);
+         }
    
+    }
+    
+    private void getDevicesBasedOnGroupSelected(Group group) throws InterruptedException{
+        if(group.getGroup().equals("Default")){
+           updateDevices(model.getRegisteredDevices(ConstantsList.loggedUser)); 
+        }
+        else{
+           updateDevices(model.getDevicesInGroup(ConstantsList.loggedUser, selectedGroup.getGroup())); 
+        }
+    }
+    
+    @Override
+    public void onGroupClicked(){
+        if(gui.getGroup().getGroup().equals(selectedGroup.getGroup())){
+            return;
+        }
+         try {
+             selectedGroup = gui.getGroup();
+             System.out.println("Selected group is :" + selectedGroup.getGroup());
+             getDevicesBasedOnGroupSelected(selectedGroup);
+             
+         } catch (InterruptedException ex) {
+             Logger.getLogger(MainPanelPresenter.class.getName()).log(Level.SEVERE, null, ex);
+         }
     }
 }
