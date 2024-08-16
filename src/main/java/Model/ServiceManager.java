@@ -75,7 +75,7 @@ public class ServiceManager {
      * @return returns true if login credentials were correct
      * @throws InterruptedException Exception is thrown when connection to the server is lost
      */
-    public Payload checkLogin(String login,String password) throws InterruptedException{
+    public Payload checkLogin(String login,String password){
         request.confirmLogin(login, password);
         return response.getPayload(MessageType.CONFIRM_LOGIN);
     }
@@ -86,7 +86,7 @@ public class ServiceManager {
      * @return returns SUCCESS  , if it is same as current user
      * @throws InterruptedException Exception is thrown when connection to the server is lost
      */
-    public Code doesUserExist(String user) throws InterruptedException{
+    public Code doesUserExist(String user){
         System.out.println("does user exist?");
         request.getUser(user);
         return response.getPayload(MessageType.GET_USER).getCode();
@@ -96,9 +96,8 @@ public class ServiceManager {
     * @param user user to be added
     * @param passwd password to be added
     * @return returns SUCCESS  , if registration complete
-    * @throws InterruptedException Exception is thrown when connection to the server is lost
     */
-   public Code addUser(String user,String passwd) throws InterruptedException{
+   public Code addUser(String user,String passwd){
        System.out.println(" add user");
         request.addUser(user, passwd);
         return response.getPayload(MessageType.ADD_USER).getCode();
@@ -110,9 +109,8 @@ public class ServiceManager {
     * Method sends request for getting sensors registered under specific unit
     * @param username name of user
     * @return List of sensors
-    * @throws InterruptedException Exception is thrown when connection to the server is lost
     */
-   public ArrayList<Device> getRegisteredDevices(String username) throws InterruptedException{
+   public ArrayList<Device> getRegisteredDevices(String username){
        request.getRegisteredDevices(username);
        ArrayList<Device> sensors= (ArrayList<Device>) response.getPayload(MessageType.GET_AVAILABLE_REGISTERED_DEVICES).getCarriedObject();
        System.out.println("Returning sensors");
@@ -151,7 +149,7 @@ public class ServiceManager {
     * @throws InterruptedException
     * @return SUCCESS if registration complete
     */
-   public Code registerDevice(String deviceID,String username) throws InterruptedException{
+   public Code registerDevice(String deviceID,String username){
        request.registerDevice(deviceID, username);
        return response.getPayload(MessageType.REGISTER_DEVICE).getCode();
    }
@@ -186,7 +184,7 @@ public class ServiceManager {
     * @return List of measured values
     * @throws InterruptedException Exception is thrown when connection to the server is lost
     */
-    public Measurement getMeasurementValuesInRange(String sensorID, String from, String to) throws InterruptedException {
+    public Measurement getMeasurementValuesInRange(String sensorID, String from, String to){
         request.getMeasurementValuesInRange(sensorID, from, to);
         ArrayList<String> measuredValues = getMultipleResponses(MessageType.GET_MEASUREMENT_DATA_IN_RANGE);
         Measurement measurement = new Measurement(sensorID,measuredValues);
@@ -200,7 +198,7 @@ public class ServiceManager {
         
     }
     
-    public ArrayList<Device> getDevicesInGroup(String username,String group) throws InterruptedException{
+    public ArrayList<Device> getDevicesInGroup(String username,String group){
         request.getDevicesInGroup(username, group);
          return (ArrayList<Device>) response.getPayload(MessageType.GET_AVAILABLE_REGISTERED_DEVICES).getCarriedObject();      
     }
@@ -219,7 +217,7 @@ public class ServiceManager {
     }
     
 
-   private ArrayList<String> getMultipleResponses(MessageType messageType) throws InterruptedException{
+   private ArrayList<String> getMultipleResponses(MessageType messageType){
 
         return (ArrayList<String>) response.getComplexAnswer(messageType);
    }

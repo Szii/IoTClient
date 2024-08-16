@@ -71,37 +71,27 @@ public class RegisterScreenPresenter implements RegisterScreenPresenterInterface
 
     @Override
     public void onCreateAccount() {
-        
-         try {
-           
-             
-             if(gui.getRegisterPassword().length() < 4){
-                 showPopupMessage("Password too short");
-             }
-             else if(!gui.getRegisterPassword().equals(gui.getRegisterConfirmPassword())){
-                 showPopupMessage("Passwords do not match");
-             }
-             else if(gui.getRegisterName().length() < 4){
-                 showPopupMessage("Name is too short");
-             }
-             else if (model.doesUserExist(gui.getRegisterName()).equals(Code.SUCCESS)){
-                 showPopupMessage("This name is already taken");
-             }
-             else if(gui.getRegisterPassword().equals(gui.getRegisterConfirmPassword())){
-                 try {
-                     if(model.addUser(gui.getRegisterName(),gui.getRegisterPassword()).equals(Code.SUCCESS)){
-                         showPopupMessage("Registration complete");
-                     }
-                     else{
-                         showPopupMessage("Something went wrong");
-                     }
-                 } catch (InterruptedException ex) {
-                     Logger.getLogger(RegisterScreenPresenter.class.getName()).log(Level.SEVERE, null, ex);
-                 }
-             }
-         } catch (InterruptedException ex) {
-             Logger.getLogger(RegisterScreenPresenter.class.getName()).log(Level.SEVERE, null, ex);
-         }
+        if(gui.getRegisterPassword().length() < 4){
+            showPopupMessage("Password too short");
+        }
+        else if(!gui.getRegisterPassword().equals(gui.getRegisterConfirmPassword())){
+            showPopupMessage("Passwords do not match");
+        }
+        else if(gui.getRegisterName().length() < 4){
+            showPopupMessage("Name is too short");
+        }
+        else if (model.doesUserExist(gui.getRegisterName()).equals(Code.SUCCESS)){
+            showPopupMessage("This name is already taken");
+        }
+        else if(gui.getRegisterPassword().equals(gui.getRegisterConfirmPassword())){
+                if(model.addUser(gui.getRegisterName(),gui.getRegisterPassword()).equals(Code.SUCCESS)){
+                    showPopupMessage("Registration complete");
+                }
+                else{
+                    showPopupMessage("Something went wrong");
+                }
+        }
+    
     }
 
     @Override

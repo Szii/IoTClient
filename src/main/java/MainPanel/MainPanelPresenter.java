@@ -15,14 +15,6 @@ import RegisteredSensor.RegisteredSensorGUI;
 import RegisteredSensor.RegisteredSensorGUIInterface;
 import RegisteredSensor.RegisteredSensorPresenter;
 import RegisteredSensor.RegisteredSensorPresenterInterface;
-import Unit.UnitGUI;
-import Unit.UnitGUIInterface;
-import Unit.UnitPresenter;
-import Unit.UnitPresenterInterface;
-import UnregisteredSensor.UnregisteredSensorGUI;
-import UnregisteredSensor.UnregisteredSensorGUIInterface;
-import UnregisteredSensor.UnregisteredSensorPresenter;
-import UnregisteredSensor.UnregisteredSensorPresenterInterface;
 import ViewModel.Group;
 import ViewModel.UnitObject;
 import com.irrigation.Messages.MessageData.Device;
@@ -30,7 +22,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
 
 /**
  * Implementation of content panel component controller
@@ -64,13 +55,10 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
 
     @Override
     public void onChangeNotification(UnitObject unit_ID) {
-         try {
-             ConstantsList.selectedUnit = unit_ID;
-             getDevicesBasedOnGroupSelected(selectedGroup);
-         } catch (InterruptedException ex) {
-             Logger.getLogger(MainPanelPresenter.class.getName()).log(Level.SEVERE, null, ex);
-         }
+        ConstantsList.selectedUnit = unit_ID;
+        getDevicesBasedOnGroupSelected(selectedGroup);
     }
+    
     private void prepareGroups(){
         gui.enableGroupListener(false);
         gui.setGroups(getGroupModel(true));
@@ -120,11 +108,9 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
     
     @Override
     public void updateUnits() {
-         try {
              getDevicesBasedOnGroupSelected(selectedGroup);
-         } catch (InterruptedException ex) {
-             Logger.getLogger(MainPanelPresenter.class.getName()).log(Level.SEVERE, null, ex);
-         }
+
+
     }
 
     @Override
@@ -136,21 +122,18 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
 
     @Override
     public void onUpdateNotification(ArrayList<Device> registerRensors,ArrayList<LiteSensor> unregisterSensors) {
-         try {
            getDevicesBasedOnGroupSelected(selectedGroup);
-         } catch (InterruptedException ex) {
-             Logger.getLogger(MainPanelPresenter.class.getName()).log(Level.SEVERE, null, ex);
-         }
-   
+
     }
     
-    private void getDevicesBasedOnGroupSelected(Group group) throws InterruptedException{
+    private void getDevicesBasedOnGroupSelected(Group group){
         if(group.getGroup().equals("Default")){
            updateDevices(model.getRegisteredDevices(ConstantsList.loggedUser)); 
         }
         else{
            updateDevices(model.getDevicesInGroup(ConstantsList.loggedUser, selectedGroup.getGroup())); 
         }
+
     }
     
     @Override
@@ -158,13 +141,9 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
         if(gui.getGroup().getGroup().equals(selectedGroup.getGroup())){
             return;
         }
-         try {
-             selectedGroup = gui.getGroup();
-             System.out.println("Selected group is :" + selectedGroup.getGroup());
-             getDevicesBasedOnGroupSelected(selectedGroup);
-             
-         } catch (InterruptedException ex) {
-             Logger.getLogger(MainPanelPresenter.class.getName()).log(Level.SEVERE, null, ex);
-         }
+        selectedGroup = gui.getGroup();
+        System.out.println("Selected group is :" + selectedGroup.getGroup());
+        getDevicesBasedOnGroupSelected(selectedGroup);
+
     }
 }

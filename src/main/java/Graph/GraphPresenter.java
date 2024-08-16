@@ -173,14 +173,10 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
 
     @Override
     public void onUnitSelected(UnitObject unit) {
-        try {
-            ArrayList<Device> sensors = new ArrayList();
-            sensors.add(new Device.DeviceBuilder().build());
-            sensors.addAll(model.getRegisteredDevices(ConstantsList.loggedUser));
-            gui.setSensorsComboBoxModel(sensors);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(GraphPresenter.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        ArrayList<Device> sensors = new ArrayList();
+        sensors.add(new Device.DeviceBuilder().build());
+        sensors.addAll(model.getRegisteredDevices(ConstantsList.loggedUser));
+        gui.setSensorsComboBoxModel(sensors);
     }
 
     @Override
@@ -206,16 +202,11 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
     }
     
     private void onRangeSet(String from, String to) {
-             try {
-                   gui.setPeriodLabel(from, to);
-                   ArrayList<Measurement> newData = new ArrayList();
-                   for (Measurement measurement : data){
-                       newData.add(model.getMeasurementValuesInRange(measurement.getSensorID(), from, to));
-                   }
-                  createChart(ChartType.SENSOR_MEASUREMENT_MULTIPLE, Size.HOURLY, newData);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(GraphPresenter.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        gui.setPeriodLabel(from, to);
+        ArrayList<Measurement> newData = new ArrayList();
+        for (Measurement measurement : data){
+            newData.add(model.getMeasurementValuesInRange(measurement.getSensorID(), from, to));
         }
-
+       createChart(ChartType.SENSOR_MEASUREMENT_MULTIPLE, Size.HOURLY, newData);
+    }
 }

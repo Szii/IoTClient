@@ -38,21 +38,16 @@ public class MainFramePresenter implements MainFramePresenterInterface{
     @Override
     public void onAddDeviceClicked() {
         System.out.println("clicked");
-        
-        try {
-            String text = JOptionPane.showInputDialog("Type device ID");
-            if(text == null){
-                return;
-            }
-            if(model.registerDevice(text, ConstantsList.loggedUser).equals(Code.SUCCESS)){
-                model.getUnitsManager().fireNotification("unitsChange", null);
-                JOptionPane.showMessageDialog(null, "Device registered");
-            }
-            else{
-                JOptionPane.showMessageDialog(null, "Device does not exist or is already register");
-            }
-        } catch (InterruptedException ex) {
-            Logger.getLogger(MainFramePresenter.class.getName()).log(Level.SEVERE, null, ex);
+        String text = JOptionPane.showInputDialog("Type device ID");
+        if(text == null){
+            return;
+        }
+        if(model.registerDevice(text, ConstantsList.loggedUser).equals(Code.SUCCESS)){
+            model.getUnitsManager().fireNotification("unitsChange", null);
+            JOptionPane.showMessageDialog(null, "Device registered");
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Device does not exist or is already register");
         }
     }
 

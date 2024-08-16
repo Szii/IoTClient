@@ -70,39 +70,35 @@ public class LoginScreenPresenter implements LoginScreenPresenterInterface {
     @Override
     public void onLoginConfirm() {
         Payload answer = null;
-         try {
-             answer = model.checkLogin(gui.getLoginName(), gui.getLoginPassword());
-         } catch (InterruptedException ex) {
-             Logger.getLogger(LoginScreenPresenter.class.getName()).log(Level.SEVERE, null, ex);
-         }
-            if(answer.getCode().equals(Code.SUCCESS)){
-       
-                ConstantsList.loggedUser = gui.getLoginName();
-                ConstantsList.token = answer.getToken();
-                System.out.println(ConstantsList.token);
-                
-                removeLoginScreen();
-                MainFrameGUIInterface view = new MainFrameGUI(820,640);
-                MainFramePresenterInterface presenter = new MainFramePresenter(view,model);
-                
-                
-                MainPanelGUIInterface panel = new MainPanelGUI();
-                MainPanelPresenterInterface panelPresenter = new MainPanelPresenter(panel,model);
-                model.getUnitsManager().addObserver((UnitsPanelObserver) panelPresenter);
-                model.getSensorsManager().addObserver((SensorsPanelObserver) panelPresenter);
-                
-                
-                presenter.initView();
-                panelPresenter.initView();
-                view.addPanel((Panel) panel);
-                
-            //    model.acknowledge(ConstantsList.loggedUser);
-                
-            } 
-            else{
-                System.out.println("Showing error message");
-                showPopupMessage("Invalid username or password");
-            }    
+        answer = model.checkLogin(gui.getLoginName(), gui.getLoginPassword());
+        if(answer.getCode().equals(Code.SUCCESS)){
+
+            ConstantsList.loggedUser = gui.getLoginName();
+            ConstantsList.token = answer.getToken();
+            System.out.println(ConstantsList.token);
+
+            removeLoginScreen();
+            MainFrameGUIInterface view = new MainFrameGUI(820,640);
+            MainFramePresenterInterface presenter = new MainFramePresenter(view,model);
+
+
+            MainPanelGUIInterface panel = new MainPanelGUI();
+            MainPanelPresenterInterface panelPresenter = new MainPanelPresenter(panel,model);
+            model.getUnitsManager().addObserver((UnitsPanelObserver) panelPresenter);
+            model.getSensorsManager().addObserver((SensorsPanelObserver) panelPresenter);
+
+
+            presenter.initView();
+            panelPresenter.initView();
+            view.addPanel((Panel) panel);
+
+        //    model.acknowledge(ConstantsList.loggedUser);
+
+        } 
+        else{
+            System.out.println("Showing error message");
+            showPopupMessage("Invalid username or password");
+        }    
              
     }
 

@@ -20,20 +20,18 @@ public interface Request {
      * @param password login password
      * @throws InterruptedException Exception is thrown when connection to the server is lost
      */
-    public void confirmLogin(String login,String password) throws InterruptedException;
+    public void confirmLogin(String login,String password);
     /**
      * Send request for getting back a name of user
      * @param user name of user
-     * @throws InterruptedException Exception is thrown when connection to the server is lost
      */
-    public void getUser(String user) throws InterruptedException;
+    public void getUser(String user);
     /**
      * Send request for adding a new user into the data source
      * @param user user to be added
      * @param passwd password of the user
-     * @throws InterruptedException Exception is thrown when connection to the server is lost
      */
-    public void addUser(String user,String passwd) throws InterruptedException;
+    public void addUser(String user,String passwd);
 
     /**
      * Request for registering sensor under specific unit

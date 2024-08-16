@@ -188,7 +188,7 @@ public class OutputThread_OOP extends Thread implements Request{
     }
 
     @Override
-    public void addUser(String user, String passwd) throws InterruptedException {
+    public void addUser(String user, String passwd){
        content = new ArrayList();
        content.add(user);
        content.add(passwd);

@@ -20,7 +20,7 @@ public interface Response {
      * @return List of strings representing data carried by response.
      * @throws InterruptedException When service is interrupted, this exception is thrown
      */
-    public List<String> getComplexAnswer(MessageType type) throws InterruptedException;
+    public List<String> getComplexAnswer(MessageType type);
     /**
      * Gets a received response and interprets it as list of strings
      * @param messageType Type of response to be waited for
@@ -29,7 +29,7 @@ public interface Response {
      */
     public String getAnswer(MessageType messageType) throws InterruptedException;
     
-    public Payload getPayload(MessageType messageType)throws InterruptedException;
+    public Payload getPayload(MessageType messageType);
     /**
      * Check if there are any messages left to be processed
      * @return true if there is at least one message left 

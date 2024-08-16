@@ -83,7 +83,7 @@ import javax.swing.JOptionPane;
         }
     }
     @Override
-    public synchronized List<String> getComplexAnswer(MessageType type) throws InterruptedException{
+    public synchronized List<String> getComplexAnswer(MessageType type){
         List<String> message = (List<String>) getPayload(type).getContent();
         return message;
     }
@@ -103,15 +103,23 @@ import javax.swing.JOptionPane;
       }
   
       @Override
-      public Payload<Payload> getPayload(MessageType messageType) throws InterruptedException{
+      public Payload<Payload> getPayload(MessageType messageType){
         Payload input;
         synchronized(this){
             while((input = (Payload)taskQueue.peek()) == null){
                 if(input == null){
-                     sleep(1);
+                    try {
+                        sleep(1);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(InputThread.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 else if(input.getType()!= messageType){
-                    sleep(1);
+                    try {
+                        sleep(1);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(InputThread.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
             taskQueue.poll();
