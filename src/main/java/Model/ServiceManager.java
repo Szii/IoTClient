@@ -171,8 +171,10 @@ public class ServiceManager {
   */
     public Measurement getMeasurementValues(String sensorID) throws InterruptedException{
        request.getMeasurementValues(sensorID);
-       ArrayList<String> measuredData = getMultipleResponses(MessageType.GET_MEASUREMENT_DATA);
+       ArrayList<String> measuredData = (ArrayList<String>) response.getPayload(MessageType.GET_MEASUREMENT_DATA).getContent();
+       System.out.println(measuredData);
        Measurement measurement = new Measurement(sensorID,measuredData);
+       System.out.println(measurement);
        return measurement;
    }
 
@@ -182,11 +184,10 @@ public class ServiceManager {
     * @param from lower bound
     * @param to upper bound
     * @return List of measured values
-    * @throws InterruptedException Exception is thrown when connection to the server is lost
     */
     public Measurement getMeasurementValuesInRange(String sensorID, String from, String to){
         request.getMeasurementValuesInRange(sensorID, from, to);
-        ArrayList<String> measuredValues = getMultipleResponses(MessageType.GET_MEASUREMENT_DATA_IN_RANGE);
+        ArrayList<String> measuredValues = (ArrayList<String>) response.getPayload(MessageType.GET_MEASUREMENT_DATA_IN_RANGE).getContent();
         Measurement measurement = new Measurement(sensorID,measuredValues);
         return measurement;
     }

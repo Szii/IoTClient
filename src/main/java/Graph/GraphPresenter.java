@@ -84,6 +84,7 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
     }
  
     private ArrayList<Series> createSeries(ArrayList<Measurement> measurements){
+        System.out.println("Creatzing series from measurements: " + measurements);
         ArrayList<Series> seriesList = new ArrayList();
         for(Measurement dataInstance : measurements){
               Series series = new Series(dataInstance.getNickname(),dataInstance.getMeasuredData());

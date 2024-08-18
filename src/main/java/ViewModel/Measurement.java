@@ -33,7 +33,7 @@ public class Measurement {
      * @return name of measurement
      */
     public String getNickname() {
-        return nickname;
+        return nickname == null ? sensorID :  nickname;
     }
     /**
      * Creates new measurement data holder
@@ -61,7 +61,7 @@ public class Measurement {
     
     @Override
     public String toString(){
-        return nickname;
+      return nickname == null ? sensorID :  nickname;
     }
     
     

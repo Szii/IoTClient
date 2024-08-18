@@ -98,12 +98,14 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
         
         try {
             measurement = model.getMeasurementValues(sensor.getID());
+            System.out.println("got measured values for sensor" + sensor.getID() + "values: " + measurement.getMeasuredData());
         } catch (InterruptedException ex) {
             Logger.getLogger(RegisteredSensorPresenter.class.getName()).log(Level.SEVERE, null, ex);
         }
 
            ArrayList<Measurement> data = new ArrayList();
            data.add(measurement);
+           System.out.println("got measured data for sensor" + sensor.getID() + "values: " + data);
            graphPresenter.createChart(ChartType.SENSOR_MEASUREMENT_SINGLE, Size.HOURLY, data);     
     }
 

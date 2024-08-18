@@ -24,7 +24,7 @@ import javax.swing.JOptionPane;
  * calling getMessageAnswerMethod.
  * @author brune
  */
-    public class InputThread extends Thread implements  Response{
+    public class InputThread extends Thread implements Response{
     //Klientský socket
     Socket clientSocket;
     //Fronta pro ukládání odpovědí od serveru
@@ -123,7 +123,7 @@ import javax.swing.JOptionPane;
                 }
             }
             taskQueue.poll();
-            System.out.println("got payload: " + input.getType());
+            System.out.println("retrieved payload: " + input.getType());
             return input;
         }
     }
