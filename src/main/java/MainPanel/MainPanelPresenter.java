@@ -84,13 +84,6 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
                  }
     }
                
-    private ArrayList<Group> getGroups() throws InterruptedException{
-            ArrayList<Group> groups = new ArrayList();
-            for(String group : model.getGroups(ConstantsList.loggedUser)){
-                    groups.add(new Group(group));
-            }
-           return groups;
-    }
     
     private DefaultComboBoxModel getGroupModel(boolean isMenu){
          try {
@@ -98,7 +91,7 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
              if(isMenu){
                 comboBoxModel.addElement(new Group("Default")); 
              }
-             comboBoxModel.addAll(getGroups());
+             comboBoxModel.addAll(model.getGroups(ConstantsList.loggedUser));
              return comboBoxModel;
          } catch (InterruptedException ex) {
              Logger.getLogger(MainPanelPresenter.class.getName()).log(Level.SEVERE, null, ex);

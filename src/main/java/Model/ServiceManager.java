@@ -8,6 +8,7 @@ package Model;
 import ViewModel.Sensor;
 import ChartDataBuilder.ChartBuilder;
 import Constants.ConstantsList;
+import ViewModel.Group;
 import com.irrigation.Messages.MessageFormat.MessageType;
 import ViewModel.Measurement;
 import ViewModel.UnitObject;
@@ -167,9 +168,8 @@ public class ServiceManager {
   * Method sends a request for getting measured values by sensor
   * @param sensorID ID of sensor
   * @return Measured values by sensor
-  * @throws InterruptedException Exception is thrown when connection to the server is lost
   */
-    public Measurement getMeasurementValues(String sensorID) throws InterruptedException{
+    public Measurement getMeasurementValues(String sensorID){
        request.getMeasurementValues(sensorID);
        ArrayList<String> measuredData = (ArrayList<String>) response.getPayload(MessageType.GET_MEASUREMENT_DATA).getContent();
        System.out.println(measuredData);
@@ -193,9 +193,13 @@ public class ServiceManager {
     }
     
     
-    public ArrayList<String> getGroups(String username) throws InterruptedException{
+    public ArrayList<Group> getGroups(String username){
         request.getGroups(username);
-        return (ArrayList<String>) response.getPayload(MessageType.GET_GROUPS).getContent();
+        ArrayList<Group> groups = new ArrayList();
+        for (String group :  (ArrayList<String>) response.getPayload(MessageType.GET_GROUPS).getContent()){
+            groups.add(new Group(group));
+        }
+        return groups;
         
     }
     

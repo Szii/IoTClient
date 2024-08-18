@@ -8,6 +8,7 @@ package Graph;
 import Base.BasePresenterInterface;
 import Components.Label;
 import Components.Panel;
+import ViewModel.Group;
 import ViewModel.Sensor;
 import ViewModel.UnitObject;
 import com.irrigation.Messages.MessageData.Device;
@@ -132,7 +133,7 @@ public class GraphGUI implements GraphGUIInterface{
          panel.add(unitsComboBox);
             unitsComboBox.addItemListener((ItemEvent e) -> {
             if(e.getStateChange() == (ItemEvent.SELECTED)){
-                presenter.onUnitSelected((UnitObject) e.getItem());
+                presenter.onUnitSelected((Group) e.getItem());
                 System.out.println("selection changed");
             }
 
@@ -146,7 +147,7 @@ public class GraphGUI implements GraphGUIInterface{
          panel.add(sensorsComboBox);
             sensorsComboBox.addItemListener((ItemEvent e) -> {
             if(e.getStateChange() == (ItemEvent.SELECTED)){
-                presenter.onSensorSelected((Sensor)e.getItem());
+                presenter.onSensorSelected((Device)e.getItem());
                 System.out.println("selection changed");
             }
 
@@ -236,8 +237,8 @@ public class GraphGUI implements GraphGUIInterface{
     }
 
     @Override
-    public void setUnitsComboBoxModel(ArrayList<UnitObject> units) {
-        unitsComboBox.setModel(new DefaultComboBoxModel(units.toArray()));
+    public void setUnitsComboBoxModel(ArrayList<Group> groups) {
+        unitsComboBox.setModel(new DefaultComboBoxModel(groups.toArray()));
     }
 
     @Override

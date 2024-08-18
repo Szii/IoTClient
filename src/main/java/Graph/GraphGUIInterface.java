@@ -6,6 +6,7 @@
 package Graph;
 
 import Base.BaseGUIInterface;
+import ViewModel.Group;
 import ViewModel.Sensor;
 import ViewModel.UnitObject;
 import com.irrigation.Messages.MessageData.Device;
@@ -29,7 +30,7 @@ public interface GraphGUIInterface extends BaseGUIInterface{
      * Sets a available units for selection
      * @param units available units
      */
-    public void setUnitsComboBoxModel(ArrayList<UnitObject> units);
+    public void setUnitsComboBoxModel(ArrayList<Group> units);
     /**
      * Sets available sensors for selection
      * @param sensors available sensors

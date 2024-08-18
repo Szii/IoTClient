@@ -19,6 +19,7 @@ import DateRangePicker.DateRangePickerPresenter;
 import DateRangePicker.DateRangePickerPresenterInterface;
 import ViewModel.Sensor;
 import Model.ServiceManager;
+import ViewModel.Group;
 import ViewModel.Measurement;
 import ViewModel.UnitObject;
 import com.irrigation.Messages.MessageData.Device;
@@ -56,16 +57,11 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
  
     @Override
     public void initView() {
-        /*
-         try {
-             ArrayList<UnitObject> units = new ArrayList();
-             units.add(new UnitObject(null));
-             units.addAll(model.getRegisteredUnits(ConstantsList.loggedUser));
-             gui.setUnitsComboBoxModel(units);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(GraphPresenter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-*/
+        ArrayList<Group> groups = new ArrayList();
+        groups.add(new Group("Default"));
+        groups.addAll(model.getGroups(ConstantsList.loggedUser));
+        onUnitSelected(new Group("Default"));
+        gui.setUnitsComboBoxModel(groups);
         gui.initView();
        
     }
@@ -150,12 +146,12 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
     }
 
     @Override
-    public void onSensorSelected(Sensor sensor) {
-        try {
+    public void onSensorSelected(Device sensor) {
+                 
             if(data.size() >= 2){
                 data.remove(data.size() - 1);
             }
-            if(sensor.getID().equals("")){
+            if(sensor.toString().equals("")){
                 createChart(ChartType.SENSOR_MEASUREMENT_SINGLE,size,data);
                 return;
             }
@@ -167,23 +163,26 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
             }
            
             createChart(ChartType.SENSOR_MEASUREMENT_MULTIPLE,size,data);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(GraphPresenter.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     @Override
-    public void onUnitSelected(UnitObject unit) {
+    public void onUnitSelected(Group group) {
+        System.out.println("Group selected: " + group.getGroup());
         ArrayList<Device> sensors = new ArrayList();
-        sensors.add(new Device.DeviceBuilder().build());
-        sensors.addAll(model.getRegisteredDevices(ConstantsList.loggedUser));
+        sensors.add(new Device.DeviceBuilder().setID("").build());
+        if(group.getGroup().equals("Default")){
+             sensors.addAll(model.getRegisteredDevices(ConstantsList.loggedUser));
+        }
+        else{ 
+             sensors.addAll(model.getDevicesInGroup(ConstantsList.loggedUser,group.getGroup()));
+        }
+        //sensors.add(new Device.DeviceBuilder().build());
         gui.setSensorsComboBoxModel(sensors);
     }
 
     @Override
     public void onDefaultRangeSelected() {
-        try {
-            
+
              ArrayList<Measurement> newData = new ArrayList();
              for (Measurement measurement : data){
                 newData.add(model.getMeasurementValues(measurement.getSensorID()));
@@ -196,9 +195,6 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
              }
              data = newData;
              gui.setPeriodLabel("", "");
-        } catch (InterruptedException ex) {
-            Logger.getLogger(GraphPresenter.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
     }
     
