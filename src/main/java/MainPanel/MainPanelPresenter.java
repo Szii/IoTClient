@@ -30,7 +30,7 @@ import javax.swing.DefaultComboBoxModel;
 public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPanelObserver,UnitsPanelObserver {
      MainPanelGUIInterface gui;   
      ServiceManager model;
-     Group selectedGroup = new Group("");
+     Group selectedGroup = new Group("Default");
      /**
       * Creates new controls for content panel component
       * @param gui component to be controlled
@@ -45,6 +45,7 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
     @Override
     public void initView() {
         prepareGroups();
+        getDevicesBasedOnGroupSelected(selectedGroup);
     }
     
     public void updateGUI(){
@@ -56,6 +57,7 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
     @Override
     public void onChangeNotification(UnitObject unit_ID) {
         ConstantsList.selectedUnit = unit_ID;
+        prepareGroups();
         getDevicesBasedOnGroupSelected(selectedGroup);
     }
     
@@ -63,8 +65,13 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
         gui.enableGroupListener(false);
         gui.setGroups(getGroupModel(true));
         gui.enableGroupListener(true);
-        gui.setSelectedGroup(new Group("Default"));
+        if(!model.checkIfGroupsContainGroup(selectedGroup)){
+              selectedGroup = new Group("Default");
+        }
+        gui.setSelectedGroup(selectedGroup);
     }
+    
+    
     private void updateDevices(ArrayList<Device> sensors){
         gui.clearSensors(); 
              for(Device s : sensors){
@@ -86,17 +93,12 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
                
     
     private DefaultComboBoxModel getGroupModel(boolean isMenu){
-         try {
-             DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
-             if(isMenu){
-                comboBoxModel.addElement(new Group("Default")); 
-             }
-             comboBoxModel.addAll(model.getGroups(ConstantsList.loggedUser));
-             return comboBoxModel;
-         } catch (InterruptedException ex) {
-             Logger.getLogger(MainPanelPresenter.class.getName()).log(Level.SEVERE, null, ex);
-         }
-         return new DefaultComboBoxModel();
+            DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
+            if(isMenu){
+               comboBoxModel.addElement(new Group("Default")); 
+            }
+            comboBoxModel.addAll(model.getGroups(ConstantsList.loggedUser));
+            return comboBoxModel;
     }
     
     @Override
@@ -128,6 +130,8 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
         }
 
     }
+    
+
     
     @Override
     public void onGroupClicked(){

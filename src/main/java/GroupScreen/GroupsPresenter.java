@@ -1,0 +1,123 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package GroupScreen;
+
+import Constants.ConstantsList;
+import Model.SensorsPanelObserver;
+import Model.ServiceManager;
+import ViewModel.Group;
+import ViewModel.LiteSensor;
+import ViewModel.UnitObject;
+import com.irrigation.Messages.MessageData.Device;
+import com.irrigation.Messages.MessageFormat.Code;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author brune
+ */
+public class GroupsPresenter implements GroupsPresenterInterface, SensorsPanelObserver{
+    
+    GroupsGUIInterface gui;
+    ServiceManager model;
+    
+    Group selectedGroup;
+    
+    public GroupsPresenter(ServiceManager model,GroupsGUIInterface gui){
+        this.gui = gui;
+        this.model = model;
+        gui.setPresenter(this);
+        model.getSensorsManager().addObserver(this);
+    }
+
+    @Override
+    public void onCreateClicked() {
+        System.out.println("clicked");
+        String text = JOptionPane.showInputDialog("Type group name");
+        if(text == null){
+            return;
+        }
+        if(model.createNewGroup(ConstantsList.loggedUser,text).equals(Code.SUCCESS)){
+            model.getSensorsManager().fireNotification("sensorsChange", null);
+            JOptionPane.showMessageDialog(null, "Group registered");
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Group with this name already exist");
+        }
+    }
+
+    @Override
+    public void onRemoveClicked() {
+        
+        if(model.deleteGroup(ConstantsList.loggedUser,selectedGroup.getGroup()).equals(Code.SUCCESS)){
+            selectedGroup = (Group) gui.getModel().getElementAt(0);
+            model.getSensorsManager().fireNotification("sensorsChange", null);
+            JOptionPane.showMessageDialog(null, "Group removed");
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Error occured when deleting group");
+        }
+    }
+
+    @Override
+    public void onRenameClicked() {
+        System.out.println("clicked");
+        String text = JOptionPane.showInputDialog("Type group name");
+        if(text == null){
+            return;
+        }
+        if(model.changeGroupName(ConstantsList.loggedUser,selectedGroup.getGroup(),text).equals(Code.SUCCESS)){
+            selectedGroup.setGroup(text);
+            model.getSensorsManager().fireNotification("sensorsChange", null);
+            JOptionPane.showMessageDialog(null, "Group name changed");
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Group with this name already exist");
+        }
+    }
+
+    @Override
+    public void onGroupSelected(Group group) {
+        selectedGroup = group;
+    }
+
+    @Override
+    public void initView() {
+        ArrayList<Group> groups = new ArrayList();
+        groups.addAll(model.getGroups(ConstantsList.loggedUser));
+        gui.setGroupsComboBoxModel(groups);
+        selectedGroup = gui.getSelectedUnit();
+        gui.initView();
+    }
+
+    @Override
+    public void onChangeNotification(UnitObject unit_ID) {
+        ArrayList<Group> groups = new ArrayList();
+        groups.addAll(model.getGroups(ConstantsList.loggedUser));
+        gui.setGroupsComboBoxModel(groups);
+        gui.setSelectedGroup(selectedGroup);
+    }
+
+    @Override
+    public void onUpdateNotification(ArrayList<Device> registeredSensors, ArrayList<LiteSensor> unregisteredSensors) {
+        ArrayList<Group> groups = new ArrayList();
+        groups.addAll(model.getGroups(ConstantsList.loggedUser));
+        gui.setGroupsComboBoxModel(groups);
+        gui.setSelectedGroup(selectedGroup);
+
+    }
+
+    @Override
+    public void onClose() {
+        model.getSensorsManager().removeObserver(this);
+        gui.getDialog().dispose();
+    }
+    
+    
+    
+}

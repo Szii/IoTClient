@@ -248,5 +248,15 @@ public class OutputThread_OOP extends Thread implements Request{
        sendPayload(MessageType.DELETE_GROUP,content); 
     }
 
+    @Override
+    public void createGroup(String username, String group) {
+       content = new ArrayList();
+       content.add(username);
+       content.add(group);
+       System.out.println("sending add group request");
+
+       sendPayload(MessageType.CREATE_GROUP,content); 
+    }
+
     
 }

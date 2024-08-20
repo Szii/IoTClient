@@ -6,6 +6,10 @@
 package MainFrame;
 
 import Constants.ConstantsList;
+import GroupScreen.GroupsGUI;
+import GroupScreen.GroupsGUIInterface;
+import GroupScreen.GroupsPresenter;
+import GroupScreen.GroupsPresenterInterface;
 import Model.ServiceManager;
 import com.irrigation.Messages.MessageFormat.Code;
 import java.util.logging.Level;
@@ -17,7 +21,7 @@ import javax.swing.JOptionPane;
  * @author brune
  */
 public class MainFramePresenter implements MainFramePresenterInterface{
-     MainFrameGUIInterface view;
+    MainFrameGUIInterface view;
     ServiceManager model;
     /**
     * Creates new controls for main window of application
@@ -55,5 +59,13 @@ public class MainFramePresenter implements MainFramePresenterInterface{
     public void onRefresh() {
        model.getUnitsManager().fireNotification("unitsChange", null);
      //  model.getSensorsManager().fireNotification("sensorsChange", null);
+    }
+
+    @Override
+    public void onGroupsManagementClicked() {
+        GroupsGUIInterface gui = new GroupsGUI(view.getFrame());
+        GroupsPresenterInterface graphPresenter = new GroupsPresenter(model,gui);
+        graphPresenter.initView();
+        
     }
 }

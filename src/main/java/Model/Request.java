@@ -101,5 +101,7 @@ public interface Request {
     public void changeDeviceGroup(String username, String device);
     
     public void deleteGroup(String username,String group);
+    
+    public void createGroup(String username, String group);
        
 }

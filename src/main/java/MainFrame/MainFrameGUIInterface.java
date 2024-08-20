@@ -33,4 +33,6 @@ public interface MainFrameGUIInterface extends BaseGUIInterface {
      * @return frame used as main window
      */
     public JFrame getFrame();
+    
+    
 }

@@ -22,10 +22,9 @@ import javax.swing.JMenuBar;
  */
 public class MainFrameGUI extends JFrame implements MainFrameGUIInterface {
      MainFramePresenterInterface presenter;
-    JMenuBar menuBar = new JMenuBar();
-
-    
-    
+     JMenuBar menuBar = new JMenuBar();
+     
+  
     
     //private Panel mainPanel = new Panel();
     private Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
@@ -73,6 +72,7 @@ public class MainFrameGUI extends JFrame implements MainFrameGUIInterface {
     private Panel getBarPanel(){
         Panel panel = new Panel();
         panel.setLayout(new BoxLayout(panel,BoxLayout.X_AXIS));
+        panel.add(getGroupsManagementPanel());
         panel.add(getAddUnitPanel());
         panel.add(getRefreshPanel());
         panel.setBorder(null);
@@ -116,6 +116,21 @@ public class MainFrameGUI extends JFrame implements MainFrameGUIInterface {
         Button button = new Button("Add Device");
         button.addActionListener((ActionEvent e)->{
             presenter.onAddDeviceClicked();
+        });
+        return button;
+    }
+    
+    private Panel getGroupsManagementPanel(){
+        Panel panel = new Panel();
+        panel.setLayout(new BoxLayout(panel,BoxLayout.X_AXIS));
+        panel.add(getGroupsManagementButton());
+        return panel;
+    }     
+    
+    private Button getGroupsManagementButton(){
+        Button button = new Button("Manage groups");
+        button.addActionListener((ActionEvent e)->{
+            presenter.onGroupsManagementClicked();
         });
         return button;
     }

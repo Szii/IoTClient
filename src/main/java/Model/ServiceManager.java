@@ -203,25 +203,42 @@ public class ServiceManager {
         
     }
     
+    public boolean checkIfGroupsContainGroup(Group groupTocheck){
+        request.getGroups(ConstantsList.loggedUser);
+        for (String group :  (ArrayList<String>) response.getPayload(MessageType.GET_GROUPS).getContent()){
+            if(groupTocheck.getGroup().equals(group)){
+                return true;
+            }
+        }
+        return false;
+        
+    }
+    
     public ArrayList<Device> getDevicesInGroup(String username,String group){
         request.getDevicesInGroup(username, group);
          return (ArrayList<Device>) response.getPayload(MessageType.GET_AVAILABLE_REGISTERED_DEVICES).getCarriedObject();      
     }
     
-    public void changeGroupName(String username,String oldGroup,String newGroup){
+    public Code changeGroupName(String username,String oldGroup,String newGroup){
         request.changeGroupName(username, oldGroup, newGroup);
+        return response.getPayload(MessageType.CHANGE_GROUP_NAME).getCode();
     }
     
-    public void changeDeviceGroup(String devioe, String group) throws InterruptedException{
+    public Code changeDeviceGroup(String devioe, String group) throws InterruptedException{
         request.changeDeviceGroup(devioe, group);
-        response.getPayload(MessageType.CHANGE_DEVICE_GROUP);
+        return response.getPayload(MessageType.CHANGE_DEVICE_GROUP).getCode();
     }
     
-    public void deleteGroup(String username,String group){
+    public Code createNewGroup(String username, String groupname){
+        request.createGroup(username, groupname);
+        return response.getPayload(MessageType.CREATE_GROUP).getCode();
+    }
+    
+    public Code deleteGroup(String username,String group){
         request.deleteGroup(username, group);
+        return response.getPayload(MessageType.DELETE_GROUP).getCode();
     }
-    
-
+        
    private ArrayList<String> getMultipleResponses(MessageType messageType){
 
         return (ArrayList<String>) response.getComplexAnswer(messageType);
