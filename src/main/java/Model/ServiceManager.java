@@ -16,6 +16,8 @@ import com.irrigation.Messages.MessageData.Device;
 import com.irrigation.Messages.MessageFormat.Code;
 import com.irrigation.Messages.MessageFormat.Payload;
 import java.util.ArrayList;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * Wrapper for services which are available to the controlling components. Serves as layer between controls and application logic.
@@ -115,6 +117,7 @@ public class ServiceManager {
        request.getRegisteredDevices(username);
        ArrayList<Device> sensors= (ArrayList<Device>) response.getPayload(MessageType.GET_AVAILABLE_REGISTERED_DEVICES).getCarriedObject();
        System.out.println("Returning sensors");
+       testEndPointSending(username);
        return sensors;
    }
 
@@ -257,5 +260,25 @@ public class ServiceManager {
     */
    public Response getResponder(){
        return response;
+   }
+   
+   public void testEndPointSending(String username){
+         RestTemplate restTemplate = new RestTemplate();
+
+        // Define the URL of the endpoint
+        String url = "http://localhost:8083/api/getDevices";
+
+        // Create the LoginRequest object
+        ArrayList content = new ArrayList();
+        content.add(username);
+        Payload payload = new Payload.PayloadBuilder(Code.SUCCESS).setContent(content).build();
+                
+
+        // Send the request and receive the response as LoginResponse object
+        ResponseEntity<Payload> response = restTemplate.postForEntity(url, payload, Payload.class);
+
+        // Extract the response body
+        Payload loginResponse = response.getBody();
+        System.out.println(loginResponse.getContent());
    }
 }
