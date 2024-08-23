@@ -42,7 +42,7 @@ public class GroupsPresenter implements GroupsPresenterInterface, SensorsPanelOb
         if(text == null){
             return;
         }
-        if(model.createNewGroup(ConstantsList.loggedUser,text).equals(Code.SUCCESS)){
+        if(model.createNewGroup(text).equals(Code.SUCCESS)){
             model.getSensorsManager().fireNotification("sensorsChange", null);
             JOptionPane.showMessageDialog(null, "Group registered");
         }
@@ -54,7 +54,7 @@ public class GroupsPresenter implements GroupsPresenterInterface, SensorsPanelOb
     @Override
     public void onRemoveClicked() {
         
-        if(model.deleteGroup(ConstantsList.loggedUser,selectedGroup.getGroup()).equals(Code.SUCCESS)){
+        if(model.deleteGroup(selectedGroup.getGroup()).equals(Code.SUCCESS)){
             selectedGroup = (Group) gui.getModel().getElementAt(0);
             model.getSensorsManager().fireNotification("sensorsChange", null);
             JOptionPane.showMessageDialog(null, "Group removed");
@@ -71,7 +71,7 @@ public class GroupsPresenter implements GroupsPresenterInterface, SensorsPanelOb
         if(text == null){
             return;
         }
-        if(model.changeGroupName(ConstantsList.loggedUser,selectedGroup.getGroup(),text).equals(Code.SUCCESS)){
+        if(model.changeGroupName(selectedGroup.getGroup(),text).equals(Code.SUCCESS)){
             selectedGroup.setGroup(text);
             model.getSensorsManager().fireNotification("sensorsChange", null);
             JOptionPane.showMessageDialog(null, "Group name changed");
@@ -89,7 +89,7 @@ public class GroupsPresenter implements GroupsPresenterInterface, SensorsPanelOb
     @Override
     public void initView() {
         ArrayList<Group> groups = new ArrayList();
-        groups.addAll(model.getGroups(ConstantsList.loggedUser));
+        groups.addAll(model.getGroups());
         gui.setGroupsComboBoxModel(groups);
         selectedGroup = gui.getSelectedUnit();
         gui.initView();
@@ -98,7 +98,7 @@ public class GroupsPresenter implements GroupsPresenterInterface, SensorsPanelOb
     @Override
     public void onChangeNotification(UnitObject unit_ID) {
         ArrayList<Group> groups = new ArrayList();
-        groups.addAll(model.getGroups(ConstantsList.loggedUser));
+        groups.addAll(model.getGroups());
         gui.setGroupsComboBoxModel(groups);
         gui.setSelectedGroup(selectedGroup);
     }
@@ -106,7 +106,7 @@ public class GroupsPresenter implements GroupsPresenterInterface, SensorsPanelOb
     @Override
     public void onUpdateNotification(ArrayList<Device> registeredSensors, ArrayList<LiteSensor> unregisteredSensors) {
         ArrayList<Group> groups = new ArrayList();
-        groups.addAll(model.getGroups(ConstantsList.loggedUser));
+        groups.addAll(model.getGroups());
         gui.setGroupsComboBoxModel(groups);
         gui.setSelectedGroup(selectedGroup);
 

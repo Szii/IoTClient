@@ -45,7 +45,7 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
     @Override
     public void initView() {
         prepareGroups();
-        getDevicesBasedOnGroupSelected(selectedGroup);
+        updateDevices(model.getRegisteredDevices()); 
     }
     
     public void updateGUI(){
@@ -84,7 +84,7 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
                  sensorView.setThreshold(s.getThreshold());
                  sensorView.setIrrigationTime(s.getIrrigationTime());
                  sensorPresenter.initView();
-                 sensorView.setGroups(getGroupModel(false));
+                 sensorView.setGroups(getGroupModel(true));
                  sensorView.setSelectedGroup(new Group(s.getGroup()));
                  gui.addRegisteredSensor(sensorView);
                  sensorView.enableGroupListener(true);
@@ -97,7 +97,7 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
             if(isMenu){
                comboBoxModel.addElement(new Group("Default")); 
             }
-            comboBoxModel.addAll(model.getGroups(ConstantsList.loggedUser));
+            comboBoxModel.addAll(model.getGroups());
             return comboBoxModel;
     }
     
@@ -123,10 +123,11 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
     
     private void getDevicesBasedOnGroupSelected(Group group){
         if(group.getGroup().equals("Default")){
-           updateDevices(model.getRegisteredDevices(ConstantsList.loggedUser)); 
+           System.out.println(ConstantsList.token);
+           updateDevices(model.getRegisteredDevices()); 
         }
         else{
-           updateDevices(model.getDevicesInGroup(ConstantsList.loggedUser, selectedGroup.getGroup())); 
+           updateDevices(model.getDevicesInGroup(selectedGroup.getGroup())); 
         }
 
     }

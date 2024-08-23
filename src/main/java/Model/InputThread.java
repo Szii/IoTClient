@@ -103,7 +103,7 @@ import javax.swing.JOptionPane;
       }
   
       @Override
-      public Payload<Payload> getPayload(MessageType messageType){
+      public Payload getPayload(MessageType messageType){
         Payload input;
         synchronized(this){
             while((input = (Payload)taskQueue.peek()) == null){

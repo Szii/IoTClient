@@ -5,12 +5,15 @@
  */
 package com.irrigation.Messages.MessageData;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.io.Serializable;
 
 /**
  *
  * @author brune
  */
+@JsonDeserialize(builder = Device.DeviceBuilder.class)
 public class Device implements Serializable  {
     
     private final String ID;
@@ -65,7 +68,7 @@ public class Device implements Serializable  {
         return nickname == null ?  ID :  nickname;
     }
     
-    
+   @JsonPOJOBuilder(withPrefix = "set")
    public static class DeviceBuilder{
        
     private String ID;

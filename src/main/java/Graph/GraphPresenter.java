@@ -59,7 +59,7 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
     public void initView() {
         ArrayList<Group> groups = new ArrayList();
         groups.add(new Group("Default"));
-        groups.addAll(model.getGroups(ConstantsList.loggedUser));
+        groups.addAll(model.getGroups());
         onUnitSelected(new Group("Default"));
         gui.setUnitsComboBoxModel(groups);
         gui.initView();
@@ -171,10 +171,10 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
         ArrayList<Device> sensors = new ArrayList();
         sensors.add(new Device.DeviceBuilder().setID("").build());
         if(group.getGroup().equals("Default")){
-             sensors.addAll(model.getRegisteredDevices(ConstantsList.loggedUser));
+             sensors.addAll(model.getRegisteredDevices());
         }
         else{ 
-             sensors.addAll(model.getDevicesInGroup(ConstantsList.loggedUser,group.getGroup()));
+             sensors.addAll(model.getDevicesInGroup(group.getGroup()));
         }
         //sensors.add(new Device.DeviceBuilder().build());
         gui.setSensorsComboBoxModel(sensors);

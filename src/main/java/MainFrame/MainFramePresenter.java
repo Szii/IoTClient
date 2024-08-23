@@ -46,7 +46,7 @@ public class MainFramePresenter implements MainFramePresenterInterface{
         if(text == null){
             return;
         }
-        if(model.registerDevice(text, ConstantsList.loggedUser).equals(Code.SUCCESS)){
+        if(model.registerDevice(text).equals(Code.SUCCESS)){
             model.getUnitsManager().fireNotification("unitsChange", null);
             JOptionPane.showMessageDialog(null, "Device registered");
         }

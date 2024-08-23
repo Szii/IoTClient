@@ -14,6 +14,10 @@ import ViewModel.Measurement;
 import ViewModel.UnitObject;
 import com.irrigation.Messages.MessageData.Device;
 import com.irrigation.Messages.MessageFormat.Code;
+import com.irrigation.Messages.MessageFormat.CredentialsRequest;
+import com.irrigation.Messages.MessageFormat.DeviceRequest;
+import com.irrigation.Messages.MessageFormat.GroupRequest;
+import com.irrigation.Messages.MessageFormat.MeasurementRequest;
 import com.irrigation.Messages.MessageFormat.Payload;
 import java.util.ArrayList;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +33,7 @@ public class ServiceManager {
     ManagerInterface sensorsManager;
     ManagerInterface unitsManager;
     ChartBuilder chartBuilder;
+    HttpClient httpClient;
     /**
      * Creates new service manager instance
      * @param request Implementation of request for the data
@@ -39,6 +44,7 @@ public class ServiceManager {
         this.response = response;
         sensorsManager = new SensorsManager();
         unitsManager = new UnitsManager();
+        httpClient = new  HttpClient();
         
     }
     
@@ -113,12 +119,14 @@ public class ServiceManager {
     * @param username name of user
     * @return List of sensors
     */
-   public ArrayList<Device> getRegisteredDevices(String username){
+   public ArrayList<Device> getRegisteredDevices(){
+       /*
        request.getRegisteredDevices(username);
-       ArrayList<Device> sensors= (ArrayList<Device>) response.getPayload(MessageType.GET_AVAILABLE_REGISTERED_DEVICES).getCarriedObject();
+       ArrayList<Device> sensors= (ArrayList<Device>) response.getPayload(MessageType.GET_AVAILABLE_REGISTERED_DEVICES).getObject();
+       */
        System.out.println("Returning sensors");
-       testEndPointSending(username);
-       return sensors;
+       return httpClient.getAllDevices();
+       //return sensors;
    }
 
    /**
@@ -127,7 +135,8 @@ public class ServiceManager {
     * @param nickname nickname
     */
    public void setDeviceNickname(String sensorID,String nickname){
-       request.setDeviceNickname(sensorID,nickname);
+      // request.setDeviceNickname(sensorID,nickname);
+      httpClient.updateDeviceName(sensorID, nickname);
    }
     /**
     * Method sends a request for setting a threshold of sensor
@@ -135,7 +144,8 @@ public class ServiceManager {
     * @param value threshold value
     */
    public void setThresold(String sensorID,String value){
-        request.setThresold(sensorID, value);
+       // request.setThresold(sensorID, value);
+        httpClient.updateDeviceThresold(sensorID, value);
    }
    /**
     * Method sends a request for setting a irrigation time of sensor in seconds
@@ -143,7 +153,8 @@ public class ServiceManager {
     * @param value irrigation time in seconds
     */
    public void setTime(String sensorID,String value){
-       request.setTime(sensorID, value);
+       //request.setTime(sensorID, value);
+        httpClient.updateDeviceIrrigationTime(sensorID, value);
    }
    
    /**
@@ -153,9 +164,13 @@ public class ServiceManager {
     * @throws InterruptedException
     * @return SUCCESS if registration complete
     */
-   public Code registerDevice(String deviceID,String username){
+   public Code registerDevice(String deviceID){
+       /*
        request.registerDevice(deviceID, username);
        return response.getPayload(MessageType.REGISTER_DEVICE).getCode();
+       */
+       return  httpClient.registerDevice(deviceID);
+       
    }
      /**
     * Method sends a request for unregistering a sensor from  unit
@@ -163,7 +178,8 @@ public class ServiceManager {
     * @param unitID ID of unit
     */
    public void unregisterDevice(String sensorID,String unitID){
-       request.unregisterDevice(sensorID,unitID);
+       //request.unregisterDevice(sensorID,unitID);
+       httpClient.removeDevice(sensorID);
      
    }
    
@@ -173,8 +189,8 @@ public class ServiceManager {
   * @return Measured values by sensor
   */
     public Measurement getMeasurementValues(String sensorID){
-       request.getMeasurementValues(sensorID);
-       ArrayList<String> measuredData = (ArrayList<String>) response.getPayload(MessageType.GET_MEASUREMENT_DATA).getContent();
+     //  request.getMeasurementValues(sensorID);
+       ArrayList<String> measuredData = httpClient.getMeasurements(sensorID);
        System.out.println(measuredData);
        Measurement measurement = new Measurement(sensorID,measuredData);
        System.out.println(measurement);
@@ -189,17 +205,17 @@ public class ServiceManager {
     * @return List of measured values
     */
     public Measurement getMeasurementValuesInRange(String sensorID, String from, String to){
-        request.getMeasurementValuesInRange(sensorID, from, to);
-        ArrayList<String> measuredValues = (ArrayList<String>) response.getPayload(MessageType.GET_MEASUREMENT_DATA_IN_RANGE).getContent();
+       // request.getMeasurementValuesInRange(sensorID, from, to);
+        ArrayList<String> measuredValues = httpClient.getMeasurements(sensorID, from, to);
         Measurement measurement = new Measurement(sensorID,measuredValues);
         return measurement;
     }
     
     
-    public ArrayList<Group> getGroups(String username){
-        request.getGroups(username);
+    public ArrayList<Group> getGroups(){
+        //request.getGroups(username);
         ArrayList<Group> groups = new ArrayList();
-        for (String group :  (ArrayList<String>) response.getPayload(MessageType.GET_GROUPS).getContent()){
+        for (String group :  httpClient.getGroups()){
             groups.add(new Group(group));
         }
         return groups;
@@ -207,8 +223,8 @@ public class ServiceManager {
     }
     
     public boolean checkIfGroupsContainGroup(Group groupTocheck){
-        request.getGroups(ConstantsList.loggedUser);
-        for (String group :  (ArrayList<String>) response.getPayload(MessageType.GET_GROUPS).getContent()){
+        //request.getGroups(ConstantsList.loggedUser);
+        for (String group :  httpClient.getGroups()){
             if(groupTocheck.getGroup().equals(group)){
                 return true;
             }
@@ -217,29 +233,29 @@ public class ServiceManager {
         
     }
     
-    public ArrayList<Device> getDevicesInGroup(String username,String group){
-        request.getDevicesInGroup(username, group);
-         return (ArrayList<Device>) response.getPayload(MessageType.GET_AVAILABLE_REGISTERED_DEVICES).getCarriedObject();      
+    public ArrayList<Device> getDevicesInGroup(String group){
+        //request.getDevicesInGroup(username, group);
+         return httpClient.getAllDevicesInGroup(group);
     }
     
-    public Code changeGroupName(String username,String oldGroup,String newGroup){
-        request.changeGroupName(username, oldGroup, newGroup);
-        return response.getPayload(MessageType.CHANGE_GROUP_NAME).getCode();
+    public Code changeGroupName(String oldGroup,String newGroup){
+      //  request.changeGroupName(username, oldGroup, newGroup);
+        return httpClient.renameGroup(oldGroup, newGroup);
     }
     
     public Code changeDeviceGroup(String devioe, String group) throws InterruptedException{
-        request.changeDeviceGroup(devioe, group);
-        return response.getPayload(MessageType.CHANGE_DEVICE_GROUP).getCode();
+        //request.changeDeviceGroup(devioe, group);
+        return httpClient.updateDeviceGroup(devioe, group);
     }
     
-    public Code createNewGroup(String username, String groupname){
-        request.createGroup(username, groupname);
-        return response.getPayload(MessageType.CREATE_GROUP).getCode();
+    public Code createNewGroup(String groupname){
+       // request.createGroup(username, groupname);
+        return httpClient.addGroup(groupname);
     }
     
-    public Code deleteGroup(String username,String group){
-        request.deleteGroup(username, group);
-        return response.getPayload(MessageType.DELETE_GROUP).getCode();
+    public Code deleteGroup(String group){
+       // request.deleteGroup(username, group);
+         return httpClient.removeGroup(group);
     }
         
    private ArrayList<String> getMultipleResponses(MessageType messageType){
@@ -262,23 +278,7 @@ public class ServiceManager {
        return response;
    }
    
-   public void testEndPointSending(String username){
-         RestTemplate restTemplate = new RestTemplate();
 
-        // Define the URL of the endpoint
-        String url = "http://localhost:8083/api/getDevices";
-
-        // Create the LoginRequest object
-        ArrayList content = new ArrayList();
-        content.add(username);
-        Payload payload = new Payload.PayloadBuilder(Code.SUCCESS).setContent(content).build();
-                
-
-        // Send the request and receive the response as LoginResponse object
-        ResponseEntity<Payload> response = restTemplate.postForEntity(url, payload, Payload.class);
-
-        // Extract the response body
-        Payload loginResponse = response.getBody();
-        System.out.println(loginResponse.getContent());
-   }
+     
+     
 }

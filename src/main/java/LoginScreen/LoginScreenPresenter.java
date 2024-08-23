@@ -94,7 +94,7 @@ public class LoginScreenPresenter implements LoginScreenPresenterInterface {
 
         //    model.acknowledge(ConstantsList.loggedUser);
 
-        } 
+       } 
         else{
             System.out.println("Showing error message");
             showPopupMessage("Invalid username or password");

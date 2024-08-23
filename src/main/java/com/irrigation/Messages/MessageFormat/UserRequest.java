@@ -5,6 +5,8 @@
  */
 package com.irrigation.Messages.MessageFormat;
 
+import java.io.Serializable;
+
 /**
  *
  * @author brune
@@ -15,6 +17,8 @@ public class UserRequest {
     public UserRequest(String token) {
         this.token = token;
     }
+    
+     public UserRequest(){};
 
 
     public String getToken() {
