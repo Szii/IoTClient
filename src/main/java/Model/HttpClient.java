@@ -14,6 +14,10 @@ import com.irrigation.Messages.MessageFormat.GroupRequest;
 import com.irrigation.Messages.MessageFormat.MeasurementRequest;
 import com.irrigation.Messages.MessageFormat.Payload;
 import java.util.ArrayList;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,43 +27,44 @@ import org.springframework.web.client.RestTemplate;
  */
 public class HttpClient {
     
+      private HttpHeaders setToken(){
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + ConstantsList.token);
+            return headers;
+      }
+    
     
     
        public ArrayList<Device> getAllDevices(){
-         RestTemplate restTemplate = new RestTemplate();
-
-        // Define the URL of the endpoint
+            RestTemplate restTemplate = new RestTemplate();
+            String url = "http://localhost:9090/api/devices/getAll";
+            DeviceRequest payload = new DeviceRequest(); 
+            HttpEntity<DeviceRequest> entity = new HttpEntity<>(payload, setToken());
+            ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
+            Payload deviceResponse = response.getBody();
+            return deviceResponse.getObject(); 
+           
+          /* 
+        RestTemplate restTemplate = new RestTemplate();
         String url = "http://localhost:9090/api/devices/getAll";
         DeviceRequest payload = new DeviceRequest();
         payload.setToken(ConstantsList.token);
-                
-
-        // Send the request and receive the response as LoginResponse object
         ResponseEntity<Payload> response = restTemplate.postForEntity(url, payload, Payload.class);
-
-        // Extract the response body
-        Payload loginResponse = response.getBody();
-        System.out.println("got response" + loginResponse.getCode());
-        System.out.println("got data" + loginResponse.getObject());
-        return  loginResponse.getObject();
-        
+        Payload deviceResponse = response.getBody();
+        return deviceResponse.getObject(); 
+        */
    }
    
     
    public ArrayList<Device> getAllDevicesInGroup(String group){
-         RestTemplate restTemplate = new RestTemplate();
-
-        // Define the URL of the endpoint
+        RestTemplate restTemplate = new RestTemplate();
         String url = "http://localhost:9090/api/devices/getAllInGroup";
+        
         DeviceRequest payload = new DeviceRequest();
-        payload.setToken(ConstantsList.token);
         payload.setNewGroup(group);
-                
-
-        // Send the request and receive the response as LoginResponse object
-        ResponseEntity<Payload> response = restTemplate.postForEntity(url, payload, Payload.class);
-
-        // Extract the response body
+        
+        HttpEntity<DeviceRequest> entity = new HttpEntity<>(payload, setToken());
+        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
         Payload loginResponse = response.getBody();
         return loginResponse.getObject();
         
@@ -107,13 +112,11 @@ public class HttpClient {
         // Define the URL of the endpoint
         String url = "http://localhost:9090/api/devices/update";
         DeviceRequest payload = new DeviceRequest();
-         payload.setDevice(device);
+        payload.setDevice(device);
         payload.setTreshold(thresold);
-        payload.setToken(ConstantsList.token);
                 
-
-        // Send the request and receive the response as LoginResponse object
-        ResponseEntity<Payload> response = restTemplate.postForEntity(url, payload, Payload.class);
+        HttpEntity<DeviceRequest> entity = new HttpEntity<>(payload, setToken());
+        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
 
         // Extract the response body
         Payload loginResponse = response.getBody();
@@ -129,13 +132,10 @@ public class HttpClient {
         DeviceRequest payload = new DeviceRequest();
         payload.setDevice(device);
         payload.setNewGroup(group);
-        payload.setToken(ConstantsList.token);
         
-        payload.setToken(ConstantsList.token);
+        HttpEntity<DeviceRequest> entity = new HttpEntity<>(payload, setToken());
+        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
                 
-
-        // Send the request and receive the response as LoginResponse object
-        ResponseEntity<Payload> response = restTemplate.postForEntity(url, payload, Payload.class);
 
         // Extract the response body
         Payload loginResponse = response.getBody();
@@ -151,11 +151,9 @@ public class HttpClient {
         DeviceRequest payload = new DeviceRequest();
         payload.setDevice(device);
         payload.setDeviceNickname(newName);
-        payload.setToken(ConstantsList.token);
                 
-
-        // Send the request and receive the response as LoginResponse object
-        ResponseEntity<Payload> response = restTemplate.postForEntity(url, payload, Payload.class);
+        HttpEntity<DeviceRequest> entity = new HttpEntity<>(payload, setToken());
+        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
 
         // Extract the response body
         Payload loginResponse = response.getBody();
@@ -170,11 +168,9 @@ public class HttpClient {
         DeviceRequest payload = new DeviceRequest();
         payload.setDevice(device);
         payload.setIrrigationTime(time);
-        payload.setToken(ConstantsList.token);
-                
-
-        // Send the request and receive the response as LoginResponse object
-        ResponseEntity<Payload> response = restTemplate.postForEntity(url, payload, Payload.class);
+        
+        HttpEntity<DeviceRequest> entity = new HttpEntity<>(payload, setToken());
+        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
 
         // Extract the response body
         Payload loginResponse = response.getBody();
@@ -187,11 +183,9 @@ public class HttpClient {
         // Define the URL of the endpoint
         String url = "http://localhost:9090/api/groups/get";
         GroupRequest payload = new GroupRequest();
-        payload.setToken(ConstantsList.token);
                 
-
-        // Send the request and receive the response as LoginResponse object
-        ResponseEntity<Payload> response = restTemplate.postForEntity(url, payload, Payload.class);
+        HttpEntity<GroupRequest> entity = new HttpEntity<>(payload, setToken());
+        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
 
         // Extract the response body
         Payload loginResponse = response.getBody();
@@ -206,11 +200,9 @@ public class HttpClient {
         GroupRequest payload = new GroupRequest();
         payload.setGroup(group);
         payload.setGroupNewName(newGroup);
-        payload.setToken(ConstantsList.token);
                 
-
-        // Send the request and receive the response as LoginResponse object
-        ResponseEntity<Payload> response = restTemplate.postForEntity(url, payload, Payload.class);
+        HttpEntity<GroupRequest> entity = new HttpEntity<>(payload, setToken());
+        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
 
         // Extract the response body
         Payload loginResponse = response.getBody();
@@ -224,11 +216,9 @@ public class HttpClient {
         String url = "http://localhost:9090/api/groups/remove";
         GroupRequest payload = new GroupRequest();
         payload.setGroup(group);
-        payload.setToken(ConstantsList.token);
                 
-
-        // Send the request and receive the response as LoginResponse object
-        ResponseEntity<Payload> response = restTemplate.postForEntity(url, payload, Payload.class);
+        HttpEntity<GroupRequest> entity = new HttpEntity<>(payload, setToken());
+        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
 
         // Extract the response body
         Payload loginResponse = response.getBody();
@@ -243,11 +233,9 @@ public class HttpClient {
         String url = "http://localhost:9090/api/groups/add";
         GroupRequest payload = new GroupRequest();
         payload.setGroup(group);
-        payload.setToken(ConstantsList.token);
                 
-
-        // Send the request and receive the response as LoginResponse object
-        ResponseEntity<Payload> response = restTemplate.postForEntity(url, payload, Payload.class);
+        HttpEntity<GroupRequest> entity = new HttpEntity<>(payload, setToken());
+        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
 
         // Extract the response body
         Payload loginResponse = response.getBody();
@@ -262,11 +250,9 @@ public class HttpClient {
         String url = "http://localhost:9090/api/devices/register";
         DeviceRequest payload = new DeviceRequest();
         payload.setDevice(device);
-        payload.setToken(ConstantsList.token);
-                
 
-        // Send the request and receive the response as LoginResponse object
-        ResponseEntity<Payload> response = restTemplate.postForEntity(url, payload, Payload.class);
+        HttpEntity<DeviceRequest> entity = new HttpEntity<>(payload, setToken());
+        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
 
         // Extract the response body
         Payload loginResponse = response.getBody();
@@ -280,13 +266,11 @@ public class HttpClient {
         // Define the URL of the endpoint
         String url = "http://localhost:9090/api/devices/unregister";
         DeviceRequest payload = new DeviceRequest();
-        payload.setDevice(device);
-        payload.setToken(ConstantsList.token);
+
                 
 
-        // Send the request and receive the response as LoginResponse object
-        ResponseEntity<Payload> response = restTemplate.postForEntity(url, payload, Payload.class);
-
+        HttpEntity<DeviceRequest> entity = new HttpEntity<>(payload, setToken());
+        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
         // Extract the response body
         Payload loginResponse = response.getBody();
         return loginResponse.getCode();
@@ -299,11 +283,9 @@ public class HttpClient {
         String url = "http://localhost:9090/api/measurement/get";
         MeasurementRequest payload = new MeasurementRequest();
         payload.setDevice(device);
-        payload.setToken(ConstantsList.token);
-                
-
-        // Send the request and receive the response as LoginResponse object
-        ResponseEntity<Payload> response = restTemplate.postForEntity(url, payload, Payload.class);
+        
+        HttpEntity<MeasurementRequest> entity = new HttpEntity<>(payload, setToken());
+        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
 
         // Extract the response body
         Payload loginResponse = response.getBody();
@@ -319,11 +301,9 @@ public class HttpClient {
         payload.setDevice(device);
         payload.setFrom(from);
         payload.setTo(to);
-        payload.setToken(ConstantsList.token);
                 
-
-        // Send the request and receive the response as LoginResponse object
-        ResponseEntity<Payload> response = restTemplate.postForEntity(url, payload, Payload.class);
+        HttpEntity<MeasurementRequest> entity = new HttpEntity<>(payload, setToken());
+        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
 
         // Extract the response body
         Payload loginResponse = response.getBody();

@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author brune
  */
-public enum Code implements Serializable{
+public enum Code implements Serializable {
     SUCCESS,
     FAILURE,
 }
