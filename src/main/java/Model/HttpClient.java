@@ -20,6 +20,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  *
@@ -29,7 +30,7 @@ public class HttpClient {
     
       private HttpHeaders setToken(){
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Bearer " + ConstantsList.token);
+            headers.set("Authorization", "Bearer " + ConstantsList.token.trim());
             return headers;
       }
     
@@ -38,33 +39,23 @@ public class HttpClient {
        public ArrayList<Device> getAllDevices(){
             RestTemplate restTemplate = new RestTemplate();
             String url = "http://localhost:9090/api/devices/getAll";
-            DeviceRequest payload = new DeviceRequest(); 
-            HttpEntity<DeviceRequest> entity = new HttpEntity<>(payload, setToken());
-            ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
+            HttpEntity<DeviceRequest> entity = new HttpEntity<>( setToken());
+            ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.GET, entity, Payload.class);
             Payload deviceResponse = response.getBody();
             return deviceResponse.getObject(); 
-           
-          /* 
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:9090/api/devices/getAll";
-        DeviceRequest payload = new DeviceRequest();
-        payload.setToken(ConstantsList.token);
-        ResponseEntity<Payload> response = restTemplate.postForEntity(url, payload, Payload.class);
-        Payload deviceResponse = response.getBody();
-        return deviceResponse.getObject(); 
-        */
-   }
+        }
    
     
    public ArrayList<Device> getAllDevicesInGroup(String group){
         RestTemplate restTemplate = new RestTemplate();
         String url = "http://localhost:9090/api/devices/getAllInGroup";
-        
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
+                .queryParam("groupName", group);  // Add any query parameters here
         DeviceRequest payload = new DeviceRequest();
         payload.setNewGroup(group);
         
         HttpEntity<DeviceRequest> entity = new HttpEntity<>(payload, setToken());
-        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
+        ResponseEntity<Payload> response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, Payload.class);
         Payload loginResponse = response.getBody();
         return loginResponse.getObject();
         
@@ -79,8 +70,8 @@ public class HttpClient {
         CredentialsRequest payload = new CredentialsRequest(username, password);
                 
 
-        // Send the request and receive the response as LoginResponse object
-        ResponseEntity<Payload> response = restTemplate.postForEntity(url, payload, Payload.class);
+        HttpEntity<CredentialsRequest> entity = new HttpEntity<>(payload, setToken());
+        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
 
         // Extract the response body
         Payload loginResponse = response.getBody();
@@ -97,8 +88,8 @@ public class HttpClient {
         CredentialsRequest payload = new CredentialsRequest(username, password);
                 
 
-        // Send the request and receive the response as LoginResponse object
-        ResponseEntity<Payload> response = restTemplate.postForEntity(url, payload, Payload.class);
+        HttpEntity<CredentialsRequest> entity = new HttpEntity<>(payload, setToken());
+        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
 
         // Extract the response body
         Payload loginResponse = response.getBody();
@@ -178,14 +169,13 @@ public class HttpClient {
      }
      
      public ArrayList<String> getGroups(){
-                   RestTemplate restTemplate = new RestTemplate();
+       RestTemplate restTemplate = new RestTemplate();
 
         // Define the URL of the endpoint
         String url = "http://localhost:9090/api/groups/get";
-        GroupRequest payload = new GroupRequest();
-                
-        HttpEntity<GroupRequest> entity = new HttpEntity<>(payload, setToken());
-        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
+               
+        HttpEntity<GroupRequest> entity = new HttpEntity<>(setToken());
+        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.GET, entity, Payload.class);
 
         // Extract the response body
         Payload loginResponse = response.getBody();
@@ -285,7 +275,7 @@ public class HttpClient {
         payload.setDevice(device);
         
         HttpEntity<MeasurementRequest> entity = new HttpEntity<>(payload, setToken());
-        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
+        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.GET, entity, Payload.class);
 
         // Extract the response body
         Payload loginResponse = response.getBody();
@@ -297,13 +287,15 @@ public class HttpClient {
 
         // Define the URL of the endpoint
         String url = "http://localhost:9090/api/measurement/get";
-        MeasurementRequest payload = new MeasurementRequest();
-        payload.setDevice(device);
-        payload.setFrom(from);
-        payload.setTo(to);
-                
-        HttpEntity<MeasurementRequest> entity = new HttpEntity<>(payload, setToken());
-        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
+                .queryParam("device", "value")
+                .queryParam("from", from)
+                .queryParam("to",to)  ;// Add any query parameters here
+
+        // Create headers and set the token
+        HttpHeaders headers = setToken();
+        HttpEntity<String> entity = new HttpEntity<>(headers);    
+        ResponseEntity<Payload> response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, Payload.class);
 
         // Extract the response body
         Payload loginResponse = response.getBody();
