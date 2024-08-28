@@ -204,11 +204,12 @@ public class HttpClient {
 
         // Define the URL of the endpoint
         String url = "http://localhost:9090/api/groups/remove";
-        GroupRequest payload = new GroupRequest();
-        payload.setGroup(group);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
+                .queryParam("group", group);
+ 
                 
-        HttpEntity<GroupRequest> entity = new HttpEntity<>(payload, setToken());
-        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
+        HttpEntity<GroupRequest> entity = new HttpEntity<>(setToken());
+        ResponseEntity<Payload> response = restTemplate.exchange(builder.toUriString(), HttpMethod.DELETE, entity, Payload.class);
 
         // Extract the response body
         Payload loginResponse = response.getBody();

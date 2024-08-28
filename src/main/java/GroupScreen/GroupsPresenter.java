@@ -55,7 +55,7 @@ public class GroupsPresenter implements GroupsPresenterInterface, SensorsPanelOb
     public void onRemoveClicked() {
         
         if(model.deleteGroup(selectedGroup.getGroup()).equals(Code.SUCCESS)){
-            selectedGroup = (Group) gui.getModel().getElementAt(0);
+            selectedGroup = (Group) gui.getModel().getElementAt(1);
             model.getSensorsManager().fireNotification("sensorsChange", null);
             JOptionPane.showMessageDialog(null, "Group removed");
         }
