@@ -272,14 +272,18 @@ public class HttpClient {
 
         // Define the URL of the endpoint
         String url = "http://localhost:9090/api/measurement/get";
-        MeasurementRequest payload = new MeasurementRequest();
-        payload.setDevice(device);
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
+                .queryParam("device", device);
+
         
-        HttpEntity<MeasurementRequest> entity = new HttpEntity<>(payload, setToken());
-        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.GET, entity, Payload.class);
+        HttpHeaders headers = setToken();
+        HttpEntity<String> entity = new HttpEntity<>(headers);    
+        ResponseEntity<Payload> response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, Payload.class);
 
         // Extract the response body
         Payload loginResponse = response.getBody();
+        System.out.println("Returning measurements" + loginResponse.getContent());
         return (ArrayList<String>) loginResponse.getContent();
      }
      
@@ -289,7 +293,7 @@ public class HttpClient {
         // Define the URL of the endpoint
         String url = "http://localhost:9090/api/measurement/get";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
-                .queryParam("device", "value")
+                .queryParam("device", device)
                 .queryParam("from", from)
                 .queryParam("to",to)  ;// Add any query parameters here
 
