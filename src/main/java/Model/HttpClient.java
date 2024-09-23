@@ -267,14 +267,15 @@ public class HttpClient {
         return loginResponse.getCode();
      }
      
-     public ArrayList<String> getMeasurements(String device){
+     public ArrayList<String> getMeasurements(String device,String type){
          RestTemplate restTemplate = new RestTemplate();
 
         // Define the URL of the endpoint
         String url = "http://localhost:9090/api/measurement/get";
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
-                .queryParam("device", device);
+                .queryParam("device", device)
+                .queryParam("type", type);
 
         
         HttpHeaders headers = setToken();
@@ -287,7 +288,7 @@ public class HttpClient {
         return (ArrayList<String>) loginResponse.getContent();
      }
      
-       public ArrayList<String> getMeasurements(String device,String from, String to){
+       public ArrayList<String> getMeasurements(String device,String from, String to,String type){
          RestTemplate restTemplate = new RestTemplate();
 
         // Define the URL of the endpoint
@@ -295,7 +296,9 @@ public class HttpClient {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
                 .queryParam("device", device)
                 .queryParam("from", from)
-                .queryParam("to",to)  ;// Add any query parameters here
+                .queryParam("to",to) 
+                .queryParam("type", type)
+                ;// Add any query parameters here
 
         // Create headers and set the token
         HttpHeaders headers = setToken();

@@ -156,10 +156,10 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
                 return;
             }
             if(gui.getFromPeriod().equals("") || gui.getToPeriod().equals("")){
-                data.add(model.getMeasurementValues(sensor.getID())); 
+                data.add(model.getMeasurementValues(sensor.getID(),"TYPE_HUMIDITY")); 
             }
             else{
-                data.add(model.getMeasurementValuesInRange(sensor.getID(),gui.getFromPeriod(),gui.getToPeriod())); 
+                data.add(model.getMeasurementValuesInRange(sensor.getID(),gui.getFromPeriod(),gui.getToPeriod(),"TYPE_HUMIDITY")); 
             }
            
             createChart(ChartType.SENSOR_MEASUREMENT_MULTIPLE,size,data);
@@ -185,7 +185,7 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
 
              ArrayList<Measurement> newData = new ArrayList();
              for (Measurement measurement : data){
-                newData.add(model.getMeasurementValues(measurement.getSensorID()));
+                newData.add(model.getMeasurementValues(measurement.getSensorID(), "TYPE_HUMIDITY"));
              }
              if(data.size() > 1){
                 createChart(ChartType.SENSOR_MEASUREMENT_MULTIPLE, Size.HOURLY, newData);
@@ -202,7 +202,7 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
         gui.setPeriodLabel(from, to);
         ArrayList<Measurement> newData = new ArrayList();
         for (Measurement measurement : data){
-            newData.add(model.getMeasurementValuesInRange(measurement.getSensorID(), from, to));
+            newData.add(model.getMeasurementValuesInRange(measurement.getSensorID(), from, to, "TYPE_HUMIDITY"));
         }
        createChart(ChartType.SENSOR_MEASUREMENT_MULTIPLE, Size.HOURLY, newData);
     }

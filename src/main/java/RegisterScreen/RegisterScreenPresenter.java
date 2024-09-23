@@ -80,9 +80,11 @@ public class RegisterScreenPresenter implements RegisterScreenPresenterInterface
         else if(gui.getRegisterName().length() < 4){
             showPopupMessage("Name is too short");
         }
+        /*
         else if (model.doesUserExist(gui.getRegisterName()).equals(Code.SUCCESS)){
             showPopupMessage("This name is already taken");
         }
+*/
         else if(gui.getRegisterPassword().equals(gui.getRegisterConfirmPassword())){
                 if(model.addUser(gui.getRegisterName(),gui.getRegisterPassword()).equals(Code.SUCCESS)){
                     showPopupMessage("Registration complete");

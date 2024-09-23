@@ -36,10 +36,10 @@ public class Program {
     public Program(){  
       
         FlatDarkLaf.setup();
-        try {  
+   
             
             
-
+/*
             int portNumber1 = 4444;
             int portNumber2 = 4444;
             Socket clientSocket1 = new Socket(hostName, portNumber1);
@@ -48,7 +48,7 @@ public class Program {
             
             responder.start();
         
-
+*/
             
             
             Runnable guiCreator = new Runnable() {
@@ -56,7 +56,7 @@ public class Program {
                 public void run() {
                     ChartBuilder chartBuilder = new ChartBuilder();
                     chartBuilder.setDataBuilder(new DataBuilder());
-                    manager = new ServiceManager(requester,responder);
+                    manager = new ServiceManager();
                     manager.setChartBuilder(chartBuilder);
                     LoginScreenGUIInterface gui = new LoginScreenGUI();
                     LoginScreenPresenterInterface presenter =  new LoginScreenPresenter(gui,manager);
@@ -65,14 +65,7 @@ public class Program {
             };
             SwingUtilities.invokeLater(guiCreator);
             
-            
-       
-        } catch (IOException ex) {
-            Logger.getLogger(Program.class.getName()).log(Level.SEVERE, null, ex);
-           // textPopup p = new textPopup("Connection error");
-            JOptionPane.showMessageDialog(null, "Connection error");
-            System.exit(0);
-        }
+           
    
        }
     

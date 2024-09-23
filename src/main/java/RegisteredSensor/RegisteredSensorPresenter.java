@@ -95,7 +95,7 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
         GraphControls graphPresenter = new GraphPresenter(model,gui);
         gui.setGraphInitiator(sensor);
         Measurement measurement = null;
-        measurement = model.getMeasurementValues(sensor.getID());
+        measurement = model.getMeasurementValues(sensor.getID(),"TYPE_HUMIDITY");
         System.out.println("got measured values for sensor" + sensor.getID() + "values: " + measurement.getMeasuredData());
 
         ArrayList<Measurement> data = new ArrayList();

@@ -39,7 +39,7 @@ public class ServiceManager {
      * @param request Implementation of request for the data
      * @param response Implementation of response which can sent data to this client
      */
-    public ServiceManager(Request request,Response response){
+    public ServiceManager(){
         this.request = request;
         this.response = response;
         sensorsManager = new SensorsManager();
@@ -85,21 +85,9 @@ public class ServiceManager {
      * @throws InterruptedException Exception is thrown when connection to the server is lost
      */
     public Payload checkLogin(String login,String password){
-        request.confirmLogin(login, password);
-        return response.getPayload(MessageType.CONFIRM_LOGIN);
+        return httpClient.loginTest(login, password);
     }
-    
-    /**
-     * Method sends a request for getting user with same name as current user
-     * @param user user name
-     * @return returns SUCCESS  , if it is same as current user
-     * @throws InterruptedException Exception is thrown when connection to the server is lost
-     */
-    public Code doesUserExist(String user){
-        System.out.println("does user exist?");
-        request.getUser(user);
-        return response.getPayload(MessageType.GET_USER).getCode();
-    }
+
    /**
     * Method sends request for adding a new user
     * @param user user to be added
@@ -107,9 +95,7 @@ public class ServiceManager {
     * @return returns SUCCESS  , if registration complete
     */
    public Code addUser(String user,String passwd){
-       System.out.println(" add user");
-        request.addUser(user, passwd);
-        return response.getPayload(MessageType.ADD_USER).getCode();
+        return httpClient.registeTest(user, passwd).getCode();
     }
    
 
@@ -186,11 +172,12 @@ public class ServiceManager {
  /**
   * Method sends a request for getting measured values by sensor
   * @param sensorID ID of sensor
+  * @param type type of measurement
   * @return Measured values by sensor
   */
-    public Measurement getMeasurementValues(String sensorID){
+    public Measurement getMeasurementValues(String sensorID, String type){
      //  request.getMeasurementValues(sensorID);
-       ArrayList<String> measuredData = httpClient.getMeasurements(sensorID);
+       ArrayList<String> measuredData = httpClient.getMeasurements(sensorID,type);
        System.out.println(measuredData);
        Measurement measurement = new Measurement(sensorID,measuredData);
        System.out.println(measurement);
@@ -202,11 +189,12 @@ public class ServiceManager {
     * @param sensorID Id of sensor
     * @param from lower bound
     * @param to upper bound
+    * @param type type of measurement
     * @return List of measured values
     */
-    public Measurement getMeasurementValuesInRange(String sensorID, String from, String to){
+    public Measurement getMeasurementValuesInRange(String sensorID, String from, String to, String type){
        // request.getMeasurementValuesInRange(sensorID, from, to);
-        ArrayList<String> measuredValues = httpClient.getMeasurements(sensorID, from, to);
+        ArrayList<String> measuredValues = httpClient.getMeasurements(sensorID, from, to,type);
         Measurement measurement = new Measurement(sensorID,measuredValues);
         return measurement;
     }
