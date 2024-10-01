@@ -66,7 +66,7 @@ public class HttpClient {
         RestTemplate restTemplate = new RestTemplate();
 
         // Define the URL of the endpoint
-        String url = "http://localhost:9090/api/login";
+        String url = "http://localhost:9090/api/user/login";
         CredentialsRequest payload = new CredentialsRequest(username, password);
                 
 
@@ -84,7 +84,7 @@ public class HttpClient {
         RestTemplate restTemplate = new RestTemplate();
 
         // Define the URL of the endpoint
-        String url = "http://localhost:9090/api/register";
+        String url = "http://localhost:9090/api/user/register";
         CredentialsRequest payload = new CredentialsRequest(username, password);
                 
 
