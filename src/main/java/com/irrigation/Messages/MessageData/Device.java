@@ -14,55 +14,45 @@ import java.io.Serializable;
  * @author brune
  */
 @JsonDeserialize(builder = Device.DeviceBuilder.class)
-public class Device implements Serializable  {
-    
-    private final String ID;
-    private final String nickname;
-    private final String group;
-    private final String irrigationTime;
-    private final String threshold;
-    private final String humidity_date;
-    private final String temperature_date;
-    private final String temperature_value;
-    private final String humidity_value;
+public class Device implements Serializable {
 
-    public String getHumidityDate() {
-        return humidity_date;
-    }
+    private final String deviceID;
+
+    private final String nickname;
+
+    private final String group;
     
-      public String getTemperatureDate() {
-        return temperature_date;
-    }
-    
-     
+    private final String irrigationTime;
+
+    private final String threshold;
+
+    private final String humidityDate;
+
+    private final String temperatureDate;
+
+    private final String temperatureValue;
+
+    private final String humidityValue;
+
     private Device(DeviceBuilder builder){
-        this.ID = builder.ID;
-        this.nickname =  builder.nickname;
-        this.humidity_value = builder.humidity_value;
-        this.temperature_value = builder.temperature_value;
+        this.deviceID = builder.deviceID;
+        this.nickname = builder.nickname;
         this.group = builder.group;
         this.irrigationTime = builder.irrigationTime;
         this.threshold = builder.threshold;
-        this.humidity_date = builder.humidity_date;
-        this.temperature_date = builder.temperature_date;
+        this.humidityDate = builder.humidityDate;
+        this.temperatureDate = builder.temperatureDate;
+        this.temperatureValue = builder.temperatureValue;
+        this.humidityValue = builder.humidityValue;
     }
 
-    public String getID() {
-        return ID;
+    public String getDeviceID() {
+        return deviceID;
     }
 
     public String getNickname() {
         return nickname;
     }
-
-    public String getHumidityValue() {
-        return humidity_value;
-    }
-    
-      public String getTemperatureValue() {
-        return temperature_value;
-    }
-
 
     public String getGroup() {
         return group;
@@ -75,28 +65,44 @@ public class Device implements Serializable  {
     public String getThreshold() {
         return threshold;
     }
-    
+
+    public String getHumidityDate() {
+        return humidityDate;
+    }
+
+    public String getTemperatureDate() {
+        return temperatureDate;
+    }
+
+    public String getTemperatureValue() {
+        return temperatureValue;
+    }
+
+    public String getHumidityValue() {
+        return humidityValue;
+    }
+
     @Override
-    public String toString(){
-        return nickname == null ?  ID :  nickname;
+    public String toString() {
+        return nickname == null ? deviceID : nickname;
     }
     
     
    @JsonPOJOBuilder(withPrefix = "set")
    public static class DeviceBuilder{
        
-    private String ID;
+    private String deviceID;
     private String nickname;
     private String group;
     private String irrigationTime;
     private String threshold;
-    private String humidity_date;
-    private String temperature_date;
-    private String temperature_value;
-    private String humidity_value;
+    private String humidityDate;
+    private String temperatureDate;
+    private String temperatureValue;
+    private String humidityValue;
 
-        public DeviceBuilder setID(String ID) {
-            this.ID = ID;
+        public DeviceBuilder setDeviceID(String deviceID) {
+            this.deviceID = deviceID;
             return this;
         }
 
@@ -106,12 +112,12 @@ public class Device implements Serializable  {
         }
 
         public DeviceBuilder setHumidityValue(String lastMeasuredValue) {
-            this.humidity_value = lastMeasuredValue;
+            this.humidityValue = lastMeasuredValue;
             return this;
         }
         
         public DeviceBuilder setTemperatureValue(String lastMeasuredValue) {
-            this.temperature_value = lastMeasuredValue;
+            this.temperatureValue = lastMeasuredValue;
             return this;
         }
 
@@ -131,12 +137,12 @@ public class Device implements Serializable  {
         }
 
         public DeviceBuilder setHumidityDate(String date) {
-            this.humidity_date = date;
+            this.humidityDate = date;
             return this;
         }
         
         public DeviceBuilder setTemperatureDate(String date) {
-            this.temperature_date = date;
+            this.temperatureDate = date;
             return this;
         }
 
@@ -146,8 +152,5 @@ public class Device implements Serializable  {
        
        
    }
-    
-    
-       
-    
+     
 }

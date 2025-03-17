@@ -156,10 +156,10 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
                 return;
             }
             if(gui.getFromPeriod().equals("") || gui.getToPeriod().equals("")){
-                data.add(model.getMeasurementValues(sensor.getID(),"TYPE_HUMIDITY")); 
+                data.add(model.getMeasurementValues(sensor.getDeviceID(),"TYPE_HUMIDITY")); 
             }
             else{
-                data.add(model.getMeasurementValuesInRange(sensor.getID(),gui.getFromPeriod(),gui.getToPeriod(),"TYPE_HUMIDITY")); 
+                data.add(model.getMeasurementValuesInRange(sensor.getDeviceID(),gui.getFromPeriod(),gui.getToPeriod(),"TYPE_HUMIDITY")); 
             }
            
             createChart(ChartType.SENSOR_MEASUREMENT_MULTIPLE,size,data);
@@ -169,7 +169,7 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
     public void onUnitSelected(GroupViewModel group) {
         System.out.println("Group selected: " + group.getGroup());
         ArrayList<Device> sensors = new ArrayList();
-        sensors.add(new Device.DeviceBuilder().setID("").build());
+        sensors.add(new Device.DeviceBuilder().setDeviceID("").build());
         if(group.getGroup().equals("Default")){
              sensors.addAll(model.getRegisteredDevices());
         }

@@ -65,7 +65,7 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
                     JOptionPane.showMessageDialog(null, "Enter valid value between 0 and 100");
                     return;
                 }
-                model.setThresold(sensor.getID(),value);
+                model.setThresold(sensor.getDeviceID(),value);
                 model.getSensorsManager().fireNotification("sensorsChange", unit);
         } 
         catch (NumberFormatException nfe) {
@@ -80,13 +80,13 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
         if(text == null){
             return;
         }
-        model.setDeviceNickname(sensor.getID(), text);
+        model.setDeviceNickname(sensor.getDeviceID(), text);
         model.getSensorsManager().fireNotification("sensorsChange", unit);
     }
     
     @Override
     public void onRemoveClicked(){
-        model.unregisterDevice(sensor.getID(),ConstantsList.loggedUser);
+        model.unregisterDevice(sensor.getDeviceID(),ConstantsList.loggedUser);
         model.getSensorsManager().fireNotification("sensorsChange", unit);
      }
     @Override
@@ -95,12 +95,12 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
         GraphControls graphPresenter = new GraphPresenter(model,gui);
         gui.setGraphInitiator(sensor);
         MeasurementViewModel measurement = null;
-        measurement = model.getMeasurementValues(sensor.getID(),"TYPE_HUMIDITY");
-        System.out.println("got measured values for sensor" + sensor.getID() + "values: " + measurement.getMeasuredData());
+        measurement = model.getMeasurementValues(sensor.getDeviceID(),"TYPE_HUMIDITY");
+        System.out.println("got measured values for sensor" + sensor.getDeviceID() + "values: " + measurement.getMeasuredData());
 
         ArrayList<MeasurementViewModel> data = new ArrayList();
         data.add(measurement);
-        System.out.println("got measured data for sensor" + sensor.getID() + "values: " + data);
+        System.out.println("got measured data for sensor" + sensor.getDeviceID() + "values: " + data);
         graphPresenter.createChart(ChartType.SENSOR_MEASUREMENT_SINGLE, Size.HOURLY, data);     
     }
 
@@ -115,7 +115,7 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
                     JOptionPane.showMessageDialog(null, "Enter valid seconds value");
                     return;
                 }
-                model.setTime(sensor.getID(),value);
+                model.setTime(sensor.getDeviceID(),value);
                 model.getSensorsManager().fireNotification("sensorsChange", unit);
         } 
         catch (NumberFormatException nfe) {
@@ -127,7 +127,7 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
     public void onGroupClicked() {
         try {
             selectedGroup = gui.getGroup();
-            model.changeDeviceGroup(sensor.getID(),gui.getGroup().getGroup());
+            model.changeDeviceGroup(sensor.getDeviceID(),gui.getGroup().getGroup());
             model.getSensorsManager().fireNotification("sensorsChange", unit);
         } catch (InterruptedException ex) {
             Logger.getLogger(RegisteredSensorPresenter.class.getName()).log(Level.SEVERE, null, ex);

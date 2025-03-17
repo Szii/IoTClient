@@ -79,7 +79,7 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
                  sensorView.enableGroupListener(false);
                  RegisteredSensorPresenterInterface sensorPresenter = new RegisteredSensorPresenter(sensorView,model,s);
                  sensorView.setNickname(s.getNickname());
-                 sensorView.setID(s.getID());
+                 sensorView.setID(s.getDeviceID());
                  sensorView.setMoisture(s.getHumidityValue());
                  sensorView.setThreshold(s.getThreshold());
                  sensorView.setIrrigationTime(s.getIrrigationTime());
