@@ -11,7 +11,7 @@ package com.irrigation.irrigationClient;
  */
 public class Main {
     public static void main(String[] args){
-        
+        System.out.println("Started");
         new Program();
     }
 }

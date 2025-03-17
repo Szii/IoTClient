@@ -16,6 +16,7 @@ public class MeasurementRequest implements Serializable{
     String device;
     String from;
     String to;
+    String type;
 
     public MeasurementRequest(String device) {
         this.device = device;
@@ -23,10 +24,11 @@ public class MeasurementRequest implements Serializable{
     
      public MeasurementRequest() {}
 
-    public MeasurementRequest(String device, String from, String to) {
+    public MeasurementRequest(String device, String from, String to, String type) {
         this.device = device;
         this.from = from;
         this.to = to;
+        this.type = type;
     }
     
     public String getDevice() {
@@ -51,6 +53,14 @@ public class MeasurementRequest implements Serializable{
 
     public void setTo(String to) {
         this.to = to;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
     
     

@@ -64,7 +64,7 @@ public class Payload implements Serializable {
         return code;
     }
 
-    public ArrayList<Device> getObject(){
+    public ArrayList<Device> getData(){
         return data;
     }
     
@@ -103,7 +103,7 @@ public class Payload implements Serializable {
             return this;
         }
         
-        public PayloadBuilder setObject(ArrayList<Device> data){
+        public PayloadBuilder setData(ArrayList<Device> data){
             this.data = data;
             return this;
         }
