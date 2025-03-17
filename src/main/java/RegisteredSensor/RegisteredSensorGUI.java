@@ -9,7 +9,7 @@ import Base.BasePresenterInterface;
 import Components.Button;
 import Components.Label;
 import Components.Panel;
-import ViewModel.Group;
+import ViewModel.GroupViewModel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -46,7 +46,7 @@ public class RegisteredSensorGUI extends Panel implements RegisteredSensorGUIInt
     Button showGraphButton = new Button("ShowGraph");
     
     private DefaultComboBoxModel groups = new DefaultComboBoxModel();
-    private JComboBox<Group> groupList = new JComboBox();
+    private JComboBox<GroupViewModel> groupList = new JComboBox();
     
     
     Label moistureValueLabel = new Label("-1 %",SwingConstants.CENTER);
@@ -266,8 +266,8 @@ public class RegisteredSensorGUI extends Panel implements RegisteredSensorGUIInt
     }
     
     @Override
-    public Group getGroup(){
-        return (Group) groupList.getSelectedItem();
+    public GroupViewModel getGroup(){
+        return (GroupViewModel) groupList.getSelectedItem();
     }
     
     
@@ -286,7 +286,7 @@ public class RegisteredSensorGUI extends Panel implements RegisteredSensorGUIInt
         groupChangeListenercanFire = enabled;
     }
     @Override
-    public void addGroup(Group group){
+    public void addGroup(GroupViewModel group){
         groupList.addItem(group);
     }
 
@@ -334,7 +334,7 @@ public class RegisteredSensorGUI extends Panel implements RegisteredSensorGUIInt
     }
 
     @Override
-    public void setSelectedGroup(Group group) {
+    public void setSelectedGroup(GroupViewModel group) {
         groupList.getModel().setSelectedItem(group);
     }
      /**

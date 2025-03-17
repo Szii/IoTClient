@@ -6,7 +6,7 @@
 package MainPanel;
 
 import Base.BasePresenterInterface;
-import ViewModel.Group;
+import ViewModel.GroupViewModel;
 import javax.swing.DefaultComboBoxModel;
 
 /**

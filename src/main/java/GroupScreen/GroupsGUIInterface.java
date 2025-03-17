@@ -6,7 +6,7 @@
 package GroupScreen;
 
 import Base.BaseGUIInterface;
-import ViewModel.Group;
+import ViewModel.GroupViewModel;
 import ViewModel.UnitObject;
 import com.irrigation.Messages.MessageData.Device;
 import java.util.ArrayList;
@@ -19,13 +19,13 @@ import javax.swing.JDialog;
  */
 public interface GroupsGUIInterface extends BaseGUIInterface{
 
-    public void setGroupsComboBoxModel(ArrayList<Group> groups);
+    public void setGroupsComboBoxModel(ArrayList<GroupViewModel> groups);
 
-    public Group getSelectedUnit();
+    public GroupViewModel getSelectedUnit();
     
     public void clearGroups();
     
-    public void setSelectedGroup(Group group);
+    public void setSelectedGroup(GroupViewModel group);
     
     public DefaultComboBoxModel getModel();
     

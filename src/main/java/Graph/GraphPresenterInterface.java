@@ -6,8 +6,8 @@
 package Graph;
 
 import Base.BasePresenterInterface;
-import ViewModel.Group;
-import ViewModel.Sensor;
+import ViewModel.GroupViewModel;
+import ViewModel.SensorViewModel;
 import ViewModel.UnitObject;
 import com.irrigation.Messages.MessageData.Device;
 
@@ -27,7 +27,7 @@ public interface GraphPresenterInterface extends BasePresenterInterface{
      * Contains logic of what should happen when unit is selected
      * @param group Selected group
      */
-    public void onUnitSelected(Group group);
+    public void onUnitSelected(GroupViewModel group);
     /**
      * Contains logic of what should happen when range is changed to minutes
      */

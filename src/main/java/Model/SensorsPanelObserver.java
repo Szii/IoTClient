@@ -6,7 +6,7 @@
 package Model;
 
 import ViewModel.LiteSensor;
-import ViewModel.Sensor;
+import ViewModel.SensorViewModel;
 import ViewModel.UnitObject;
 import com.irrigation.Messages.MessageData.Device;
 import java.util.ArrayList;

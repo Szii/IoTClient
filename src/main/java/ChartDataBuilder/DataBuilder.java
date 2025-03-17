@@ -68,9 +68,9 @@ public class DataBuilder {
         TimeSeries  sensorMeasurements = new TimeSeries (series.getName());     
         int moisture;
         LocalDateTime dateTime;
-        for (int i = 0;i < series.getData().size() - 1;i+=2){      
-            moisture = Integer.valueOf(series.getData().get(i));
-            dateTime = createDateTimeFromString(series.getData().get(i + 1));
+        for (int i = 0;i < series.getData().size() - 1;i++){      
+            moisture = Integer.valueOf(series.getData().get(i).getValue());
+            dateTime = createDateTimeFromString(series.getData().get(i).getDate());
             addMeasurementValueAndDate(sensorMeasurements,moisture,dateTime,series.getSize());
         }  
         return sensorMeasurements;

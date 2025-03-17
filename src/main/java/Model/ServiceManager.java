@@ -5,18 +5,19 @@
  */
 package Model;
 
-import ViewModel.Sensor;
+import ViewModel.SensorViewModel;
 import ChartDataBuilder.ChartBuilder;
 import Constants.ConstantsList;
-import ViewModel.Group;
+import ViewModel.GroupViewModel;
 import com.irrigation.Messages.MessageFormat.MessageType;
-import ViewModel.Measurement;
+import ViewModel.MeasurementViewModel;
 import ViewModel.UnitObject;
 import com.irrigation.Messages.MessageData.Device;
 import com.irrigation.Messages.MessageFormat.Code;
 import com.irrigation.Messages.MessageFormat.CredentialsRequest;
 import com.irrigation.Messages.MessageFormat.DeviceRequest;
 import com.irrigation.Messages.MessageFormat.GroupRequest;
+import com.irrigation.Messages.MessageData.Measurement;
 import com.irrigation.Messages.MessageFormat.MeasurementRequest;
 import com.irrigation.Messages.MessageFormat.Payload;
 import java.util.ArrayList;
@@ -175,11 +176,11 @@ public class ServiceManager {
   * @param type type of measurement
   * @return Measured values by sensor
   */
-    public Measurement getMeasurementValues(String sensorID, String type){
+    public MeasurementViewModel getMeasurementValues(String sensorID, String type){
      //  request.getMeasurementValues(sensorID);
-       ArrayList<String> measuredData = httpClient.getMeasurements(sensorID,type);
+       ArrayList<Measurement> measuredData = httpClient.getMeasurements(sensorID,type);
        System.out.println(measuredData);
-       Measurement measurement = new Measurement(sensorID,measuredData);
+       MeasurementViewModel measurement = new MeasurementViewModel(sensorID,measuredData);
        System.out.println(measurement);
        return measurement;
    }
@@ -192,25 +193,25 @@ public class ServiceManager {
     * @param type type of measurement
     * @return List of measured values
     */
-    public Measurement getMeasurementValuesInRange(String sensorID, String from, String to, String type){
+    public MeasurementViewModel getMeasurementValuesInRange(String sensorID, String from, String to, String type){
        // request.getMeasurementValuesInRange(sensorID, from, to);
-        ArrayList<String> measuredValues = httpClient.getMeasurements(sensorID, from, to,type);
-        Measurement measurement = new Measurement(sensorID,measuredValues);
+        ArrayList<Measurement> measuredValues = httpClient.getMeasurements(sensorID, from, to,type);
+        MeasurementViewModel measurement = new MeasurementViewModel(sensorID,measuredValues);
         return measurement;
     }
     
     
-    public ArrayList<Group> getGroups(){
+    public ArrayList<GroupViewModel> getGroups(){
         //request.getGroups(username);
-        ArrayList<Group> groups = new ArrayList();
+        ArrayList<GroupViewModel> groups = new ArrayList();
         for (String group :  httpClient.getGroups()){
-            groups.add(new Group(group));
+            groups.add(new GroupViewModel(group));
         }
         return groups;
         
     }
     
-    public boolean checkIfGroupsContainGroup(Group groupTocheck){
+    public boolean checkIfGroupsContainGroup(GroupViewModel groupTocheck){
         //request.getGroups(ConstantsList.loggedUser);
         for (String group :  httpClient.getGroups()){
             if(groupTocheck.getGroup().equals(group)){

@@ -7,7 +7,7 @@ package Graph;
 
 import ChartDataBuilder.ChartType;
 import ChartDataBuilder.Size;
-import ViewModel.Measurement;
+import ViewModel.MeasurementViewModel;
 import java.util.ArrayList;
 
 /**
@@ -21,5 +21,5 @@ public interface GraphControls {
      * @param size Size of measured data
      * @param data Data to be used
      */
-    public void createChart(ChartType chartType,Size size,ArrayList<Measurement> data);
+    public void createChart(ChartType chartType,Size size,ArrayList<MeasurementViewModel> data);
 }

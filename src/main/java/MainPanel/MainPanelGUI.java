@@ -12,7 +12,7 @@ import RegisteredSensor.RegisteredSensorGUI;
 import RegisteredSensor.RegisteredSensorGUIInterface;
 import Unit.UnitGUIInterface;
 import UnregisteredSensor.UnregisteredSensorGUIInterface;
-import ViewModel.Group;
+import ViewModel.GroupViewModel;
 import ViewModel.UnitObject;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -42,7 +42,7 @@ public class MainPanelGUI extends Panel implements MainPanelGUIInterface {
     
         
     private DefaultComboBoxModel groups = new DefaultComboBoxModel();
-    private JComboBox<Group> groupList = new JComboBox();
+    private JComboBox<GroupViewModel> groupList = new JComboBox();
     
     /**
      * Creates new ccntent panel component
@@ -230,8 +230,8 @@ public class MainPanelGUI extends Panel implements MainPanelGUIInterface {
     }
     
     @Override
-    public Group getGroup(){
-        return (Group) groupList.getSelectedItem();
+    public GroupViewModel getGroup(){
+        return (GroupViewModel) groupList.getSelectedItem();
     }
     
     
@@ -241,7 +241,7 @@ public class MainPanelGUI extends Panel implements MainPanelGUIInterface {
     }
 
      @Override
-    public void setSelectedGroup(Group group) {
+    public void setSelectedGroup(GroupViewModel group) {
         groupList.getModel().setSelectedItem(group);
     }
 
@@ -250,7 +250,7 @@ public class MainPanelGUI extends Panel implements MainPanelGUIInterface {
         groupChangeListenercanFire = enabled;
     }
     @Override
-    public void addGroup(Group group){
+    public void addGroup(GroupViewModel group){
         groupList.addItem(group);
     }
     

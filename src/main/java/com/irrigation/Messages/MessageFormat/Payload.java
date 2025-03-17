@@ -5,6 +5,7 @@
  */
 package com.irrigation.Messages.MessageFormat;
 
+import com.irrigation.Messages.MessageData.Measurement;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
@@ -17,18 +18,28 @@ import java.util.List;
  *
  * @author brune
  */
+
 @JsonDeserialize(builder = Payload.PayloadBuilder.class)
 public class Payload implements Serializable {
-    @JsonProperty("content")
-    List<String> content;
+    
+    
+    @JsonProperty("measurements")
+    private List<Measurement> measurements;
+
+    @JsonProperty("groups")
+    private List<String> groups;
+
     @JsonProperty("type")
-    MessageType type;
+    private MessageType type;
+
     @JsonProperty("code")
-    Code code;
+    private Code code;
+
     @JsonProperty("token")
-    String token;
-    @JsonProperty("data")
-    ArrayList<Device> data;
+    private String token;
+
+    @JsonProperty("devices")
+    private List<Device> devices;
 
     public String getToken() {
         return token;
@@ -41,19 +52,20 @@ public class Payload implements Serializable {
     public Payload(){}
 
     private Payload(PayloadBuilder builder) {
-        this.content = builder.content;
+        this.groups = builder.groups;
         this.type = builder.type;
         this.code = builder.code;
         this.token =builder.token;
-        this.data = builder.data;
+        this.devices = builder.devices;
+        this.measurements = builder.measurements;
     }
     
-    public List<String> getContent() {
-        return content;
+    public List<String> getGroups() {
+        return groups;
     }
 
-    public void setContent(List<String> content) {
-        this.content = content;
+    public void setGroups(List<String> groups) {
+        this.groups = groups;
     }
 
     public MessageType getType() {
@@ -63,18 +75,26 @@ public class Payload implements Serializable {
     public Code getCode() {
         return code;
     }
+    
+    public List<Measurement> getMeasurements(){
+        return measurements;
+    }
 
-    public ArrayList<Device> getData(){
-        return data;
+    
+    public List<Device> getDevices(){
+        return devices;
     }
     
     @JsonPOJOBuilder(withPrefix = "set")
     public static class PayloadBuilder{
-        private List<String> content;
+        private List<String> groups;
         private MessageType type;
         private Code code;
         private String token;
-        private ArrayList<Device> data;
+        @JsonProperty("devices")
+        private List<Device> devices;
+        @JsonProperty("measurements")
+        private List<Measurement> measurements;
    
     
         public PayloadBuilder() {
@@ -94,8 +114,13 @@ public class Payload implements Serializable {
             return this;
         }
         
-        public PayloadBuilder setContent(List<String> content){
-            this.content = content;
+       public PayloadBuilder setMeasurements(List<Measurement> measurements){
+            this.measurements = measurements;
+            return this;
+       }
+        
+        public PayloadBuilder setGroups(List<String> groups){
+            this.groups = groups;
             return this;
         }
         public PayloadBuilder setType(MessageType type){
@@ -103,8 +128,8 @@ public class Payload implements Serializable {
             return this;
         }
         
-        public PayloadBuilder setData(ArrayList<Device> data){
-            this.data = data;
+        public PayloadBuilder setDevices(ArrayList<Device> devices){
+            this.devices = devices;
             return this;
         }
         

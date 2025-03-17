@@ -10,7 +10,7 @@ import Components.Button;
 import Components.Label;
 import Components.Panel;
 import MainFrame.MainFramePresenter;
-import ViewModel.Group;
+import ViewModel.GroupViewModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dialog;
@@ -89,7 +89,7 @@ public class GroupsGUI implements GroupsGUIInterface
         panel.add(groupsComboBox);
         groupsComboBox.addItemListener((ItemEvent e) -> {
             if(e.getStateChange() == (ItemEvent.SELECTED)){
-                presenter.onGroupSelected((Group) e.getItem());
+                presenter.onGroupSelected((GroupViewModel) e.getItem());
                 System.out.println("selection changed");
             }
 
@@ -167,13 +167,13 @@ public class GroupsGUI implements GroupsGUIInterface
     }
 
     @Override
-    public void setGroupsComboBoxModel(ArrayList<Group> groups) {
+    public void setGroupsComboBoxModel(ArrayList<GroupViewModel> groups) {
         groupsComboBox.setModel(new DefaultComboBoxModel(groups.toArray()));
     }
 
     @Override
-    public Group getSelectedUnit() {
-        return (Group) groupsComboBox.getSelectedItem();
+    public GroupViewModel getSelectedUnit() {
+        return (GroupViewModel) groupsComboBox.getSelectedItem();
     } 
 
     @Override
@@ -187,7 +187,7 @@ public class GroupsGUI implements GroupsGUIInterface
     }
 
     @Override
-    public void setSelectedGroup(Group group) {
+    public void setSelectedGroup(GroupViewModel group) {
        groupsComboBox.getModel().setSelectedItem(group);
     }
     

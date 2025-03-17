@@ -6,7 +6,7 @@
 package GroupScreen;
 
 import Base.BasePresenterInterface;
-import ViewModel.Group;
+import ViewModel.GroupViewModel;
 
 /**
  *
@@ -20,7 +20,7 @@ public interface GroupsPresenterInterface extends BasePresenterInterface {
     
     public void onRenameClicked();
        
-    public void onGroupSelected(Group group);
+    public void onGroupSelected(GroupViewModel group);
     
     public void initView();
     

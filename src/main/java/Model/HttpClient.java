@@ -11,6 +11,7 @@ import com.irrigation.Messages.MessageFormat.Code;
 import com.irrigation.Messages.MessageFormat.CredentialsRequest;
 import com.irrigation.Messages.MessageFormat.DeviceRequest;
 import com.irrigation.Messages.MessageFormat.GroupRequest;
+import com.irrigation.Messages.MessageData.Measurement;
 import com.irrigation.Messages.MessageFormat.MeasurementRequest;
 import com.irrigation.Messages.MessageFormat.Payload;
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class HttpClient {
             HttpEntity<DeviceRequest> entity = new HttpEntity<>( setToken());
             ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.GET, entity, Payload.class);
             Payload deviceResponse = response.getBody();
-            return deviceResponse.getData(); 
+            return (ArrayList<Device>) deviceResponse.getDevices(); 
         }
    
     
@@ -56,8 +57,8 @@ public class HttpClient {
         
         HttpEntity<DeviceRequest> entity = new HttpEntity<>(payload, setToken());
         ResponseEntity<Payload> response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, Payload.class);
-        Payload loginResponse = response.getBody();
-        return loginResponse.getData();
+        Payload deviceResponse = response.getBody();
+        return (ArrayList<Device>) deviceResponse.getDevices(); 
         
    }
    
@@ -178,8 +179,8 @@ public class HttpClient {
         ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.GET, entity, Payload.class);
 
         // Extract the response body
-        Payload loginResponse = response.getBody();
-        return     (ArrayList<String>) loginResponse.getContent();
+        Payload deviceResponse = response.getBody();
+        return (ArrayList<String>) deviceResponse.getGroups(); 
      }
      
      public Code renameGroup(String group, String newGroup){
@@ -267,7 +268,7 @@ public class HttpClient {
         return loginResponse.getCode();
      }
      
-     public ArrayList<String> getMeasurements(String device,String type){
+     public ArrayList<Measurement> getMeasurements(String device,String type){
          RestTemplate restTemplate = new RestTemplate();
 
         // Define the URL of the endpoint
@@ -279,12 +280,12 @@ public class HttpClient {
         ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
 
         // Extract the response body
-        Payload loginResponse = response.getBody();
-        System.out.println("Returning measurements" + loginResponse.getContent());
-        return (ArrayList<String>) loginResponse.getContent();
+        Payload measurementResponse = response.getBody();
+        System.out.println("Returning measurements" + measurementResponse.getMeasurements());
+        return (ArrayList<Measurement>) measurementResponse.getMeasurements();
      }
      
-       public ArrayList<String> getMeasurements(String device,String from, String to,String type){
+       public ArrayList<Measurement> getMeasurements(String device,String from, String to,String type){
          RestTemplate restTemplate = new RestTemplate();
 
         // Define the URL of the endpoint
@@ -296,7 +297,7 @@ public class HttpClient {
 
 
         // Extract the response body
-        Payload loginResponse = response.getBody();
-        return (ArrayList<String>) loginResponse.getContent();
+        Payload measurementResponse = response.getBody();
+        return (ArrayList<Measurement>) measurementResponse.getMeasurements();
      }
 }

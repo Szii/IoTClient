@@ -5,6 +5,7 @@
  */
 package ChartDataBuilder;
 
+import com.irrigation.Messages.MessageData.Measurement;
 import java.util.ArrayList;
 
 /**
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 public class Series {
     
     String name;
-    ArrayList<String> data;
+    ArrayList<Measurement> data;
     Size size;
     /**
      * Creates new series data holder
@@ -23,7 +24,7 @@ public class Series {
      * @param size size of series
      * @see Size
      */
-    public Series(String name, ArrayList<String> data, Size size) {
+    public Series(String name, ArrayList<Measurement> data, Size size) {
         this.name = name;
         this.data = data;
         this.size = size;
@@ -34,7 +35,7 @@ public class Series {
     * @param name Name of series
     * @param data Data contained within a series
     */
-    public Series(String name, ArrayList<String> data) {
+    public Series(String name, ArrayList<Measurement> data) {
         this.name = name;
         this.data = data;
     }
@@ -72,14 +73,14 @@ public class Series {
      * Gets data within the series
      * @return data within the series
      */
-    public ArrayList<String> getData() {
+    public ArrayList<Measurement> getData() {
         return data;
     }
     /**
      * Set data which series will contains
      * @param data data to be set
      */
-    public void setData(ArrayList<String> data) {
+    public void setData(ArrayList<Measurement> data) {
         this.data = data;
     }
     

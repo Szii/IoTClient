@@ -49,7 +49,7 @@ import javax.swing.JOptionPane;
             objectInput = new ObjectInputStream(clientSocket.getInputStream());
             while(true){
                 Payload payload = (Payload) objectInput.readObject(); 
-                System.out.println("Got payload: " + payload.getContent() + " " + payload.getType() + " " + payload.getCode());
+                System.out.println("Got payload: " + payload.getGroups() + " " + payload.getType() + " " + payload.getCode());
                 taskQueue.add(payload);
                 
             }
@@ -63,7 +63,7 @@ import javax.swing.JOptionPane;
     @Override
     public String getAnswer(MessageType messageType) throws InterruptedException{
         synchronized(this){
-            return getPayload(messageType).getContent().get(0);
+            return getPayload(messageType).getGroups().get(0);
         }
     }
     
@@ -84,7 +84,7 @@ import javax.swing.JOptionPane;
     }
     @Override
     public synchronized List<String> getComplexAnswer(MessageType type){
-        List<String> message = (List<String>) getPayload(type).getContent();
+        List<String> message = (List<String>) getPayload(type).getGroups();
         return message;
     }
       

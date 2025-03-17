@@ -5,24 +5,25 @@
  */
 package ViewModel;
 
+import com.irrigation.Messages.MessageData.Measurement;
 import java.util.ArrayList;
 
 /**
  * Data holder class containing measured values by sensor
  * @author brune
  */
-public class Measurement {
+public class MeasurementViewModel {
     
     String sensorID;
     String nickname;
-    ArrayList<String> measuredData;
+    ArrayList<Measurement> measuredData;
     /**
      * Creates new measurement data holder 
      * @param sensorID ID of sensor
      * @param nickname name of measurement
      * @param measuredData measured data
      */
-    public Measurement(String sensorID, String nickname, ArrayList<String> measuredData) {
+    public MeasurementViewModel(String sensorID, String nickname, ArrayList<Measurement> measuredData) {
         this.sensorID = sensorID;
         this.nickname = nickname;
         this.measuredData = measuredData;
@@ -40,7 +41,7 @@ public class Measurement {
      * @param sensorID ID of sensor
      * @param measuredData measured data
      */
-    public Measurement(String sensorID, ArrayList<String> measuredData) {
+    public MeasurementViewModel(String sensorID, ArrayList<Measurement> measuredData) {
         this.sensorID = sensorID;
         this.measuredData = measuredData;
     }
@@ -55,7 +56,7 @@ public class Measurement {
      * Gets measured data
      * @return measured data
      */
-    public ArrayList<String> getMeasuredData() {
+    public ArrayList<Measurement> getMeasuredData() {
         return measuredData;
     }
     

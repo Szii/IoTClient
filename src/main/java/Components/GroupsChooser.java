@@ -5,7 +5,7 @@
  */
 package Components;
 
-import ViewModel.Group;
+import ViewModel.GroupViewModel;
 import java.awt.event.ItemListener;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -19,7 +19,7 @@ public class GroupsChooser extends Panel {
     
         
     private DefaultComboBoxModel groups = new DefaultComboBoxModel();
-    private JComboBox<Group> groupList = new JComboBox();
+    private JComboBox<GroupViewModel> groupList = new JComboBox();
     
     public GroupsChooser(){
         this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
@@ -40,7 +40,7 @@ public class GroupsChooser extends Panel {
         groupList.removeAllItems();
     }
     
-    public void setSelectedGroup(Group group) {
+    public void setSelectedGroup(GroupViewModel group) {
         groupList.getModel().setSelectedItem(group);
     }
     
@@ -49,11 +49,11 @@ public class GroupsChooser extends Panel {
         
     }
     
-    public Group getGroup(){
-        return (Group) groupList.getSelectedItem();
+    public GroupViewModel getGroup(){
+        return (GroupViewModel) groupList.getSelectedItem();
     }
 
-    public void addGroup(Group group){
+    public void addGroup(GroupViewModel group){
         groupList.addItem(group);
     }
 }

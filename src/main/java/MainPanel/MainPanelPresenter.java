@@ -7,7 +7,7 @@ package MainPanel;
 
 import Constants.ConstantsList;
 import ViewModel.LiteSensor;
-import ViewModel.Sensor;
+import ViewModel.SensorViewModel;
 import Model.SensorsPanelObserver;
 import Model.ServiceManager;
 import Model.UnitsPanelObserver;
@@ -15,7 +15,7 @@ import RegisteredSensor.RegisteredSensorGUI;
 import RegisteredSensor.RegisteredSensorGUIInterface;
 import RegisteredSensor.RegisteredSensorPresenter;
 import RegisteredSensor.RegisteredSensorPresenterInterface;
-import ViewModel.Group;
+import ViewModel.GroupViewModel;
 import ViewModel.UnitObject;
 import com.irrigation.Messages.MessageData.Device;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ import javax.swing.DefaultComboBoxModel;
 public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPanelObserver,UnitsPanelObserver {
      MainPanelGUIInterface gui;   
      ServiceManager model;
-     Group selectedGroup = new Group("Default");
+     GroupViewModel selectedGroup = new GroupViewModel("Default");
      /**
       * Creates new controls for content panel component
       * @param gui component to be controlled
@@ -66,7 +66,7 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
         gui.setGroups(getGroupModel(true));
         gui.enableGroupListener(true);
         if(!model.checkIfGroupsContainGroup(selectedGroup)){
-              selectedGroup = new Group("Default");
+              selectedGroup = new GroupViewModel("Default");
         }
         gui.setSelectedGroup(selectedGroup);
     }
@@ -85,7 +85,7 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
                  sensorView.setIrrigationTime(s.getIrrigationTime());
                  sensorPresenter.initView();
                  sensorView.setGroups(getGroupModel(true));
-                 sensorView.setSelectedGroup(new Group(s.getGroup()));
+                 sensorView.setSelectedGroup(new GroupViewModel(s.getGroup()));
                  gui.addRegisteredSensor(sensorView);
                  sensorView.enableGroupListener(true);
                  }
@@ -95,7 +95,7 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
     private DefaultComboBoxModel getGroupModel(boolean isMenu){
             DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
             if(isMenu){
-               comboBoxModel.addElement(new Group("Default")); 
+               comboBoxModel.addElement(new GroupViewModel("Default")); 
             }
             comboBoxModel.addAll(model.getGroups());
             return comboBoxModel;
@@ -121,7 +121,7 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
 
     }
     
-    private void getDevicesBasedOnGroupSelected(Group group){
+    private void getDevicesBasedOnGroupSelected(GroupViewModel group){
         if(group.getGroup().equals("Default")){
            System.out.println(ConstantsList.token);
            updateDevices(model.getRegisteredDevices()); 

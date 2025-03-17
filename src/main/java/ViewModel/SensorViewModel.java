@@ -5,31 +5,31 @@
  */
 package ViewModel;
 
-import ViewModel.Measurement;
+import ViewModel.MeasurementViewModel;
 
 /**
  * Data holder class for sensor
  * @author brune
  */
-public class Sensor {
+public class SensorViewModel {
     String ID;
     String nickname;
     String threshold;
     String moisture;
     String time;
-    Measurement measurement;
+    MeasurementViewModel measurement;
     /**
      * Gets measurement saved in sensor data holder
      * @return sensor measurements
      */
-    public Measurement getMeasurement() {
+    public MeasurementViewModel getMeasurement() {
         return measurement;
     }
      /**
       * Sets measurement saved in sensor data holder
       * @param measurement measurements to be saved in
       */
-    public void setMeasurement(Measurement measurement) {
+    public void setMeasurement(MeasurementViewModel measurement) {
         this.measurement = measurement;
     }
     boolean status;
@@ -41,7 +41,7 @@ public class Sensor {
      * @param moisture current moisture of sensor
      * @param time time of irrigation in seconds
      */
-    public Sensor(String ID, String nickname, String threshold, String moisture,String time) {
+    public SensorViewModel(String ID, String nickname, String threshold, String moisture,String time) {
         this.ID = ID;
         this.nickname = nickname;
         this.threshold = threshold;

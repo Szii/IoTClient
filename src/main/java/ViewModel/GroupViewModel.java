@@ -9,10 +9,10 @@ package ViewModel;
  *
  * @author brune
  */
-public class Group {
+public class GroupViewModel {
         String group;
 
-    public Group(String group) {
+    public GroupViewModel(String group) {
         this.group = group;
     }
 

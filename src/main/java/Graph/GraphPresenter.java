@@ -17,10 +17,10 @@ import DateRangePicker.DateRangePickerGUI;
 import DateRangePicker.DateRangePickerGUIInterface;
 import DateRangePicker.DateRangePickerPresenter;
 import DateRangePicker.DateRangePickerPresenterInterface;
-import ViewModel.Sensor;
+import ViewModel.SensorViewModel;
 import Model.ServiceManager;
-import ViewModel.Group;
-import ViewModel.Measurement;
+import ViewModel.GroupViewModel;
+import ViewModel.MeasurementViewModel;
 import ViewModel.UnitObject;
 import com.irrigation.Messages.MessageData.Device;
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
     
     ServiceManager model;
     GraphGUIInterface gui;
-    ArrayList<Measurement> data;
+    ArrayList<MeasurementViewModel> data;
     Size size;
     ChartType type;
 
@@ -57,10 +57,10 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
  
     @Override
     public void initView() {
-        ArrayList<Group> groups = new ArrayList();
-        groups.add(new Group("Default"));
+        ArrayList<GroupViewModel> groups = new ArrayList();
+        groups.add(new GroupViewModel("Default"));
         groups.addAll(model.getGroups());
-        onUnitSelected(new Group("Default"));
+        onUnitSelected(new GroupViewModel("Default"));
         gui.setUnitsComboBoxModel(groups);
         gui.initView();
        
@@ -70,7 +70,7 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
          gui.setGraph(data);
     }
     @Override
-    public void createChart(ChartType chartType,Size size,ArrayList<Measurement> data){
+    public void createChart(ChartType chartType,Size size,ArrayList<MeasurementViewModel> data){
        this.data = data;
        this.type = chartType;
        this.size = size;
@@ -79,10 +79,10 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
        
     }
  
-    private ArrayList<Series> createSeries(ArrayList<Measurement> measurements){
+    private ArrayList<Series> createSeries(ArrayList<MeasurementViewModel> measurements){
         System.out.println("Creatzing series from measurements: " + measurements);
         ArrayList<Series> seriesList = new ArrayList();
-        for(Measurement dataInstance : measurements){
+        for(MeasurementViewModel dataInstance : measurements){
               Series series = new Series(dataInstance.getNickname(),dataInstance.getMeasuredData());
               seriesList.add(series);
        }
@@ -166,7 +166,7 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
     }
 
     @Override
-    public void onUnitSelected(Group group) {
+    public void onUnitSelected(GroupViewModel group) {
         System.out.println("Group selected: " + group.getGroup());
         ArrayList<Device> sensors = new ArrayList();
         sensors.add(new Device.DeviceBuilder().setID("").build());
@@ -183,8 +183,8 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
     @Override
     public void onDefaultRangeSelected() {
 
-             ArrayList<Measurement> newData = new ArrayList();
-             for (Measurement measurement : data){
+             ArrayList<MeasurementViewModel> newData = new ArrayList();
+             for (MeasurementViewModel measurement : data){
                 newData.add(model.getMeasurementValues(measurement.getSensorID(), "TYPE_HUMIDITY"));
              }
              if(data.size() > 1){
@@ -200,8 +200,8 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
     
     private void onRangeSet(String from, String to) {
         gui.setPeriodLabel(from, to);
-        ArrayList<Measurement> newData = new ArrayList();
-        for (Measurement measurement : data){
+        ArrayList<MeasurementViewModel> newData = new ArrayList();
+        for (MeasurementViewModel measurement : data){
             newData.add(model.getMeasurementValuesInRange(measurement.getSensorID(), from, to, "TYPE_HUMIDITY"));
         }
        createChart(ChartType.SENSOR_MEASUREMENT_MULTIPLE, Size.HOURLY, newData);

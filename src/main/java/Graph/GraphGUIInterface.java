@@ -6,8 +6,8 @@
 package Graph;
 
 import Base.BaseGUIInterface;
-import ViewModel.Group;
-import ViewModel.Sensor;
+import ViewModel.GroupViewModel;
+import ViewModel.SensorViewModel;
 import ViewModel.UnitObject;
 import com.irrigation.Messages.MessageData.Device;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public interface GraphGUIInterface extends BaseGUIInterface{
      * Sets a available units for selection
      * @param units available units
      */
-    public void setUnitsComboBoxModel(ArrayList<Group> units);
+    public void setUnitsComboBoxModel(ArrayList<GroupViewModel> units);
     /**
      * Sets available sensors for selection
      * @param sensors available sensors
@@ -45,7 +45,7 @@ public interface GraphGUIInterface extends BaseGUIInterface{
      * Gets a sensor selected
      * @return Selected sensor
      */
-    public Sensor getSelectedSensor();
+    public SensorViewModel getSelectedSensor();
     /**
      * Sets a visible time period 
      * @param from lower bound

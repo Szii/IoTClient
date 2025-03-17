@@ -160,7 +160,7 @@ public class OutputThread_OOP extends Thread implements Request{
     
     private void sendPayload(MessageType typeOfMessage,ArrayList<String> messages){
         Payload payload = new Payload.PayloadBuilder(Code.SUCCESS)
-                .setContent(messages)
+                .setGroups(messages)
                 .setType(typeOfMessage)
                 .setToken(ConstantsList.token)
                 .build();

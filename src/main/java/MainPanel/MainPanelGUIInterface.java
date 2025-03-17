@@ -9,7 +9,7 @@ import Base.BaseGUIInterface;
 import RegisteredSensor.RegisteredSensorGUIInterface;
 import Unit.UnitGUIInterface;
 import UnregisteredSensor.UnregisteredSensorGUIInterface;
-import ViewModel.Group;
+import ViewModel.GroupViewModel;
 import ViewModel.UnitObject;
 import java.awt.Component;
 import javax.swing.DefaultComboBoxModel;
@@ -59,14 +59,14 @@ public interface MainPanelGUIInterface extends BaseGUIInterface{
    
        public void setGroups(DefaultComboBoxModel groups);
 
-    public Group getGroup();
+    public GroupViewModel getGroup();
 
 
     public void clearGroups();
     
-    public void setSelectedGroup(Group group);
+    public void setSelectedGroup(GroupViewModel group);
     
-    public void addGroup(Group group);
+    public void addGroup(GroupViewModel group);
     
     public void enableGroupListener(boolean enabled);
   

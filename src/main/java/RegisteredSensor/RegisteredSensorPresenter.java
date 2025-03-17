@@ -13,9 +13,9 @@ import Graph.GraphGUI;
 import Graph.GraphGUIInterface;
 import Graph.GraphPresenter;
 import Model.ServiceManager;
-import ViewModel.Group;
-import ViewModel.Measurement;
-import ViewModel.Sensor;
+import ViewModel.GroupViewModel;
+import ViewModel.MeasurementViewModel;
+import ViewModel.SensorViewModel;
 import ViewModel.UnitObject;
 import com.irrigation.Messages.MessageData.Device;
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
     ServiceManager model;
     Device sensor;
     UnitObject unit;
-    Group selectedGroup = new Group("");
+    GroupViewModel selectedGroup = new GroupViewModel("");
     /**
      * Creates new controls for registered sensor component
      * @param gui GUI component to be controlled
@@ -94,11 +94,11 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
         GraphGUIInterface gui = new GraphGUI();
         GraphControls graphPresenter = new GraphPresenter(model,gui);
         gui.setGraphInitiator(sensor);
-        Measurement measurement = null;
+        MeasurementViewModel measurement = null;
         measurement = model.getMeasurementValues(sensor.getID(),"TYPE_HUMIDITY");
         System.out.println("got measured values for sensor" + sensor.getID() + "values: " + measurement.getMeasuredData());
 
-        ArrayList<Measurement> data = new ArrayList();
+        ArrayList<MeasurementViewModel> data = new ArrayList();
         data.add(measurement);
         System.out.println("got measured data for sensor" + sensor.getID() + "values: " + data);
         graphPresenter.createChart(ChartType.SENSOR_MEASUREMENT_SINGLE, Size.HOURLY, data);     
