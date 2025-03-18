@@ -15,6 +15,8 @@ import com.irrigation.Messages.MessageData.Measurement;
 import com.irrigation.Messages.MessageFormat.MeasurementRequest;
 import com.irrigation.Messages.MessageFormat.Payload;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -28,276 +30,124 @@ import org.springframework.web.util.UriComponentsBuilder;
  * @author brune
  */
 public class HttpClient {
-    
-      private HttpHeaders setToken(){
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Bearer " + ConstantsList.token.trim());
-            return headers;
-      }
-    
-    
-    
-       public ArrayList<Device> getAllDevices(){
-            RestTemplate restTemplate = new RestTemplate();
-            String url = "http://localhost:9090/api/devices/getAll";
-            HttpEntity<DeviceRequest> entity = new HttpEntity<>( setToken());
-            ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.GET, entity, Payload.class);
-            Payload deviceResponse = response.getBody();
-            return (ArrayList<Device>) deviceResponse.getDevices(); 
+
+    private static final Logger LOGGER = Logger.getLogger(HttpClient.class.getName());
+
+    private final RestTemplate restTemplate;
+    private final String basePath;
+    private final ConfigLoader loader;
+
+    public HttpClient() {
+        this.loader = new ConfigLoader();
+        this.restTemplate = new RestTemplate();
+        this.basePath = loader.getAddress() + ":" + loader.getPort();
+    }
+
+    private HttpHeaders setToken() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + ConstantsList.token.trim());
+        return headers;
+    }
+
+    private <T> ResponseEntity<T> sendRequest(String url, HttpMethod method, Object payload, Class<T> responseType) {
+        try {
+            HttpEntity<Object> entity = (payload == null)
+                    ? new HttpEntity<>(setToken())
+                    : new HttpEntity<>(payload, setToken());
+
+            return restTemplate.exchange(url, method, entity, responseType);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error calling API: " + url, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-   
-    
-   public ArrayList<Device> getAllDevicesInGroup(String group){
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:9090/api/devices/getAllInGroup";
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
-                .queryParam("groupName", group);  // Add any query parameters here
-        DeviceRequest payload = new DeviceRequest();
-        payload.setNewGroup(group);
-        
-        HttpEntity<DeviceRequest> entity = new HttpEntity<>(payload, setToken());
-        ResponseEntity<Payload> response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, Payload.class);
-        Payload deviceResponse = response.getBody();
-        return (ArrayList<Device>) deviceResponse.getDevices(); 
-        
-   }
-   
-   public Payload loginTest(String username, String password){
-       
-        RestTemplate restTemplate = new RestTemplate();
+    }
 
-        // Define the URL of the endpoint
-        String url = "http://localhost:9090/api/user/login";
-        CredentialsRequest payload = new CredentialsRequest(username, password);
-                
+    public ArrayList<Device> getAllDevices() {
+        String url = basePath + "/api/devices/getAll";
+        ResponseEntity<Payload> response = sendRequest(url, HttpMethod.GET, null, Payload.class);
+        return response.getBody() != null ? new ArrayList<>(response.getBody().getDevices()) : new ArrayList<>();
+    }
 
-        HttpEntity<CredentialsRequest> entity = new HttpEntity<>(payload, setToken());
-        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
+    public ArrayList<Device> getAllDevicesInGroup(String group) {
+        String url = basePath + "/api/devices/getAllInGroup";
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url).queryParam("groupName", group);
+        ResponseEntity<Payload> response = sendRequest(builder.toUriString(), HttpMethod.GET, null, Payload.class);
+        return response.getBody() != null ? new ArrayList<Device>(response.getBody().getDevices()) : new ArrayList<>();
+    }
 
-        // Extract the response body
-        Payload loginResponse = response.getBody();
-        return loginResponse;
-       
-   }
-   
-     public Payload registeTest(String username, String password){
-       
-        RestTemplate restTemplate = new RestTemplate();
+    public Payload login(String username, String password) {
+        String url = basePath + "/api/user/login";
+        return sendRequest(url, HttpMethod.POST, new CredentialsRequest(username, password), Payload.class).getBody();
+    }
 
-        // Define the URL of the endpoint
-        String url = "http://localhost:9090/api/user/register";
-        CredentialsRequest payload = new CredentialsRequest(username, password);
-                
+    public Payload register(String username, String password) {
+        String url = basePath + "/api/user/register";
+        return sendRequest(url, HttpMethod.POST, new CredentialsRequest(username, password), Payload.class).getBody();
+    }
 
-        HttpEntity<CredentialsRequest> entity = new HttpEntity<>(payload, setToken());
-        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
-
-        // Extract the response body
-        Payload loginResponse = response.getBody();
-        return loginResponse;
-       
-   }
-     
-     public Code updateDeviceThresold(String device,String thresold){
-               RestTemplate restTemplate = new RestTemplate();
-
-        // Define the URL of the endpoint
-        String url = "http://localhost:9090/api/devices/update";
-        DeviceRequest payload = new DeviceRequest();
-        payload.setDevice(device);
-        payload.setTreshold(thresold);
-                
-        HttpEntity<DeviceRequest> entity = new HttpEntity<>(payload, setToken());
-        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
-
-        // Extract the response body
-        Payload loginResponse = response.getBody();
-        return loginResponse.getCode();
-         
-     }
-     
-     public Code updateDeviceGroup(String device, String group){
-        RestTemplate restTemplate = new RestTemplate();
-
-        // Define the URL of the endpoint
-        String url = "http://localhost:9090/api/devices/update";
-        DeviceRequest payload = new DeviceRequest();
-        payload.setDevice(device);
-        payload.setNewGroup(group);
-        
-        HttpEntity<DeviceRequest> entity = new HttpEntity<>(payload, setToken());
-        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
-                
-
-        // Extract the response body
-        Payload loginResponse = response.getBody();
-        return loginResponse.getCode();
-         
-     }
-     
-     public Code updateDeviceName(String device, String newName){
-         RestTemplate restTemplate = new RestTemplate();
-
-        // Define the URL of the endpoint
-        String url = "http://localhost:9090/api/devices/update";
-        DeviceRequest payload = new DeviceRequest();
-        payload.setDevice(device);
-        payload.setDeviceNickname(newName);
-                
-        HttpEntity<DeviceRequest> entity = new HttpEntity<>(payload, setToken());
-        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
-
-        // Extract the response body
-        Payload loginResponse = response.getBody();
-        return loginResponse.getCode();
-     }
-     
-     public Code updateDeviceIrrigationTime(String device, String time){
-          RestTemplate restTemplate = new RestTemplate();
-
-        // Define the URL of the endpoint
-        String url = "http://localhost:9090/api/devices/update";
-        DeviceRequest payload = new DeviceRequest();
-        payload.setDevice(device);
-        payload.setIrrigationTime(time);
-        
-        HttpEntity<DeviceRequest> entity = new HttpEntity<>(payload, setToken());
-        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
-
-        // Extract the response body
-        Payload loginResponse = response.getBody();
-        return loginResponse.getCode();
-     }
-     
-     public ArrayList<String> getGroups(){
-       RestTemplate restTemplate = new RestTemplate();
-
-        // Define the URL of the endpoint
-        String url = "http://localhost:9090/api/groups/get";
-               
-        HttpEntity<GroupRequest> entity = new HttpEntity<>(setToken());
-        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.GET, entity, Payload.class);
-
-        // Extract the response body
-        Payload deviceResponse = response.getBody();
-        return (ArrayList<String>) deviceResponse.getGroups(); 
-     }
-     
-     public Code renameGroup(String group, String newGroup){
-              RestTemplate restTemplate = new RestTemplate();
-
-        // Define the URL of the endpoint
-        String url = "http://localhost:9090/api/groups/rename";
-        GroupRequest payload = new GroupRequest();
-        payload.setGroup(group);
-        payload.setGroupNewName(newGroup);
-                
-        HttpEntity<GroupRequest> entity = new HttpEntity<>(payload, setToken());
-        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
-
-        // Extract the response body
-        Payload loginResponse = response.getBody();
-        return loginResponse.getCode();
-     }
-     
-     public Code removeGroup(String group){
-                       RestTemplate restTemplate = new RestTemplate();
-
-        // Define the URL of the endpoint
-        String url = "http://localhost:9090/api/groups/remove";
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
-                .queryParam("group", group);
- 
-                
-        HttpEntity<GroupRequest> entity = new HttpEntity<>(setToken());
-        ResponseEntity<Payload> response = restTemplate.exchange(builder.toUriString(), HttpMethod.DELETE, entity, Payload.class);
-
-        // Extract the response body
-        Payload loginResponse = response.getBody();
-        return loginResponse.getCode();
-         
-     }
-     
-      public Code addGroup(String group){
-        RestTemplate restTemplate = new RestTemplate();
-        System.out.println("CREATING GROUP " + group);
-        // Define the URL of the endpoint
-        String url = "http://localhost:9090/api/groups/add";
-        GroupRequest payload = new GroupRequest();
-        payload.setGroup(group);
-                
-        HttpEntity<GroupRequest> entity = new HttpEntity<>(payload, setToken());
-        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
-
-        // Extract the response body
-        Payload loginResponse = response.getBody();
-        return loginResponse.getCode();
-         
-     }
-      
-     public Code registerDevice(String device){
-        RestTemplate restTemplate = new RestTemplate();
-
-        // Define the URL of the endpoint
-        String url = "http://localhost:9090/api/devices/register";
+    public Code updateDevice(String device, String value, DeviceUpdateField field) {
+        String url = basePath + "/api/devices/update";
         DeviceRequest payload = new DeviceRequest();
         payload.setDevice(device);
 
-        HttpEntity<DeviceRequest> entity = new HttpEntity<>(payload, setToken());
-        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
+        switch (field) {
+            case THRESHOLD -> payload.setTreshold(value);
+            case GROUP -> payload.setNewGroup(value);
+            case NICKNAME -> payload.setDeviceNickname(value);
+            case IRRIGATION_TIME -> payload.setIrrigationTime(value);
+        }
 
-        // Extract the response body
-        Payload loginResponse = response.getBody();
-        return loginResponse.getCode();
-         
-     }
-     
-     public Code removeDevice(String device){
-        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Payload> response = sendRequest(url, HttpMethod.POST, payload, Payload.class);
+        return response.getBody() != null ? response.getBody().getCode() : null;
+    }
 
-        // Define the URL of the endpoint
-        String url = "http://localhost:9090/api/devices/unregister";
-        DeviceRequest payload = new DeviceRequest();
+    public ArrayList<String> getGroups() {
+        String url = basePath + "/api/groups/get";
+        ResponseEntity<Payload> response = sendRequest(url, HttpMethod.GET, null, Payload.class);
+        return response.getBody() != null ? new ArrayList<>(response.getBody().getGroups()) : new ArrayList<>();
+    }
 
-                
+    public Code renameGroup(String group, String newGroup) {
+        String url = basePath + "/api/groups/rename";
+        GroupRequest payload = new GroupRequest(group, newGroup);
+        ResponseEntity<Payload> response = sendRequest(url, HttpMethod.POST, payload, Payload.class);
+        return response.getBody() != null ? response.getBody().getCode() : null;
+    }
 
-        HttpEntity<DeviceRequest> entity = new HttpEntity<>(payload, setToken());
-        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
-        // Extract the response body
-        Payload loginResponse = response.getBody();
-        return loginResponse.getCode();
-     }
-     
-     public ArrayList<Measurement> getMeasurements(String device,String type){
-         RestTemplate restTemplate = new RestTemplate();
+    public Code removeGroup(String group) {
+        String url = UriComponentsBuilder.fromHttpUrl(basePath + "/api/groups/remove")
+                .queryParam("group", group)
+                .toUriString();
+        ResponseEntity<Payload> response = sendRequest(url, HttpMethod.DELETE, null, Payload.class);
+        return response.getBody() != null ? response.getBody().getCode() : null;
+    }
 
-        // Define the URL of the endpoint
-        String url = "http://localhost:9090/api/measurement/get";
+    public Code addGroup(String group) {
+        String url = basePath + "/api/groups/add";
+        ResponseEntity<Payload> response = sendRequest(url, HttpMethod.POST, new GroupRequest(group), Payload.class);
+        return response.getBody() != null ? response.getBody().getCode() : null;
+    }
 
-        MeasurementRequest payload = new MeasurementRequest(device,null,null,type);
-        HttpEntity<MeasurementRequest> entity = new HttpEntity<>(payload, setToken());
-  
-        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);
+    public Code registerDevice(String device) {
+        String url = basePath + "/api/devices/register";
+        ResponseEntity<Payload> response = sendRequest(url, HttpMethod.POST, new DeviceRequest(device), Payload.class);
+        return response.getBody() != null ? response.getBody().getCode() : null;
+    }
 
-        // Extract the response body
-        Payload measurementResponse = response.getBody();
-        System.out.println("Returning measurements" + measurementResponse.getMeasurements());
-        return (ArrayList<Measurement>) measurementResponse.getMeasurements();
-     }
-     
-       public ArrayList<Measurement> getMeasurements(String device,String from, String to,String type){
-         RestTemplate restTemplate = new RestTemplate();
+    public Code removeDevice(String device) {
+        String url = basePath + "/api/devices/unregister";
+        ResponseEntity<Payload> response = sendRequest(url, HttpMethod.POST, new DeviceRequest(device), Payload.class);
+        return response.getBody() != null ? response.getBody().getCode() : null;
+    }
 
-        // Define the URL of the endpoint
-        String url = "http://localhost:9090/api/measurement/get";
-        MeasurementRequest payload = new MeasurementRequest(device,from,to,type);
-        HttpEntity<MeasurementRequest> entity = new HttpEntity<>(payload, setToken());
-  
-        ResponseEntity<Payload> response = restTemplate.exchange(url, HttpMethod.POST, entity, Payload.class);  
+    public ArrayList<Measurement> getMeasurements(String device, String type) {
+        return getMeasurements(device, null, null, type);
+    }
 
-
-        // Extract the response body
-        Payload measurementResponse = response.getBody();
-        return (ArrayList<Measurement>) measurementResponse.getMeasurements();
-     }
+    public ArrayList<Measurement> getMeasurements(String device, String from, String to, String type) {
+        String url = basePath + "/api/measurement/get";
+        MeasurementRequest payload = new MeasurementRequest(device, from, to, type);
+        ResponseEntity<Payload> response = sendRequest(url, HttpMethod.POST, payload, Payload.class);
+        return response.getBody() != null ? new ArrayList<>(response.getBody().getMeasurements()) : new ArrayList<>();
+    }
 }

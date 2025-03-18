@@ -86,7 +86,7 @@ public class ServiceManager {
      * @throws InterruptedException Exception is thrown when connection to the server is lost
      */
     public Payload checkLogin(String login,String password){
-        return httpClient.loginTest(login, password);
+        return httpClient.login(login, password);
     }
 
    /**
@@ -96,7 +96,7 @@ public class ServiceManager {
     * @return returns SUCCESS  , if registration complete
     */
    public Code addUser(String user,String passwd){
-        return httpClient.registeTest(user, passwd).getCode();
+        return httpClient.register(user, passwd).getCode();
     }
    
 
@@ -123,7 +123,7 @@ public class ServiceManager {
     */
    public void setDeviceNickname(String sensorID,String nickname){
       // request.setDeviceNickname(sensorID,nickname);
-      httpClient.updateDeviceName(sensorID, nickname);
+      httpClient.updateDevice(sensorID, nickname, DeviceUpdateField.NICKNAME);
    }
     /**
     * Method sends a request for setting a threshold of sensor
@@ -132,7 +132,7 @@ public class ServiceManager {
     */
    public void setThresold(String sensorID,String value){
        // request.setThresold(sensorID, value);
-        httpClient.updateDeviceThresold(sensorID, value);
+        httpClient.updateDevice(sensorID, value, DeviceUpdateField.THRESHOLD);
    }
    /**
     * Method sends a request for setting a irrigation time of sensor in seconds
@@ -141,7 +141,7 @@ public class ServiceManager {
     */
    public void setTime(String sensorID,String value){
        //request.setTime(sensorID, value);
-        httpClient.updateDeviceIrrigationTime(sensorID, value);
+        httpClient.updateDevice(sensorID, value, DeviceUpdateField.IRRIGATION_TIME);
    }
    
    /**
@@ -234,7 +234,7 @@ public class ServiceManager {
     
     public Code changeDeviceGroup(String devioe, String group) throws InterruptedException{
         //request.changeDeviceGroup(devioe, group);
-        return httpClient.updateDeviceGroup(devioe, group);
+        return httpClient.updateDevice(devioe, group, DeviceUpdateField.GROUP);
     }
     
     public Code createNewGroup(String groupname){
