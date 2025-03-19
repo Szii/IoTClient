@@ -10,7 +10,6 @@ import Components.Label;
 import Components.Panel;
 import RegisteredSensor.RegisteredSensorGUI;
 import RegisteredSensor.RegisteredSensorGUIInterface;
-import Unit.UnitGUIInterface;
 import UnregisteredSensor.UnregisteredSensorGUIInterface;
 import ViewModel.GroupViewModel;
 import ViewModel.UnitObject;
@@ -51,7 +50,7 @@ public class MainPanelGUI extends Panel implements MainPanelGUIInterface {
         initView();
     }
     
-    private Panel getLeftPanel(){
+    private Panel getMainPanel(){
         Panel panel = new Panel();
         panel.setLayout(new BorderLayout());
         panel.add(getGroupPanel(),BorderLayout.NORTH);
@@ -60,15 +59,6 @@ public class MainPanelGUI extends Panel implements MainPanelGUIInterface {
         return panel;
     }
     
-     private Panel getRightPanel(){
-        Panel panel = new Panel();
-        panel.setLayout(new BorderLayout());
-        panel.add(getUnitsLabelPanel(),BorderLayout.NORTH);
-        panel.add(getUnitsHolder(),BorderLayout.CENTER);
-        
-        return panel;
-    }
-     
          private Panel getGroupPanel(){
         Panel panel = new Panel();
         panel.setLayout(new BoxLayout(panel,BoxLayout.X_AXIS));
@@ -100,19 +90,7 @@ public class MainPanelGUI extends Panel implements MainPanelGUIInterface {
          panel.add(label);
          return panel;
      }
-    
-    
-    private JScrollPane getUnitsHolder(){
-        Panel panel = new Panel();
-        panel.setLayout(new BorderLayout());
-        panel.add(getUnitsPanel(),BorderLayout.NORTH);
-        JScrollPane scrollPane = new JScrollPane(panel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setEnabled(false);
-        return scrollPane;
-    }
-    
+     
     private JScrollPane getSensorsHolder(){
         Panel panel = new Panel();
         panel.setLayout(new BorderLayout());
@@ -122,21 +100,6 @@ public class MainPanelGUI extends Panel implements MainPanelGUIInterface {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setEnabled(false);
         return scrollPane;
-    }
-    
-    private Panel getUnitInfoPanel(){
-        Panel panel = new Panel();
-        panel.setLayout(new BoxLayout(panel,BoxLayout.X_AXIS));
-        panel.add(selectedUnit);
-        panel.add(selectedUnitID);
-        return panel;
-    }
-    
-    
-   private Panel getUnitsPanel(){
-        unitsPanel = new Panel();
-        unitsPanel.setLayout(new BoxLayout(unitsPanel,BoxLayout.Y_AXIS));
-        return unitsPanel;
     }
     
     private Panel getSensorsPanel(){
@@ -154,14 +117,9 @@ public class MainPanelGUI extends Panel implements MainPanelGUIInterface {
     public void initView() {
          this.setBorder(null);
          this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
-         this.add(getLeftPanel(),BorderLayout.WEST);
-         this.add(getRightPanel(),BorderLayout.CENTER);
-         
-       
+         this.add(getMainPanel(),BorderLayout.CENTER); 
     }
     
-    
-
     @Override
     public void addComponent(Component comp) {
         this.add(comp);
@@ -171,28 +129,12 @@ public class MainPanelGUI extends Panel implements MainPanelGUIInterface {
     public void updateGUI() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public void clearUnits() {
-        unitsPanel.removeAll();
-        unitsPanel.repaint();
-        unitsPanel.revalidate();
-    }
-
+    
     @Override
     public void clearSensors() {
         sensorsPanel.removeAll();
         sensorsPanel.repaint();
         sensorsPanel.revalidate();
-    }
-
-    @Override
-    public void addUnit(UnitGUIInterface unit) {
-
-        unitsPanel.add((Panel) unit);
-        unitsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-        unitsPanel.repaint();
-        unitsPanel.revalidate();
     }
 
     @Override
@@ -217,10 +159,6 @@ public class MainPanelGUI extends Panel implements MainPanelGUIInterface {
     public void refresh() {
         
         
-    }
-    @Override
-    public void setSelectedUnit(UnitObject unit){
-        selectedUnitID.setText(unit.toString());
     }
 
      @Override

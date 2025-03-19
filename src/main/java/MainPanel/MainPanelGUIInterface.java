@@ -7,7 +7,6 @@ package MainPanel;
 
 import Base.BaseGUIInterface;
 import RegisteredSensor.RegisteredSensorGUIInterface;
-import Unit.UnitGUIInterface;
 import UnregisteredSensor.UnregisteredSensorGUIInterface;
 import ViewModel.GroupViewModel;
 import ViewModel.UnitObject;
@@ -25,18 +24,9 @@ public interface MainPanelGUIInterface extends BaseGUIInterface{
      */
      public void addComponent(Component comp);
     /**
-     * Removes all units 
-     */
-    public void clearUnits();
-    /**
      * Removes all sensors
      */
     public void clearSensors();
-    /**
-     * Adds new unit and shows it
-     * @param unit Unit GUI component to be added
-     */
-    public void addUnit(UnitGUIInterface unit);
     /**
      * Adds new registered sensor and shows it
      * @param sensor Sensor GUI component to be added
@@ -51,13 +41,8 @@ public interface MainPanelGUIInterface extends BaseGUIInterface{
      * Update the components on the screen
      */
    public void refresh();
-   /**
-    * Sets a unit as currently selected unit
-    * @param unit Unit to be set
-    */
-   public void setSelectedUnit(UnitObject unit);
    
-       public void setGroups(DefaultComboBoxModel groups);
+   public void setGroups(DefaultComboBoxModel groups);
 
     public GroupViewModel getGroup();
 

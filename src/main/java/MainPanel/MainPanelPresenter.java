@@ -49,9 +49,7 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
     }
     
     public void updateGUI(){
-        gui.clearSensors();
-        gui.clearUnits();
-        
+        gui.clearSensors();     
     }
 
     @Override
