@@ -6,18 +6,9 @@ import LoginScreen.LoginScreenGUI;
 import LoginScreen.LoginScreenGUIInterface;
 import LoginScreen.LoginScreenPresenter;
 import LoginScreen.LoginScreenPresenterInterface;
-import Model.InputThread;
-import Model.Request;
-import Model.Response;
 import Model.ServiceManager;
 import com.formdev.flatlaf.FlatDarkLaf;
-import java.io.IOException;
-import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import Model.OutputThread_OOP;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

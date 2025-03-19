@@ -5,16 +5,13 @@
  */
 package GroupScreen;
 
-import Constants.ConstantsList;
 import Model.SensorsPanelObserver;
 import Model.ServiceManager;
 import ViewModel.GroupViewModel;
 import ViewModel.LiteSensor;
-import ViewModel.UnitObject;
 import com.irrigation.Messages.MessageData.Device;
 import com.irrigation.Messages.MessageFormat.Code;
 import java.util.ArrayList;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -43,7 +40,7 @@ public class GroupsPresenter implements GroupsPresenterInterface, SensorsPanelOb
             return;
         }
         if(model.createNewGroup(text).equals(Code.SUCCESS)){
-            model.getSensorsManager().fireNotification("sensorsChange", null);
+            model.getSensorsManager().fireNotification("sensorsChange");
             JOptionPane.showMessageDialog(null, "Group registered");
         }
         else{
@@ -56,7 +53,7 @@ public class GroupsPresenter implements GroupsPresenterInterface, SensorsPanelOb
         
         if(model.deleteGroup(selectedGroup.getGroup()).equals(Code.SUCCESS)){
             selectedGroup = (GroupViewModel) gui.getModel().getElementAt(1);
-            model.getSensorsManager().fireNotification("sensorsChange", null);
+            model.getSensorsManager().fireNotification("sensorsChange");
             JOptionPane.showMessageDialog(null, "Group removed");
         }
         else{
@@ -73,7 +70,7 @@ public class GroupsPresenter implements GroupsPresenterInterface, SensorsPanelOb
         }
         if(model.changeGroupName(selectedGroup.getGroup(),text).equals(Code.SUCCESS)){
             selectedGroup.setGroup(text);
-            model.getSensorsManager().fireNotification("sensorsChange", null);
+            model.getSensorsManager().fireNotification("sensorsChange");
             JOptionPane.showMessageDialog(null, "Group name changed");
         }
         else{
@@ -96,7 +93,7 @@ public class GroupsPresenter implements GroupsPresenterInterface, SensorsPanelOb
     }
 
     @Override
-    public void onChangeNotification(UnitObject unit_ID) {
+    public void onChangeNotification() {
         ArrayList<GroupViewModel> groups = new ArrayList();
         groups.addAll(model.getGroups());
         gui.setGroupsComboBoxModel(groups);

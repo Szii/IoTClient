@@ -8,7 +8,6 @@ package Graph;
 import ChartDataBuilder.ChartType;
 import ChartDataBuilder.Series;
 import ChartDataBuilder.Size;
-import Constants.ConstantsList;
 import DatePicker.DatePickerGUI;
 import DatePicker.DatePickerGUIInterface;
 import DatePicker.DatePickerPresenter;
@@ -17,15 +16,11 @@ import DateRangePicker.DateRangePickerGUI;
 import DateRangePicker.DateRangePickerGUIInterface;
 import DateRangePicker.DateRangePickerPresenter;
 import DateRangePicker.DateRangePickerPresenterInterface;
-import ViewModel.SensorViewModel;
 import Model.ServiceManager;
 import ViewModel.GroupViewModel;
 import ViewModel.MeasurementViewModel;
-import ViewModel.UnitObject;
 import com.irrigation.Messages.MessageData.Device;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jfree.chart.ChartPanel;
 
 

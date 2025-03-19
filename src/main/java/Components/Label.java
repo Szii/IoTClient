@@ -7,7 +7,6 @@ package Components;
 
 import Constants.ConstantsList;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;

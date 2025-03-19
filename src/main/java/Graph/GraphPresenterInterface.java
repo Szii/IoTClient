@@ -7,8 +7,6 @@ package Graph;
 
 import Base.BasePresenterInterface;
 import ViewModel.GroupViewModel;
-import ViewModel.SensorViewModel;
-import ViewModel.UnitObject;
 import com.irrigation.Messages.MessageData.Device;
 
 

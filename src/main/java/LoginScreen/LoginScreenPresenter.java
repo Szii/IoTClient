@@ -17,12 +17,9 @@ import RegisterScreen.RegisterScreenGUI;
 import RegisterScreen.RegisterScreenGUIInterface;
 import RegisterScreen.RegisterScreenPresenter;
 import RegisterScreen.RegisterScreenPresenterInterface;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.SwingWorker;
 import MainPanel.*;
 import Model.SensorsPanelObserver;
-import Model.UnitsPanelObserver;
 import com.irrigation.Messages.MessageFormat.Code;
 import com.irrigation.Messages.MessageFormat.Payload;
 
@@ -84,7 +81,6 @@ public class LoginScreenPresenter implements LoginScreenPresenterInterface {
 
             MainPanelGUIInterface panel = new MainPanelGUI();
             MainPanelPresenterInterface panelPresenter = new MainPanelPresenter(panel,model);
-            model.getUnitsManager().addObserver((UnitsPanelObserver) panelPresenter);
             model.getSensorsManager().addObserver((SensorsPanelObserver) panelPresenter);
 
 

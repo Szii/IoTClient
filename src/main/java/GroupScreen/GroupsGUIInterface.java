@@ -7,8 +7,6 @@ package GroupScreen;
 
 import Base.BaseGUIInterface;
 import ViewModel.GroupViewModel;
-import ViewModel.UnitObject;
-import com.irrigation.Messages.MessageData.Device;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;

@@ -5,7 +5,6 @@
  */
 package Model;
 
-import ViewModel.UnitObject;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -37,10 +36,10 @@ public class SensorsManager implements ManagerInterface<SensorsPanelObserver>{
      * @param unit_ID UnitObject, which possibly fired the notification
      */
      @Override
-     public void fireNotification(String notification,UnitObject unit_ID){
+     public void fireNotification(String notification){
         for(SensorsPanelObserver o : observers){
             if(notification.equals("sensorsChange")){
-                o.onChangeNotification(unit_ID);
+                o.onChangeNotification();
             }
         }
         

@@ -10,7 +10,6 @@ import Components.Label;
 import Components.Panel;
 import ViewModel.GroupViewModel;
 import ViewModel.SensorViewModel;
-import ViewModel.UnitObject;
 import com.irrigation.Messages.MessageData.Device;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -244,11 +243,6 @@ public class GraphGUI implements GraphGUIInterface{
     @Override
     public void setSensorsComboBoxModel(ArrayList<Device> sensors) {
         sensorsComboBox.setModel(new DefaultComboBoxModel(sensors.toArray()));
-    }
-
-    @Override
-    public UnitObject getSelectedUnit() {
-        return (UnitObject) unitsComboBox.getSelectedItem();
     }
 
     @Override

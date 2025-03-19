@@ -8,8 +8,6 @@ package RegisterScreen;
 import LoginScreen.*;
 import Model.ServiceManager;
 import com.irrigation.Messages.MessageFormat.Code;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.SwingWorker;
 
 /**

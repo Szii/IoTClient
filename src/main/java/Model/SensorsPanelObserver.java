@@ -7,7 +7,6 @@ package Model;
 
 import ViewModel.LiteSensor;
 import ViewModel.SensorViewModel;
-import ViewModel.UnitObject;
 import com.irrigation.Messages.MessageData.Device;
 import java.util.ArrayList;
 
@@ -20,7 +19,7 @@ public interface SensorsPanelObserver extends Observer {
      * Method is invoked by corresponding manager when new unit is selected to show its sensors
      * @param unit_ID UnitObject, which is selected
      */
-     public void onChangeNotification(UnitObject unit_ID);
+     public void onChangeNotification();
      /**
       * Method is invoked by corresponding manager when there is a need to update sensors
       * @param registeredSensors Registered sensors to be updated

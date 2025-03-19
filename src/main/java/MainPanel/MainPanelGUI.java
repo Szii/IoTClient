@@ -8,13 +8,9 @@ package MainPanel;
 import Base.BasePresenterInterface;
 import Components.Label;
 import Components.Panel;
-import RegisteredSensor.RegisteredSensorGUI;
 import RegisteredSensor.RegisteredSensorGUIInterface;
-import UnregisteredSensor.UnregisteredSensorGUIInterface;
 import ViewModel.GroupViewModel;
-import ViewModel.UnitObject;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ItemEvent;
@@ -145,14 +141,6 @@ public class MainPanelGUI extends Panel implements MainPanelGUIInterface {
         sensorsPanel.repaint();
         sensorsPanel.revalidate();
         }
-    }
-
-    @Override
-    public void addUnregisteredSensor(UnregisteredSensorGUIInterface sensor) {
-        sensorsPanel.add((Panel) sensor);
-        sensorsPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-        sensorsPanel.repaint();
-        sensorsPanel.revalidate();
     }
 
     @Override

@@ -5,15 +5,12 @@
  */
 package MainFrame;
 
-import Constants.ConstantsList;
 import GroupScreen.GroupsGUI;
 import GroupScreen.GroupsGUIInterface;
 import GroupScreen.GroupsPresenter;
 import GroupScreen.GroupsPresenterInterface;
 import Model.ServiceManager;
 import com.irrigation.Messages.MessageFormat.Code;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -47,7 +44,7 @@ public class MainFramePresenter implements MainFramePresenterInterface{
             return;
         }
         if(model.registerDevice(text).equals(Code.SUCCESS)){
-            model.getUnitsManager().fireNotification("unitsChange", null);
+             model.getSensorsManager().fireNotification("sensorsChange");
             JOptionPane.showMessageDialog(null, "Device registered");
         }
         else{
@@ -57,8 +54,7 @@ public class MainFramePresenter implements MainFramePresenterInterface{
 
     @Override
     public void onRefresh() {
-       model.getUnitsManager().fireNotification("unitsChange", null);
-     //  model.getSensorsManager().fireNotification("sensorsChange", null);
+      model.getSensorsManager().fireNotification("sensorsChange");
     }
 
     @Override

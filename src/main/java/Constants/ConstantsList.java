@@ -1,6 +1,5 @@
 package Constants;
 
-import ViewModel.UnitObject;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -8,7 +7,6 @@ import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.BorderFactory;
-import javax.swing.JLayeredPane;
 import javax.swing.border.Border;
 
 /*
@@ -31,10 +29,6 @@ public class ConstantsList {
      * Token given by server
      */
     public static String token = "";
-    /**
-     * Stores the actually selected unit
-     */
-    public static UnitObject selectedUnit = new UnitObject("");
 
     /**
      * Stores a preset for default border

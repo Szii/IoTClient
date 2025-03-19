@@ -7,7 +7,6 @@ package MainPanel;
 
 import Constants.ConstantsList;
 import ViewModel.LiteSensor;
-import ViewModel.SensorViewModel;
 import Model.SensorsPanelObserver;
 import Model.ServiceManager;
 import Model.UnitsPanelObserver;
@@ -16,11 +15,8 @@ import RegisteredSensor.RegisteredSensorGUIInterface;
 import RegisteredSensor.RegisteredSensorPresenter;
 import RegisteredSensor.RegisteredSensorPresenterInterface;
 import ViewModel.GroupViewModel;
-import ViewModel.UnitObject;
 import com.irrigation.Messages.MessageData.Device;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 
 /**
@@ -53,8 +49,7 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
     }
 
     @Override
-    public void onChangeNotification(UnitObject unit_ID) {
-        ConstantsList.selectedUnit = unit_ID;
+    public void onChangeNotification() {
         prepareGroups();
         getDevicesBasedOnGroupSelected(selectedGroup);
     }

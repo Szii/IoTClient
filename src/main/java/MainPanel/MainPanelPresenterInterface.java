@@ -6,8 +6,6 @@
 package MainPanel;
 
 import Base.BasePresenterInterface;
-import ViewModel.GroupViewModel;
-import javax.swing.DefaultComboBoxModel;
 
 /**
  * Used in implementation of main panel GUI controls

@@ -7,9 +7,7 @@ package MainPanel;
 
 import Base.BaseGUIInterface;
 import RegisteredSensor.RegisteredSensorGUIInterface;
-import UnregisteredSensor.UnregisteredSensorGUIInterface;
 import ViewModel.GroupViewModel;
-import ViewModel.UnitObject;
 import java.awt.Component;
 import javax.swing.DefaultComboBoxModel;
 
@@ -32,11 +30,6 @@ public interface MainPanelGUIInterface extends BaseGUIInterface{
      * @param sensor Sensor GUI component to be added
      */
     public void addRegisteredSensor(RegisteredSensorGUIInterface sensor);
-    /**
-     * Adds new unregistered sensor and shows it
-     * @param sensor Sensor GUI component to be added
-     */
-    public void addUnregisteredSensor(UnregisteredSensorGUIInterface sensor);
     /**
      * Update the components on the screen
      */

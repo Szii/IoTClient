@@ -15,8 +15,6 @@ import Graph.GraphPresenter;
 import Model.ServiceManager;
 import ViewModel.GroupViewModel;
 import ViewModel.MeasurementViewModel;
-import ViewModel.SensorViewModel;
-import ViewModel.UnitObject;
 import com.irrigation.Messages.MessageData.Device;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -32,7 +30,6 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
     RegisteredSensorGUIInterface gui;
     ServiceManager model;
     Device sensor;
-    UnitObject unit;
     GroupViewModel selectedGroup = new GroupViewModel("");
     /**
      * Creates new controls for registered sensor component
@@ -66,7 +63,7 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
                     return;
                 }
                 model.setThresold(sensor.getDeviceID(),value);
-                model.getSensorsManager().fireNotification("sensorsChange", unit);
+                model.getSensorsManager().fireNotification("sensorsChange");
         } 
         catch (NumberFormatException nfe) {
             JOptionPane.showMessageDialog(null, "Enter valid value between 0 and 100");
@@ -81,13 +78,13 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
             return;
         }
         model.setDeviceNickname(sensor.getDeviceID(), text);
-        model.getSensorsManager().fireNotification("sensorsChange", unit);
+        model.getSensorsManager().fireNotification("sensorsChange");
     }
     
     @Override
     public void onRemoveClicked(){
         model.unregisterDevice(sensor.getDeviceID(),ConstantsList.loggedUser);
-        model.getSensorsManager().fireNotification("sensorsChange", unit);
+        model.getSensorsManager().fireNotification("sensorsChange");
      }
     @Override
     public void onShowGraphClicked(){
@@ -116,7 +113,7 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
                     return;
                 }
                 model.setTime(sensor.getDeviceID(),value);
-                model.getSensorsManager().fireNotification("sensorsChange", unit);
+                model.getSensorsManager().fireNotification("sensorsChange");
         } 
         catch (NumberFormatException nfe) {
             JOptionPane.showMessageDialog(null, "Enter valid seconds value");
@@ -128,7 +125,7 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
         try {
             selectedGroup = gui.getGroup();
             model.changeDeviceGroup(sensor.getDeviceID(),gui.getGroup().getGroup());
-            model.getSensorsManager().fireNotification("sensorsChange", unit);
+            model.getSensorsManager().fireNotification("sensorsChange");
         } catch (InterruptedException ex) {
             Logger.getLogger(RegisteredSensorPresenter.class.getName()).log(Level.SEVERE, null, ex);
         }

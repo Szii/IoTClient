@@ -5,32 +5,22 @@
  */
 package Model;
 
-import ViewModel.SensorViewModel;
 import ChartDataBuilder.ChartBuilder;
-import Constants.ConstantsList;
 import ViewModel.GroupViewModel;
 import com.irrigation.Messages.MessageFormat.MessageType;
 import ViewModel.MeasurementViewModel;
-import ViewModel.UnitObject;
 import com.irrigation.Messages.MessageData.Device;
 import com.irrigation.Messages.MessageFormat.Code;
-import com.irrigation.Messages.MessageFormat.CredentialsRequest;
-import com.irrigation.Messages.MessageFormat.DeviceRequest;
-import com.irrigation.Messages.MessageFormat.GroupRequest;
 import com.irrigation.Messages.MessageData.Measurement;
-import com.irrigation.Messages.MessageFormat.MeasurementRequest;
 import com.irrigation.Messages.MessageFormat.Payload;
 import java.util.ArrayList;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
+
 
 /**
  * Wrapper for services which are available to the controlling components. Serves as layer between controls and application logic.
  * @author brune
  */
 public class ServiceManager {
-     Request request;
-    Response  response;
     ManagerInterface sensorsManager;
     ManagerInterface unitsManager;
     ChartBuilder chartBuilder;
@@ -41,10 +31,7 @@ public class ServiceManager {
      * @param response Implementation of response which can sent data to this client
      */
     public ServiceManager(){
-        this.request = request;
-        this.response = response;
         sensorsManager = new SensorsManager();
-        unitsManager = new UnitsManager();
         httpClient = new  HttpClient();
         
     }
@@ -68,9 +55,6 @@ public class ServiceManager {
      * Gets current units manager service
      * @return current units manager service
      */
-    public UnitsManager getUnitsManager(){
-        return (UnitsManager) unitsManager;
-    }
     /**
      * Gets current sensors manager service
      * @return sensors manager service
@@ -246,28 +230,5 @@ public class ServiceManager {
        // request.deleteGroup(username, group);
          return httpClient.removeGroup(group);
     }
-        
-   private ArrayList<String> getMultipleResponses(MessageType messageType){
-
-        return (ArrayList<String>) response.getComplexAnswer(messageType);
-   }
-   
-   /**
-    * Method gets a request implementation
-    * @return request implementation
-    */
-   public Request getRequester(){
-       return request;
-   }
-    /**
-    * Method gets a response implementation
-    * @return response implementation
-    */
-   public Response getResponder(){
-       return response;
-   }
-   
-
-     
-     
+         
 }

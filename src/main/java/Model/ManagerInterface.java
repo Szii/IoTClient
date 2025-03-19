@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package Model;
-import ViewModel.UnitObject;
 
 /**
  * Base implementation of observer manager
@@ -28,5 +27,5 @@ public interface ManagerInterface<T extends Observer> {
      * @param notification Notification to be fired
      * @param unit_ID Source object, which possibly fired the notification
      */
-    public void fireNotification(String notification,UnitObject unit_ID);
+    public void fireNotification(String notification);
 }

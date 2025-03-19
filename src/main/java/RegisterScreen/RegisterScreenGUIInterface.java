@@ -6,8 +6,6 @@
 package RegisterScreen;
 
 import Base.BaseGUIInterface;
-import Base.BasePresenterInterface;
-import LoginScreen.*;
 
 /**
  * Contains functionalities of registered screen GUI component which can be invoked outside of class
