@@ -7,6 +7,7 @@ package Model;
 
 import ChartDataBuilder.ChartBuilder;
 import ViewModel.GroupViewModel;
+import ViewModel.MeasurementTypeViewModel;
 import com.irrigation.Messages.MessageFormat.MessageType;
 import ViewModel.MeasurementViewModel;
 import com.irrigation.Messages.MessageData.Device;
@@ -204,6 +205,15 @@ public class ServiceManager {
         }
         return false;
         
+    }
+    
+    public ArrayList<MeasurementTypeViewModel> getMeasurementViewModels(){
+        //request.getGroups(username);
+        ArrayList<MeasurementTypeViewModel> measurementTypes = new ArrayList();
+        measurementTypes.add(new MeasurementTypeViewModel("Humidity"));
+        measurementTypes.add(new MeasurementTypeViewModel("Temperature"));
+        
+        return measurementTypes;
     }
     
     public ArrayList<Device> getDevicesInGroup(String group){

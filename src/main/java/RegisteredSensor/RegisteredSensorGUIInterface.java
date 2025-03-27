@@ -7,6 +7,7 @@ package RegisteredSensor;
 
 import Base.BaseGUIInterface;
 import ViewModel.GroupViewModel;
+import ViewModel.MeasurementTypeViewModel;
 import javax.swing.DefaultComboBoxModel;
 
 /**
@@ -74,5 +75,24 @@ public interface RegisteredSensorGUIInterface extends BaseGUIInterface{
     public void addGroup(GroupViewModel group);
     
     public void enableGroupListener(boolean enabled);
+    
+    public void setSelectedMeasurementType(MeasurementTypeViewModel measurementTypeViewModel);
+    
+    public void addMeasurementType(MeasurementTypeViewModel measurementTypeViewModel);
+    
+    public void enableMesurementsTypeListener(boolean enabled);
+    
+    public MeasurementTypeViewModel getMeasurementType();
+    
+    public void setMeasurementTypes(DefaultComboBoxModel measurementTypes);
+    
+    public void clearMeasurementTypes();
+    
+    public void setTemperature(String temperature);
+        
+    
+    
+    
+
         
 }

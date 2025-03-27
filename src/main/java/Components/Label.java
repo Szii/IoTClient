@@ -72,7 +72,7 @@ public class Label extends JLabel {
        this.setFocusable(false);
     }
     
-    void changeFontSize(int value){
+    public void changeFontSize(int value){
          this.setFont(ConstantsList.getFancyFont(value));
     }
     

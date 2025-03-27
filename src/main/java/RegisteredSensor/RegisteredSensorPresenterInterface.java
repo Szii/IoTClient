@@ -35,4 +35,6 @@ public interface RegisteredSensorPresenterInterface extends BasePresenterInterfa
     public void onSendTimeClicked();
     
     public void onGroupClicked();
+    
+    public void onMeasurementTypeClicked();
 }

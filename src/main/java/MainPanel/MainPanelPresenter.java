@@ -15,6 +15,7 @@ import RegisteredSensor.RegisteredSensorGUIInterface;
 import RegisteredSensor.RegisteredSensorPresenter;
 import RegisteredSensor.RegisteredSensorPresenterInterface;
 import ViewModel.GroupViewModel;
+import ViewModel.MeasurementTypeViewModel;
 import com.irrigation.Messages.MessageData.Device;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
@@ -79,8 +80,11 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
                  sensorPresenter.initView();
                  sensorView.setGroups(getGroupModel(true));
                  sensorView.setSelectedGroup(new GroupViewModel(s.getGroup()));
+                 sensorView.setMeasurementTypes(getMeasurementTypeModel());
+                 sensorView.setSelectedMeasurementType(new MeasurementTypeViewModel("Humidity"));
                  gui.addRegisteredSensor(sensorView);
                  sensorView.enableGroupListener(true);
+                 sensorView.enableMesurementsTypeListener(true);
                  }
     }
                
@@ -91,6 +95,13 @@ public class MainPanelPresenter implements MainPanelPresenterInterface,SensorsPa
                comboBoxModel.addElement(new GroupViewModel("Default")); 
             }
             comboBoxModel.addAll(model.getGroups());
+            return comboBoxModel;
+    }
+    
+    private DefaultComboBoxModel getMeasurementTypeModel(){
+            DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
+            comboBoxModel.addElement(new MeasurementTypeViewModel("Humidity")); 
+            comboBoxModel.addElement(new MeasurementTypeViewModel("Temperature")); 
             return comboBoxModel;
     }
     

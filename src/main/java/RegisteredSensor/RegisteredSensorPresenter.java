@@ -14,8 +14,10 @@ import Graph.GraphGUIInterface;
 import Graph.GraphPresenter;
 import Model.ServiceManager;
 import ViewModel.GroupViewModel;
+import ViewModel.MeasurementTypeViewModel;
 import ViewModel.MeasurementViewModel;
 import com.irrigation.Messages.MessageData.Device;
+import com.irrigation.Messages.MessageData.Measurement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +33,7 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
     ServiceManager model;
     Device sensor;
     GroupViewModel selectedGroup = new GroupViewModel("");
+    MeasurementTypeViewModel selectedMeasurementType = new MeasurementTypeViewModel("");
     /**
      * Creates new controls for registered sensor component
      * @param gui GUI component to be controlled
@@ -129,5 +132,32 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
         } catch (InterruptedException ex) {
             Logger.getLogger(RegisteredSensorPresenter.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public void onMeasurementTypeClicked() {
+            selectedMeasurementType = gui.getMeasurementType();
+            gui.setSelectedMeasurementType(selectedMeasurementType);
+            System.out.println(selectedMeasurementType.getMeasurementType());
+            if(selectedMeasurementType.getMeasurementType().equals("Humidity")){
+                ArrayList<Measurement> data = model.getMeasurementValues(sensor.getDeviceID(),"TYPE_HUMIDITY").getMeasuredData();
+                if(data.isEmpty()){
+                    gui.setMoisture("");
+                    return;
+                }
+               gui.setMoisture(data.getLast().getValue());
+               gui.setSelectedMeasurementType(selectedMeasurementType);
+            }
+            
+            if(selectedMeasurementType.getMeasurementType().equals("Temperature")){
+                ArrayList<Measurement> data = model.getMeasurementValues(sensor.getDeviceID(),"TYPE_TEMPERATURE").getMeasuredData();
+
+                if(data.isEmpty()){
+                    gui.setTemperature("");
+                    return;
+                }
+                gui.setTemperature(data.getLast().getValue());             
+            }
+
     }
 }
