@@ -253,7 +253,7 @@ public class RegisteredSensorGUI extends Panel implements RegisteredSensorGUIInt
         rowPanel.add(text);
         rowPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         
-        sendThresoldButton.addActionListener(new SendTimeHandler());
+        sendThresoldButton.addActionListener(new SendValueHandler());
         rowPanel.add(sendThresoldButton);
 
         panel.add(rowPanel, BorderLayout.CENTER); 
