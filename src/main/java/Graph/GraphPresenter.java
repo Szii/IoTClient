@@ -21,6 +21,7 @@ import ViewModel.GroupViewModel;
 import ViewModel.MeasurementViewModel;
 import com.irrigation.Messages.MessageData.Device;
 import java.util.ArrayList;
+import java.util.List;
 import org.jfree.chart.ChartPanel;
 
 
@@ -178,27 +179,39 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
     @Override
     public void onDefaultRangeSelected() {
 
-             ArrayList<MeasurementViewModel> newData = new ArrayList();
-             for (MeasurementViewModel measurement : data){
-                newData.add(model.getMeasurementValues(measurement.getSensorID(), "TYPE_HUMIDITY"));
-             }
-             if(data.size() > 1){
-                createChart(ChartType.SENSOR_MEASUREMENT_MULTIPLE, Size.HOURLY, newData);
-             }
-             else{
-                createChart(ChartType.SENSOR_MEASUREMENT_SINGLE, Size.HOURLY, newData);
-             }
-             data = newData;
-             gui.setPeriodLabel("", "");
+            ArrayList<MeasurementViewModel> newDataHumidity = new ArrayList();
+            ArrayList<MeasurementViewModel> newDataTemp = new ArrayList();
+            for (MeasurementViewModel measurement : data){
+                if (measurement.getDataType().equals("TYPE_HUMIDITY")){
+                            newDataHumidity.add(model.getMeasurementValues(measurement.getSensorID(), measurement.getDataType()));
+                }
+                if (measurement.getDataType().equals("TYPE_TEMPERATURE")){
+                            newDataTemp.add(model.getMeasurementValues(measurement.getSensorID(), measurement.getDataType()));
+                }
+
+            }
+           createChart(ChartType.SENSOR_MEASUREMENT_SINGLE, Size.HOURLY, newDataHumidity);
+          // createChart(ChartType.SENSOR_MEASUREMENT_MULTIPLE, Size.HOURLY, newDataTemp);
+           data = newDataHumidity;
+           gui.setPeriodLabel("", "");
 
     }
     
     private void onRangeSet(String from, String to) {
         gui.setPeriodLabel(from, to);
-        ArrayList<MeasurementViewModel> newData = new ArrayList();
+        ArrayList<MeasurementViewModel> newDataHumidity = new ArrayList();
+        ArrayList<MeasurementViewModel> newDataTemp = new ArrayList();
         for (MeasurementViewModel measurement : data){
-            newData.add(model.getMeasurementValuesInRange(measurement.getSensorID(), from, to, "TYPE_HUMIDITY"));
+            if (measurement.getDataType().equals("TYPE_HUMIDITY")){
+                        newDataHumidity.add(model.getMeasurementValuesInRange(measurement.getSensorID(), from, to, measurement.getDataType()));
+            }
+            if (measurement.getDataType().equals("TYPE_TEMPERATURE")){
+                        //newDataTemp.add(model.getMeasurementValuesInRange(measurement.getSensorID(), from, to, measurement.getDataType()));
+            }
+
         }
-       createChart(ChartType.SENSOR_MEASUREMENT_MULTIPLE, Size.HOURLY, newData);
+            createChart(ChartType.SENSOR_MEASUREMENT_MULTIPLE, Size.HOURLY, newDataHumidity);
+          //createChart(ChartType.SENSOR_MEASUREMENT_MULTIPLE, Size.HOURLY, newDataTemp);
     }
+    
 }

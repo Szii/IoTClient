@@ -17,16 +17,21 @@ public class MeasurementViewModel {
     String sensorID;
     String nickname;
     ArrayList<Measurement> measuredData;
-    /**
-     * Creates new measurement data holder 
-     * @param sensorID ID of sensor
-     * @param nickname name of measurement
-     * @param measuredData measured data
-     */
-    public MeasurementViewModel(String sensorID, String nickname, ArrayList<Measurement> measuredData) {
+    String dataType;
+
+    public MeasurementViewModel(String sensorID, String nickname, ArrayList<Measurement> measuredData, String dataType) {
         this.sensorID = sensorID;
         this.nickname = nickname;
         this.measuredData = measuredData;
+        this.dataType = dataType;
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
     }
     
     /**
@@ -41,9 +46,10 @@ public class MeasurementViewModel {
      * @param sensorID ID of sensor
      * @param measuredData measured data
      */
-    public MeasurementViewModel(String sensorID, ArrayList<Measurement> measuredData) {
+    public MeasurementViewModel(String sensorID, ArrayList<Measurement> measuredData, String dataType) {
         this.sensorID = sensorID;
         this.measuredData = measuredData;
+        this.dataType = dataType;
     }
     /**
      * Gets ID of sensor

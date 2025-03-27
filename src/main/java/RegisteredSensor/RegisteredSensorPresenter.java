@@ -94,12 +94,15 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
         GraphGUIInterface gui = new GraphGUI();
         GraphControls graphPresenter = new GraphPresenter(model,gui);
         gui.setGraphInitiator(sensor);
-        MeasurementViewModel measurement = null;
-        measurement = model.getMeasurementValues(sensor.getDeviceID(),"TYPE_HUMIDITY");
-        System.out.println("got measured values for sensor" + sensor.getDeviceID() + "values: " + measurement.getMeasuredData());
+        MeasurementViewModel measurementHumidity = null;
+        MeasurementViewModel measurementTemperature = null;
+        measurementHumidity = model.getMeasurementValues(sensor.getDeviceID(),"TYPE_HUMIDITY");
+        measurementTemperature = model.getMeasurementValues(sensor.getDeviceID(),"TYPE_TEMPERATURE");
+        System.out.println("got measured values for sensor" + sensor.getDeviceID() + "values: " + measurementHumidity.getMeasuredData());
 
         ArrayList<MeasurementViewModel> data = new ArrayList();
-        data.add(measurement);
+        data.add(measurementHumidity);
+        data.add(measurementTemperature);
         System.out.println("got measured data for sensor" + sensor.getDeviceID() + "values: " + data);
         graphPresenter.createChart(ChartType.SENSOR_MEASUREMENT_SINGLE, Size.HOURLY, data);     
     }

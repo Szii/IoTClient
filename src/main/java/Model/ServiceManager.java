@@ -165,7 +165,7 @@ public class ServiceManager {
      //  request.getMeasurementValues(sensorID);
        ArrayList<Measurement> measuredData = httpClient.getMeasurements(sensorID,type);
        System.out.println(measuredData);
-       MeasurementViewModel measurement = new MeasurementViewModel(sensorID,measuredData);
+       MeasurementViewModel measurement = new MeasurementViewModel(sensorID,measuredData, type);
        System.out.println(measurement);
        return measurement;
    }
@@ -181,7 +181,7 @@ public class ServiceManager {
     public MeasurementViewModel getMeasurementValuesInRange(String sensorID, String from, String to, String type){
        // request.getMeasurementValuesInRange(sensorID, from, to);
         ArrayList<Measurement> measuredValues = httpClient.getMeasurements(sensorID, from, to,type);
-        MeasurementViewModel measurement = new MeasurementViewModel(sensorID,measuredValues);
+        MeasurementViewModel measurement = new MeasurementViewModel(sensorID,measuredValues, type);
         return measurement;
     }
     
