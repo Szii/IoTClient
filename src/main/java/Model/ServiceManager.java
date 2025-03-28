@@ -162,11 +162,8 @@ public class ServiceManager {
   * @return Measured values by sensor
   */
     public MeasurementViewModel getMeasurementValues(String sensorID, String type){
-     //  request.getMeasurementValues(sensorID);
        ArrayList<Measurement> measuredData = httpClient.getMeasurements(sensorID,type);
-       System.out.println(measuredData);
        MeasurementViewModel measurement = new MeasurementViewModel(sensorID,measuredData, type);
-       System.out.println(measurement);
        return measurement;
    }
 

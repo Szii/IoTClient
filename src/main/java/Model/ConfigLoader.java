@@ -43,11 +43,18 @@ public class ConfigLoader {
         return System.getenv().getOrDefault(key, properties.getProperty(key, defaultValue));
     }
 
-    public String getAddress() {
+    private String getAddressPath() {
         return properties.getProperty("processingServer.address", "localhost");
     }
 
-    public String getPort() {
+    private String getPort() {
         return properties.getProperty("processingServer.port", "8080");
+    }
+    
+    public String getAddress(){
+        if(getAddressPath().contains("localhost")){
+            return (getAddressPath() + getPort());
+        }
+        return getAddressPath();
     }
 }
