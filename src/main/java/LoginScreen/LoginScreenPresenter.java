@@ -75,7 +75,7 @@ public class LoginScreenPresenter implements LoginScreenPresenterInterface {
             System.out.println(ConstantsList.token);
 
             removeLoginScreen();
-            MainFrameGUIInterface view = new MainFrameGUI(820,640);
+            MainFrameGUIInterface view = new MainFrameGUI(880,680);
             MainFramePresenterInterface presenter = new MainFramePresenter(view,model);
 
 

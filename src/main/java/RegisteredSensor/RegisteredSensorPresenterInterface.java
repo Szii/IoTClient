@@ -27,7 +27,9 @@ public interface RegisteredSensorPresenterInterface extends BasePresenterInterfa
     /**
     * What should happen when show graph action occurs
     */
-    public void onShowGraphClicked();
+    public void onShowHumidityGraphClicked();
+    
+    public void onShowTemperatureGraphClicked();
     
     /**
      * What should happen when send time action occurs

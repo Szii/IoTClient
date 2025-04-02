@@ -90,21 +90,31 @@ public class RegisteredSensorPresenter implements RegisteredSensorPresenterInter
         model.getSensorsManager().fireNotification("sensorsChange");
      }
     @Override
-    public void onShowGraphClicked(){
+    public void onShowHumidityGraphClicked(){
+        String type = "TYPE_HUMIDITY";
         GraphGUIInterface gui = new GraphGUI();
-        GraphControls graphPresenter = new GraphPresenter(model,gui);
+        GraphControls graphPresenter = new GraphPresenter(model,gui, type);
         gui.setGraphInitiator(sensor);
-        MeasurementViewModel measurementHumidity = null;
-        MeasurementViewModel measurementTemperature = null;
-        measurementHumidity = model.getMeasurementValues(sensor.getDeviceID(),"TYPE_HUMIDITY");
-        measurementTemperature = model.getMeasurementValues(sensor.getDeviceID(),"TYPE_TEMPERATURE");
-        System.out.println("got measured values for sensor" + sensor.getDeviceID() + "values: " + measurementHumidity.getMeasuredData());
+        graphPresenter.createChart(ChartType.SENSOR_MEASUREMENT_SINGLE, Size.HOURLY, getMeasurementsForGraph(sensor.getDeviceID(), type));     
+    }
+    
+    @Override
+    public void onShowTemperatureGraphClicked() {
+        String type = "TYPE_TEMPERATURE";
+        GraphGUIInterface gui = new GraphGUI();
+        GraphControls graphPresenter = new GraphPresenter(model,gui, type);
+        gui.setGraphInitiator(sensor);
+        graphPresenter.createChart(ChartType.SENSOR_MEASUREMENT_SINGLE, Size.HOURLY, getMeasurementsForGraph(sensor.getDeviceID(), type));     
+    }
+    
+    private ArrayList<MeasurementViewModel> getMeasurementsForGraph(String deviceId, String type){
+         MeasurementViewModel measurementTemperature = null;
+        measurementTemperature = model.getMeasurementValues(deviceId,type);
+        System.out.println("got measured values for sensor" + deviceId + "values: " + measurementTemperature.getMeasuredData());
 
         ArrayList<MeasurementViewModel> data = new ArrayList();
-        data.add(measurementHumidity);
         data.add(measurementTemperature);
-        System.out.println("got measured data for sensor" + sensor.getDeviceID() + "values: " + data);
-        graphPresenter.createChart(ChartType.SENSOR_MEASUREMENT_SINGLE, Size.HOURLY, data);     
+        return data;
     }
 
     @Override

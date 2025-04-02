@@ -37,6 +37,7 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
     ArrayList<MeasurementViewModel> data;
     Size size;
     ChartType type;
+    String measurementType;
 
     
     /**
@@ -44,9 +45,10 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
      * @param model service manager
      * @param gui Graph to be controlled 
      */
-    public GraphPresenter(ServiceManager model, GraphGUIInterface gui) {
+    public GraphPresenter(ServiceManager model, GraphGUIInterface gui, String measurementType) {
         this.model = model;
         this.gui = gui;
+        this.measurementType = measurementType;
         gui.setPresenter(this);
         initView();
     }
@@ -71,7 +73,7 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
        this.type = chartType;
        this.size = size;
        model.getChartBuilder().clearData();
-       gui.setGraph(model.getChartBuilder().build(chartType,size,createSeries(data))); 
+       gui.setGraph(model.getChartBuilder().build(chartType,size,createSeries(data), measurementType)); 
        
     }
  
@@ -89,13 +91,13 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
     public void onMinutesRangeChange() {
        System.out.println("cliked");
        model.getChartBuilder().clearData();
-       gui.setGraph(model.getChartBuilder().build(type, Size.MINUTELY, createSeries(data))); 
+       gui.setGraph(model.getChartBuilder().build(type, Size.MINUTELY, createSeries(data), measurementType)); 
     }
 
     @Override
     public void onHoursRangeChange() {
         model.getChartBuilder().clearData();
-        gui.setGraph(model.getChartBuilder().build(type, Size.HOURLY, createSeries(data))); 
+        gui.setGraph(model.getChartBuilder().build(type, Size.HOURLY, createSeries(data), measurementType)); 
 
         
     }
@@ -103,7 +105,7 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
     @Override
     public void onDaysRangeChange() {
         model.getChartBuilder().clearData();
-        gui.setGraph(model.getChartBuilder().build(type, Size.DAILY, createSeries(data))); 
+        gui.setGraph(model.getChartBuilder().build(type, Size.DAILY, createSeries(data), measurementType)); 
     }
 
     @Override
@@ -152,10 +154,10 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
                 return;
             }
             if(gui.getFromPeriod().equals("") || gui.getToPeriod().equals("")){
-                data.add(model.getMeasurementValues(sensor.getDeviceID(),"TYPE_HUMIDITY")); 
+                data.add(model.getMeasurementValues(sensor.getDeviceID(),measurementType)); 
             }
             else{
-                data.add(model.getMeasurementValuesInRange(sensor.getDeviceID(),gui.getFromPeriod(),gui.getToPeriod(),"TYPE_HUMIDITY")); 
+                data.add(model.getMeasurementValuesInRange(sensor.getDeviceID(),gui.getFromPeriod(),gui.getToPeriod(),measurementType)); 
             }
            
             createChart(ChartType.SENSOR_MEASUREMENT_MULTIPLE,size,data);

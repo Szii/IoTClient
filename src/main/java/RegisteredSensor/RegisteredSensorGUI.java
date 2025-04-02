@@ -43,7 +43,8 @@ public class RegisteredSensorGUI extends Panel implements RegisteredSensorGUIInt
     Button changeNameButton;
     Panel sensorStatusImagePanel = new Panel();
     String nickname;
-    Button showGraphButton = new Button("ShowGraph");
+    Button showHumidityGraphButton = new Button("Show humidity graph");
+    Button showTemperatureGraphButton = new Button("Show temperature graph");
     Label optionsLabel = new Label("Options");
     Label setValueslabel = new Label("Set values");
     
@@ -128,7 +129,8 @@ public class RegisteredSensorGUI extends Panel implements RegisteredSensorGUIInt
         panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
         panel.add(getOptionsLabel());
-        panel.add(getGraphPanel());
+        panel.add(getHumidityGraphPanel());
+        panel.add(getTemperatureGraphPanel());
         panel.add(getGroupPanel());
         panel.add(getRenameButtonPanel());
         panel.add(getRemovePanel());
@@ -331,13 +333,24 @@ public class RegisteredSensorGUI extends Panel implements RegisteredSensorGUIInt
         return panel; 
     }
     
-       private Panel getGraphPanel(){
+       private Panel getHumidityGraphPanel(){
         Panel panel = new Panel();
         panel.setLayout(new BorderLayout());
-        showGraphButton.addActionListener((ActionEvent e)->{
-            presenter.onShowGraphClicked();
+        showHumidityGraphButton.addActionListener((ActionEvent e)->{
+            presenter.onShowHumidityGraphClicked();
         });
-        panel.add(showGraphButton);
+        panel.add(showHumidityGraphButton);
+   
+        return panel; 
+    }
+       
+    private Panel getTemperatureGraphPanel(){
+        Panel panel = new Panel();
+        panel.setLayout(new BorderLayout());
+        showTemperatureGraphButton.addActionListener((ActionEvent e)->{
+            presenter.onShowTemperatureGraphClicked();
+        });
+        panel.add(showTemperatureGraphButton);
    
         return panel; 
     }

@@ -45,14 +45,24 @@ public class ChartBuilder {
      * @param data List of series. One series corresponds to one measurement
      * @return 
      */
-    public ChartPanel build(ChartType type,Size size,ArrayList<Series> data){
+    public ChartPanel build(ChartType type,Size size,ArrayList<Series> data, String measurementType){
         
         if(type.equals(ChartType.SENSOR_MEASUREMENT_SINGLE)){
             
             for(Series s : data){
                 s.setSize(size); 
-            }      
-            JFreeChart XYLineChart = getTimeSeriesChart(dataBuilder.getValueAndDateDataset(data,false),"Sensor measurement","Time","Moisture %");
+            }   
+            
+            JFreeChart XYLineChart = null;
+            
+            if(measurementType.equals("TYPE_HUMIDITY")){
+                  XYLineChart = getTimeSeriesChart(dataBuilder.getValueAndDateDataset(data,false),"Sensor measurement","Time","Moisture %"); 
+            }
+            
+            if("TYPE_TEMPERATURE".equals(measurementType)){
+                  XYLineChart = getTimeSeriesChart(dataBuilder.getValueAndDateDataset(data,false),"Sensor measurement","Time","Celsius"); 
+            }
+            
             ChartPanel chartPanel =  getChartPanel(XYLineChart);
             XYPlot plot = createPlot(XYLineChart,"dd.MM.yyyy HH:mm");
             plot.setRenderer(createRenderer()); 
@@ -64,7 +74,17 @@ public class ChartBuilder {
             for(Series s : data){
                 s.setSize(size); 
             }   
-            JFreeChart XYLineChart = getTimeSeriesChart(dataBuilder.getValueAndDateDataset(data,true),"Sensor measurement","Time","Moisture %");
+            
+            JFreeChart XYLineChart = null;
+            
+            if("TYPE_HUMIDITY".equals(measurementType)){
+                  XYLineChart = getTimeSeriesChart(dataBuilder.getValueAndDateDataset(data,true),"Sensor measurement","Time","Moisture %"); 
+            }
+            
+            if("TYPE_TEMPERATURE".equals(measurementType)){
+                  XYLineChart = getTimeSeriesChart(dataBuilder.getValueAndDateDataset(data,true),"Sensor measurement","Time","Celsius"); 
+            }
+            
             ChartPanel chartPanel =  getChartPanel(XYLineChart);
             XYPlot plot = createPlot(XYLineChart,"dd.MM.yyyy HH:mm");
             plot.setRenderer(createRenderer());
