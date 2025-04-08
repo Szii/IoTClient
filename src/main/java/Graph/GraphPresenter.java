@@ -186,17 +186,14 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
             for (MeasurementViewModel measurement : data){
                 if (measurement.getDataType().equals("TYPE_HUMIDITY")){
                             newDataHumidity.add(model.getMeasurementValues(measurement.getSensorID(), measurement.getDataType()));
+                            createChart(ChartType.SENSOR_MEASUREMENT_SINGLE, Size.HOURLY, newDataHumidity);
                 }
                 if (measurement.getDataType().equals("TYPE_TEMPERATURE")){
                             newDataTemp.add(model.getMeasurementValues(measurement.getSensorID(), measurement.getDataType()));
+                            createChart(ChartType.SENSOR_MEASUREMENT_MULTIPLE, Size.HOURLY, newDataTemp);
                 }
 
             }
-           createChart(ChartType.SENSOR_MEASUREMENT_SINGLE, Size.HOURLY, newDataHumidity);
-          // createChart(ChartType.SENSOR_MEASUREMENT_MULTIPLE, Size.HOURLY, newDataTemp);
-           data = newDataHumidity;
-           gui.setPeriodLabel("", "");
-
     }
     
     private void onRangeSet(String from, String to) {
@@ -206,14 +203,14 @@ public class GraphPresenter implements GraphPresenterInterface,GraphControls {
         for (MeasurementViewModel measurement : data){
             if (measurement.getDataType().equals("TYPE_HUMIDITY")){
                         newDataHumidity.add(model.getMeasurementValuesInRange(measurement.getSensorID(), from, to, measurement.getDataType()));
+                        createChart(ChartType.SENSOR_MEASUREMENT_MULTIPLE, Size.HOURLY, newDataHumidity);
             }
             if (measurement.getDataType().equals("TYPE_TEMPERATURE")){
-                        //newDataTemp.add(model.getMeasurementValuesInRange(measurement.getSensorID(), from, to, measurement.getDataType()));
+                        newDataTemp.add(model.getMeasurementValuesInRange(measurement.getSensorID(), from, to, measurement.getDataType()));
+                        createChart(ChartType.SENSOR_MEASUREMENT_MULTIPLE, Size.HOURLY, newDataTemp);
             }
 
         }
-            createChart(ChartType.SENSOR_MEASUREMENT_MULTIPLE, Size.HOURLY, newDataHumidity);
-          //createChart(ChartType.SENSOR_MEASUREMENT_MULTIPLE, Size.HOURLY, newDataTemp);
     }
     
 }
