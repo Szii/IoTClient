@@ -5,6 +5,7 @@
  */
 package ChartDataBuilder;
 
+import com.irrigation.Messages.MessageData.Measurement;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
@@ -38,6 +39,15 @@ public class ChartBuilder {
         this.dataBuilder = dataBuilder;
     }
     
+    private void printMeasurementData(ArrayList<Series> data, String info){
+        System.out.println("Chart builder check - called from " + info);
+        for(Series s : data){
+            for(Measurement m : s.getData()){
+                System.out.println("Value: " + m.getValue() + " Date: " + m.getDate());
+            }
+        }
+    }
+    
     /**
      * Makes chart panel which can be used as GUI component. 
      * @param type Type of graph
@@ -46,6 +56,8 @@ public class ChartBuilder {
      * @return 
      */
     public ChartPanel build(ChartType type,Size size,ArrayList<Series> data, String measurementType){
+        
+        printMeasurementData(data, "chart builder build start");
         
         if(type.equals(ChartType.SENSOR_MEASUREMENT_SINGLE)){
             
@@ -64,7 +76,7 @@ public class ChartBuilder {
             }
             
             ChartPanel chartPanel =  getChartPanel(XYLineChart);
-            XYPlot plot = createPlot(XYLineChart,"dd.MM.yyyy HH:mm");
+            XYPlot plot = createPlot(XYLineChart,"yyyy.MM.dd HH:mm");
             plot.setRenderer(createRenderer()); 
             return chartPanel;
         }
@@ -86,7 +98,7 @@ public class ChartBuilder {
             }
             
             ChartPanel chartPanel =  getChartPanel(XYLineChart);
-            XYPlot plot = createPlot(XYLineChart,"dd.MM.yyyy HH:mm");
+            XYPlot plot = createPlot(XYLineChart,"yyyy.MM.dd HH:mm");
             plot.setRenderer(createRenderer());
             return chartPanel;
         }

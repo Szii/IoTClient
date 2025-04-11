@@ -148,6 +148,16 @@ public class HttpClient {
         String url = basePath + "/api/measurement/get";
         MeasurementRequest payload = new MeasurementRequest(device, from, to, type);
         ResponseEntity<Payload> response = sendRequest(url, HttpMethod.POST, payload, Payload.class);
-        return response.getBody() != null ? new ArrayList<>(response.getBody().getMeasurements()) : new ArrayList<>();
+        
+        ArrayList<Measurement> measurements = response.getBody() != null ? new ArrayList<>(response.getBody().getMeasurements()) : new ArrayList<>();
+        printMeasurements(measurements);
+        return measurements;
+    }
+    
+    private void printMeasurements(ArrayList<Measurement> measurements){
+        for(Measurement m : measurements){
+            System.out.println("Value:  " + m.getValue() + " Date : " + m.getDate());
+        }
+        
     }
 }

@@ -25,7 +25,7 @@ import org.jfree.data.time.TimeSeriesCollection;
 public class DataBuilder {
     
     
-    private final String outputPattern = "dd.MM.yyyy HH:mm:ss"; 
+    private final String outputPattern = "yyyy.MM.dd HH:mm:ss"; 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(outputPattern);
     private TimeSeriesCollection dataset = new TimeSeriesCollection(); 
     private String inputPattern = "yyyy-MM-dd HH:mm:ss"; 
@@ -60,7 +60,7 @@ public class DataBuilder {
         TimeSeries  sensorMeasurements = new TimeSeries (series.getName());     
         int moisture;
         LocalDateTime dateTime;
-        for (int i = 0;i < series.getData().size() - 1;i++){      
+        for (int i = 0;i < series.getData().size();i++){      
             moisture = Integer.valueOf(series.getData().get(i).getValue());
             dateTime = createDateTimeFromString(series.getData().get(i).getDate());
             addMeasurementValueAndDate(sensorMeasurements,moisture,dateTime,series.getSize());
@@ -156,14 +156,17 @@ public class DataBuilder {
          switch(size){        
              case MINUTELY:{
                sensorMeasurements.addOrUpdate(new Minute(date.getMinute(),new Hour(date.getHour(),new Day(date.getDayOfMonth(),date.getMonthValue(),date.getYear()))),value); 
+               break;
              }
              
              case HOURLY:{
                 sensorMeasurements.addOrUpdate(new Hour(date.getHour(),new Day(date.getDayOfMonth(),date.getMonthValue(),date.getYear())),value);
+                break;
              }
              
              case DAILY:{
                 sensorMeasurements.addOrUpdate(new Day(date.getDayOfMonth(),date.getMonthValue(),date.getYear()),value);
+                break;
              }
              
          }
